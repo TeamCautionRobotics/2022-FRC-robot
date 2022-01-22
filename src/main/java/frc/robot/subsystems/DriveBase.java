@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.CANSparkMax;
@@ -14,8 +14,8 @@ public class DriveBase extends SubsystemBase {
   private final CANSparkMax rightSpark0;
   private final CANSparkMax rightSpark1;
 
-  private final SpeedControllerGroup leftDriveGroup;
-  private final SpeedControllerGroup rightSparkGroup;
+  private final MotorControllerGroup leftDriveGroup;
+  private final MotorControllerGroup rightSparkGroup;
 
   private final RelativeEncoder leftEncoder0;
   private final RelativeEncoder leftEncoder1;
@@ -32,8 +32,8 @@ public class DriveBase extends SubsystemBase {
     this.rightSpark0 = rightSpark0;
     this.rightSpark1 = rightSpark1;
 
-    this.leftDriveGroup = new SpeedControllerGroup(leftSpark0, leftSpark1);
-    this.rightSparkGroup = new SpeedControllerGroup(rightSpark0, rightSpark1);
+    this.leftDriveGroup = new MotorControllerGroup(leftSpark0, leftSpark1);
+    this.rightSparkGroup = new MotorControllerGroup(rightSpark0, rightSpark1);
 
     this.leftEncoder0 = leftSpark0.getEncoder();
     this.leftEncoder1 = leftSpark1.getEncoder();
