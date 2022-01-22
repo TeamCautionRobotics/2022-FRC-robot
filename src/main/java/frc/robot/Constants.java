@@ -4,7 +4,7 @@ public final class Constants {
 
     public static final class DriveBase {
 
-        public static final int wheelSize = 4;  // inches
+        public static final double wheelSize = 4.0;  // inches
         public static final double gearboxReductionFactor = 9.47;  // 1 / 9.47
 
         // TODO: find these
