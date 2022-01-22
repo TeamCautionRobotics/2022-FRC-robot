@@ -1,4 +1,4 @@
-package frc.misc2020;
+package frc.misc2022;
 
 public class Gamepad extends EnhancedJoystick {
 
