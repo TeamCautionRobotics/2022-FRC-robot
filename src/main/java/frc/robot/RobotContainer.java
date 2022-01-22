@@ -21,7 +21,7 @@ public class RobotContainer {
 
     driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
     // getDistance returns inches, getRate returns inches/second
-    driveBase.setDistancePerPulse(1.0 / (Constants.DriveBase.gearboxReductionFactor * Constants.DriveBase.wheelSize * Math.PI));
+    driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
 
   }
 
