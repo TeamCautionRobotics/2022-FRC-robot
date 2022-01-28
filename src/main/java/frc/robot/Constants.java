@@ -2,6 +2,14 @@ package frc.robot;
 
 public final class Constants {
 
+    public static final class Driver {
+
+        public static final int leftJoystickPort = 0;
+        public static final int rightJoystickPort = 1;
+        public static final int manipulatorPort = 2;
+        
+    }
+
     public static final class DriveBase {
 
         public static final double wheelSize = 4.0;  // inches
