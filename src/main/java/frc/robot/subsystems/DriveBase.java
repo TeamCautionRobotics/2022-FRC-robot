@@ -39,9 +39,13 @@ public class DriveBase extends SubsystemBase {
     this.leftEncoder1 = leftSpark1.getEncoder();
     this.rightEncoder0 = rightSpark0.getEncoder();
     this.rightEncoder1 = rightSpark1.getEncoder();
+    
+    // Invert left side
+    this.leftSpark0.setInverted(true);
+    this.leftSpark1.setInverted(true);
 
   }
-
+  
   public void drive(double leftPower, double rightPower) {
     this.leftDriveGroup.set(leftPower);
     this.rightSparkGroup.set(rightPower);
@@ -145,7 +149,7 @@ public class DriveBase extends SubsystemBase {
       // }
 
       if (getMotorCurrent(n) > Constants.DriveBase.motorCurrentWarnThreshold) {
-        System.out.println(String.format("\n!!!!WARNING!!!! ---- Motor %d exceeded current!", n));
+        System.out.println(String.format("\n!!!!WARNING!!!! ---- Motor %d exceeded %d amps!", n, Constants.DriveBase.motorCurrentWarnThreshold));
       }
 
     }
