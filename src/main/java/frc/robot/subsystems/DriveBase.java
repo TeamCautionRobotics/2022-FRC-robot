@@ -69,9 +69,19 @@ public class DriveBase extends SubsystemBase {
 
   public double getDistance() {
     if (usingLeftEncoder) {
-      return (leftEncoder0.getPosition() + leftEncoder1.getPosition()) / 2;
+      return -(leftEncoder0.getPosition() + leftEncoder1.getPosition()) / 2;
     } else {
-      return (rightEncoder0.getPosition() + rightEncoder1.getPosition()) / 2;
+      return -(rightEncoder0.getPosition() + rightEncoder1.getPosition()) / 2;
+    }
+  }
+
+  public double getDistance(int e) {
+    if (e == 0) {
+      return -(leftEncoder0.getPosition() + leftEncoder1.getPosition()) / 2;
+    } else if (e == 1) {
+      return -(rightEncoder0.getPosition() + rightEncoder1.getPosition()) / 2;
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 
@@ -85,9 +95,19 @@ public class DriveBase extends SubsystemBase {
 
   public double getRate() {
     if (usingLeftEncoder) {
-      return (leftEncoder0.getVelocity() + leftEncoder1.getVelocity()) / 2;
+      return -(leftEncoder0.getVelocity() + leftEncoder1.getVelocity()) / 2;
     } else {
-      return (rightEncoder0.getVelocity() + rightEncoder1.getVelocity()) / 2;
+      return -(rightEncoder0.getVelocity() + rightEncoder1.getVelocity()) / 2;
+    }
+  }
+
+  public double getRate(int e) {
+    if (e == 0) {
+      return -(leftEncoder0.getVelocity() + leftEncoder1.getVelocity()) / 2;
+    } else if (e == 1) {
+      return -(rightEncoder0.getVelocity() + rightEncoder1.getVelocity()) / 2;
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 
