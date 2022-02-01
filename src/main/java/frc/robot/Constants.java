@@ -24,4 +24,19 @@ public final class Constants {
         public static final int rightSpark0ID = 12;
         public static final int rightSpark1ID = 13;
     }
+
+    public static final class Climb {
+        
+        public static final class lift {
+
+            public static final double kP = 0.0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+            public static final double kIz = 0.0;
+            public static final double kFF = 0.0;
+            public static final double kMinOutput = -1.0;
+            public static final double kMaxOutput = 1.0;
+
+        }
+    }
 }
