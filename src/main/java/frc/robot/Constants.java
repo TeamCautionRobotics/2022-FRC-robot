@@ -24,4 +24,12 @@ public final class Constants {
         public static final int rightSpark0ID = 12;
         public static final int rightSpark1ID = 13;
     }
+
+    public static final class Intake {
+
+        // TODO: Find these
+        public static final int intakePistonID = 00;
+        public static final int intakeMotorID = 00;
+
+    }
 }
