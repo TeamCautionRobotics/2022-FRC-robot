@@ -26,9 +26,26 @@ public final class Constants {
     }
 
     public static final class Climb {
+
+        public static final class staticHook {
+
+            // TODO: set this on controller
+            public static final int canID = 30;
+
+        }
         
         public static final class lift {
 
+            // TODO: set these on controllers
+            public static final int leftID = 31;
+            public static final int rightID = 32;
+
+            // TODO: Find this
+            public static final double encoderConversionFactor = 1.0;  // want return distance unit in inches. base unit is 1 tick per rev of motor shaft
+
+            // spark max pid
+            // TODO: find these
+            public static final double initialReference = 0.0;
             public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
@@ -36,6 +53,27 @@ public final class Constants {
             public static final double kFF = 0.0;
             public static final double kMinOutput = -1.0;
             public static final double kMaxOutput = 1.0;
+
+        }
+
+        public static final class angler {
+
+            // TODO: set these on controllers
+            public static final int leftID = 33;
+            public static final int rightID = 34;
+
+            // TODO: find distanceperpulse
+            public static final int leftEncoderA = 0;
+            public static final int leftEncoderB = 1;
+            public static final int rightEncoderA = 2;
+            public static final int rightEncoderB = 3; 
+            public static final double encoderDistancePerPulse = 0;  // try to get return unit in degrees
+
+            // internal wpilib pid
+            // TODO: find these
+            public static final double kP = 0.0;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
 
         }
     }
