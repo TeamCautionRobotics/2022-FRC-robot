@@ -17,13 +17,12 @@ public class ClimbAngle extends SubsystemBase {
   private final PIDController leftAnglePID;
   private final PIDController rightAnglePID;
   private boolean anglePidEnabled = true;
-  private double angleReference;
+  private double angleReference = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
     MotorController leftAngleMotor, MotorController rightAngleMotor, 
     Encoder leftAngleEncoder, Encoder rightAngleEncoder) {
 
-    // angle
     this.leftAngleMotor = leftAngleMotor;
     this.leftAngleEncoder = leftAngleEncoder;
     this.leftAngleEncoder.setDistancePerPulse(Constants.Climb.angler.encoderDistancePerPulse);
@@ -53,6 +52,14 @@ public class ClimbAngle extends SubsystemBase {
   }
 
   /**
+   * set the desired angle 
+   * @param reference angle
+   */
+  public void setAngleReference(double reference) {
+    angleReference = reference;
+  }
+
+  /**
    * @return angle reference point
    */
   public double getAngleReference() {
@@ -71,14 +78,6 @@ public class ClimbAngle extends SubsystemBase {
    */
   public double getRightAngleEncoderDistance() {
     return rightAngleEncoder.getDistance();
-  }
-
-  /**
-   * set the desired angle 
-   * @param reference angle
-   */
-  public void setAngleReference(double reference) {
-    angleReference = reference;
   }
 
   /**
