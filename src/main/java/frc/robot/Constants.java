@@ -71,7 +71,7 @@ public final class Constants {
 
             // internal wpilib pid
             // TODO: find these
-            public static final float initialSetpoint = 0.0;
+            public static final double initialSetpoint = 0.0;
             public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
