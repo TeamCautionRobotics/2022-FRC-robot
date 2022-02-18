@@ -100,8 +100,22 @@ public class ClimbLift extends SubsystemBase {
   /**
    * @return lifter reference point
    */
-  double getReference() {
+  public double getReference() {
     return lifterReference;
+  }
+
+  /**
+   * @return the getPosition() method of the left lifter encoder
+   */
+  public double getLeftLiftPosition() {
+    return leftLifterEncoder.getPosition();
+  }
+
+  /**
+   * @return the getPosition() method of the right lifter encoder
+   */
+  public double getRightLiftPosition() {
+    return rightLifterEncoder.getPosition();
   }
 
   /**
