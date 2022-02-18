@@ -54,6 +54,10 @@ public final class Constants {
             public static final double kMinOutput = -1.0;
             public static final double kMaxOutput = 1.0;
 
+            // thresholds in inches
+            public static final double loweredThreshold = 5.0;
+            public static final double raisedThreshold = 50.0;
+
         }
 
         public static final class angler {
@@ -76,6 +80,11 @@ public final class Constants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
+            // thresholds in degrees
+            public static final double loweredThreshold = 10.0;
+            public static final double raisedThreshold = 90.0;
+
         }
+
     }
 }
