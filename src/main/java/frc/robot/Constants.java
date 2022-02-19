@@ -40,8 +40,9 @@ public final class Constants {
             public static final int leftID = 31;
             public static final int rightID = 32;
 
-            // TODO: Find this
-            public static final double encoderConversionFactor = 1.0;  // want return distance unit in inches. base unit is 1 tick per rev of motor shaft
+            // one tick is one rotation of the winch motor
+            // motor -> 3:1 -> 3:1 -> out
+            public static final double encoderConversionFactor = 1.0 / 3.0 / 3.0;
 
             // spark max pid
             // TODO: find these
