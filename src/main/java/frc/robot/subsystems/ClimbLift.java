@@ -19,6 +19,7 @@ public class ClimbLift extends SubsystemBase {
 
   // lifter pid objects
   private double lifterReference = Constants.Climb.lift.initialReference;
+  private ControlType lifterControlType = ControlType.kPosition;
   private double lifter_kP = Constants.Climb.lift.kP;
   private double lifter_kI = Constants.Climb.lift.kI;
   private double lifter_kD = Constants.Climb.lift.kD;
@@ -92,9 +93,11 @@ public class ClimbLift extends SubsystemBase {
   /**
    * set the desired lifter position
    * @param reference desired point (length in inches)
+   * @param controlType reference type
    */
-  public void setReference(double reference) {
+  public void setReference(double reference, ControlType controlType) {
     lifterReference = reference;
+    lifterControlType = controlType;
   }
 
   /**
@@ -131,10 +134,11 @@ public class ClimbLift extends SubsystemBase {
 
     // check if pid vars have changed. if they have, update the relevant data in the controllers
     if (lifterReference != lifterReference_last) {
-      leftLifterPID.setReference(lifterReference, ControlType.kPosition);
-      rightLifterPID.setReference(lifterReference, ControlType.kPosition);
+      leftLifterPID.setReference(lifterReference, lifterControlType);
+      rightLifterPID.setReference(lifterReference, lifterControlType);
       lifterReference_last = lifterReference;
     }
+
     if (lifter_kP != lifter_kP_last) { leftLifterPID.setP(lifter_kP); rightLifterPID.setP(lifter_kP); lifter_kP_last = lifter_kP; }
     if (lifter_kI != lifter_kI_last) { leftLifterPID.setP(lifter_kI); rightLifterPID.setP(lifter_kI); lifter_kI_last = lifter_kI; }
     if (lifter_kD != lifter_kD_last) { leftLifterPID.setP(lifter_kD); rightLifterPID.setP(lifter_kD); lifter_kD_last = lifter_kD; }
