@@ -58,6 +58,9 @@ public final class Constants {
             public static final double loweredThreshold = 5.0;
             public static final double raisedThreshold = 50.0;
 
+            // other misc constants
+            public static final double safeModeLoweringVelocity = -0.1;
+
         }
 
         public static final class angler {
