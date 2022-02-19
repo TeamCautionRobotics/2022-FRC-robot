@@ -122,6 +122,27 @@ public class ClimbLift extends SubsystemBase {
   }
 
   /**
+   * returns the current consumption of a motor
+   * @param motor 1: left, 2: right
+   * @return the current consumption of the specified motor
+   */
+  public double getMotorCurrent(int motor) {
+
+    double current = 0.0;
+
+    if (motor == 0) {
+      current = leftLifterMotor.getOutputCurrent();
+    } else if (motor == 1) {
+      current = rightLifterMotor.getOutputCurrent();
+    } else {
+      throw new IndexOutOfBoundsException();
+    }
+
+    return current;
+
+  }
+
+  /**
    * cut power to lifter motors
    */
   public void stop() {
