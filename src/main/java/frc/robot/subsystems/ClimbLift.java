@@ -90,6 +90,22 @@ public class ClimbLift extends SubsystemBase {
     lifter_maxOutput = kOutMax;
   }
 
+    /**
+   * writes new pid vars to the spark maxes
+   * @param kP
+   * @param kI
+   * @param kD
+   * @param kIz
+   * @param kFF
+   */
+  public void setPidVars(double kP, double kI, double kD, double kIz, double kFF) {
+    lifter_kP = kP;
+    lifter_kI = kI;
+    lifter_kD = kD;
+    lifter_iZ = kIz;
+    lifter_ff = kFF;
+  }
+
   /**
    * set the desired lifter position
    * @param reference desired point (length in inches)
