@@ -30,15 +30,15 @@ public final class Constants {
         public static final class staticHook {
 
             // TODO: set this on controller
-            public static final int canID = 30;
+            public static final int canID = 34;
 
         }
         
         public static final class lift {
 
             // TODO: set these on controllers
-            public static final int leftID = 31;
-            public static final int rightID = 32;
+            public static final int leftID = 30;
+            public static final int rightID = 31;
 
             // one tick is one rotation of the winch motor
             // motor -> 3:1 -> 3:1 -> out
@@ -70,8 +70,8 @@ public final class Constants {
         public static final class angler {
 
             // TODO: set these on controllers
-            public static final int leftID = 33;
-            public static final int rightID = 34;
+            public static final int leftID = 32;
+            public static final int rightID = 33;
 
             // TODO: find distanceperpulse
             public static final int leftEncoderA = 0;
