@@ -27,10 +27,10 @@ public final class Constants {
 
     public static final class Climb {
 
-        public static final class staticHook {
+        public static final class hook {
 
             // TODO: set this on controller
-            public static final int canID = 34;
+            public static final int ID = 34;
 
         }
         
