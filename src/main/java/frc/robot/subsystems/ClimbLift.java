@@ -115,10 +115,24 @@ public class ClimbLift extends SubsystemBase {
   }
 
   /**
+   * @return the getVelocity() method of the left lifter encoder
+   */
+  public double getLeftLiftVelocity() {
+    return leftLifterEncoder.getVelocity();
+  }
+
+  /**
    * @return the getPosition() method of the right lifter encoder
    */
   public double getRightLiftPosition() {
     return rightLifterEncoder.getPosition();
+  }
+
+  /**
+   * @return the getVelocity() method of the right lifter encoder
+   */
+  public double getRightLiftVelocity() {
+    return rightLifterEncoder.getVelocity();
   }
 
   /**
