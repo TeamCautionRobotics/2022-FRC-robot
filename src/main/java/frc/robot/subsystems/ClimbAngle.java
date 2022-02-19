@@ -83,7 +83,7 @@ public class ClimbAngle extends SubsystemBase {
   /**
    * cut power to angle motors
    */
-  public void stopAngle() {
+  public void stop() {
     leftAngleMotor.stopMotor();
     rightAngleMotor.stopMotor();
   }
