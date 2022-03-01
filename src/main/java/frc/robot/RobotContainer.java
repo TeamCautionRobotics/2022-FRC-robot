@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
 import frc.robot.Constants;
@@ -21,6 +22,9 @@ public class RobotContainer {
   public final EnhancedJoystick leftJoystick = new EnhancedJoystick(Constants.Driver.leftJoystickPort);
   public final EnhancedJoystick rightJoystick = new EnhancedJoystick(Constants.Driver.rightJoystickPort);
   public final Gamepad manipulator = new Gamepad(Constants.Driver.manipulatorPort);
+
+  public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
+  public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
 
   public final DriveBase driveBase;
   public final Conveyor conveyor;
