@@ -10,6 +10,12 @@ public final class Constants {
         
     }
 
+    public static final class Misc {
+
+        public static final int pcmID = 1;
+
+    }
+
     public static final class DriveBase {
 
         public static final double wheelSize = 4.0;  // inches
@@ -28,7 +34,7 @@ public final class Constants {
     public static final class Intake {
 
         // TODO: Find these
-        public static final int intakePistonID = 00;
+        public static final int pistonPCMChannel = 02;
         public static final int intakeMotorID = 00;
 
     }
