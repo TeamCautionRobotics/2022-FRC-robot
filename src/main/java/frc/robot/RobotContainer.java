@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.misc2022.EnhancedJoystick;
@@ -43,7 +42,7 @@ public class RobotContainer {
   public final WPI_VictorSPX rightAngleMotor = new WPI_VictorSPX(Constants.Climb.angler.rightID);
   public final Encoder leftAngleEncoder = new Encoder(Constants.Climb.angler.leftEncoderA, Constants.Climb.angler.leftEncoderB);
   public final Encoder rightAngleEncoder = new Encoder(Constants.Climb.angler.rightEncoderA, Constants.Climb.angler.rightEncoderB);
-  public final Solenoid hookPiston = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Climb.hook.ID);
+  public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
 
 
   public RobotContainer() {
@@ -54,15 +53,11 @@ public class RobotContainer {
     climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftAngleEncoder, rightAngleEncoder);
     climbHook = new ClimbHook(hookPiston);
 
-
-
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
 
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
     climbLift.setDefaultCommand(new Climb_Testing(climbAngle, climbHook, climbLift));
-
-
 
   }
 
