@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
+import frc.robot.commands.SetIntakeMotor;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
 
@@ -20,6 +23,9 @@ public class RobotContainer {
   public final EnhancedJoystick leftJoystick = new EnhancedJoystick(Constants.Driver.leftJoystickPort);
   public final EnhancedJoystick rightJoystick = new EnhancedJoystick(Constants.Driver.rightJoystickPort);
   public final Gamepad manipulator = new Gamepad(Constants.Driver.manipulatorPort);
+
+  public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 2);
+  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);
 
   public final DriveBase driveBase;
   public final Intake intake;
@@ -46,7 +52,14 @@ public class RobotContainer {
 
   }
 
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
+    
+    intakeMotorButton.whileHeld(new SetIntakeMotor(intake, 1.0));
+    intakeMotorButton.whenReleased(new SetIntakeMotor(intake, 0.0));
+
+  }
 
 
   public Command getAutonomousCommand() {
