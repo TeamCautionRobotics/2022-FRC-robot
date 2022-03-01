@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
 import frc.robot.Constants;
+import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
+import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.subsystems.DriveBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -51,7 +53,12 @@ public class RobotContainer {
 
   }
 
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    conveyorGateButton.whenPressed(new ToggleConveyorGate(conveyor));
+    conveyorMotorButton.whenHeld(new RunConveyorMotor(conveyor));
+
+  }
 
 
   public Command getAutonomousCommand() {
