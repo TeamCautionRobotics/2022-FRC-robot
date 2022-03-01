@@ -3,14 +3,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Conveyor;
 
-public class SetConveyorMotor extends CommandBase {
+public class RunConveyorMotor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Conveyor conveyor;
-  private double conveyorPower = 0.0;
 
-  public SetConveyorMotor(Conveyor conveyor, double power) {
+  public RunConveyorMotor(Conveyor conveyor) {
     this.conveyor = conveyor;
-    this.conveyorPower = power;
 
     addRequirements(conveyor);
   }
@@ -20,11 +18,13 @@ public class SetConveyorMotor extends CommandBase {
 
   @Override
   public void execute() {
-    conveyor.setConveyorMotor(conveyorPower);
+    conveyor.setConveyorMotor(1.0);
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    conveyor.setConveyorMotor(0.0);
+  }
 
   @Override
   public boolean isFinished() {
