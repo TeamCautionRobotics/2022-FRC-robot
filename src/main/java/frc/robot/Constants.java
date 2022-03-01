@@ -10,6 +10,12 @@ public final class Constants {
         
     }
 
+    public static final class Misc {
+
+        public static final int pcmID = 1;
+
+    }
+
     public static final class DriveBase {
 
         public static final double wheelSize = 4.0;  // inches
@@ -30,7 +36,7 @@ public final class Constants {
         public static final class hook {
 
             // TODO: set this on controller
-            public static final int ID = 34;
+            public static final int hookPCMChannel = 1;
 
         }
         
