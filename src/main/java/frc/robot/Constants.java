@@ -10,6 +10,12 @@ public final class Constants {
         
     }
 
+    public static final class Misc {
+
+        public static final int pcmID = 1;
+
+    }
+
     public static final class DriveBase {
 
         public static final double wheelSize = 4.0;  // inches
@@ -23,5 +29,12 @@ public final class Constants {
         public static final int leftSpark1ID = 11;
         public static final int rightSpark0ID = 12;
         public static final int rightSpark1ID = 13;
+    }
+
+    public static final class Conveyor {
+
+        public static final int motorID = 21;
+        public static final int gatePCMChannel = 01;
+        
     }
 }
