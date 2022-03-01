@@ -1,6 +1,6 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -38,8 +38,8 @@ public class RobotContainer {
   public final CANSparkMax leftLifter = new CANSparkMax(Constants.Climb.lift.leftID, MotorType.kBrushless);
   public final CANSparkMax rightLifter = new CANSparkMax(Constants.Climb.lift.rightID, MotorType.kBrushless);
 
-  public final WPI_VictorSPX leftAngleMotor = new WPI_VictorSPX(Constants.Climb.angler.leftID);
-  public final WPI_VictorSPX rightAngleMotor = new WPI_VictorSPX(Constants.Climb.angler.rightID);
+  public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.leftID);
+  public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.rightID);
   public final Encoder leftAngleEncoder = new Encoder(Constants.Climb.angler.leftEncoderA, Constants.Climb.angler.leftEncoderB);
   public final Encoder rightAngleEncoder = new Encoder(Constants.Climb.angler.rightEncoderA, Constants.Climb.angler.rightEncoderB);
   public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
