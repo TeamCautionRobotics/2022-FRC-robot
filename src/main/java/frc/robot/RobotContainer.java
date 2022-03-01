@@ -30,7 +30,7 @@ public class RobotContainer {
   public final CANSparkMax rightDrive1 = new CANSparkMax(Constants.DriveBase.rightSpark1ID, MotorType.kBrushless);
 
   public final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.Intake.intakeMotorID);
-  public final Solenoid intakeDeploy = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Intake.intakePistonID);
+  public final Solenoid intakeDeploy = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Intake.pistonPCMChannel);
 
   public RobotContainer() {
     configureButtonBindings();
