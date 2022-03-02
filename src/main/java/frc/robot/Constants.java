@@ -80,9 +80,13 @@ public final class Constants {
 
         public static final class angler {
 
-            // TODO: set these on controllers
+            // CAN IDs for motor controllers
             public static final int leftID = 32;
             public static final int rightID = 33;
+
+            // DIO ports for switches
+            public static final int leftArmAtZeroSwitchPort = 2;
+            public static final int rightArmAtZeroSwitchPort = 3;
 
             // TODO: find distanceperpulse
             public static final int leftEncoderA = 0;

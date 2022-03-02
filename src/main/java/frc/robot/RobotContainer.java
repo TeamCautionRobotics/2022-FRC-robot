@@ -46,6 +46,8 @@ public class RobotContainer {
   public final Encoder leftAngleEncoder = new Encoder(Constants.Climb.angler.leftEncoderA, Constants.Climb.angler.leftEncoderB);
   public final Encoder rightAngleEncoder = new Encoder(Constants.Climb.angler.rightEncoderA, Constants.Climb.angler.rightEncoderB);
   public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
+  public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.leftArmAtZeroSwitchPort);
+  public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.rightArmAtZeroSwitchPort);
 
 
   public RobotContainer() {
@@ -53,7 +55,7 @@ public class RobotContainer {
 
     driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
     climbLift = new ClimbLift(leftLifter, rightLifter, leftArmFullyDownSwitch, rightArmFullyDownSwitch);
-    climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftAngleEncoder, rightAngleEncoder);
+    climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftAngleEncoder, rightAngleEncoder, leftArmAngleAtZeroSwitch, rightArmAngleAtZeroSwitch);
     climbHook = new ClimbHook(hookPiston);
 
     // getDistance returns inches, getRate returns inches/second

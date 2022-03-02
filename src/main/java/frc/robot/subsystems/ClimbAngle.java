@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,6 +14,9 @@ public class ClimbAngle extends SubsystemBase {
   private final Encoder leftAngleEncoder;
   private final Encoder rightAngleEncoder;
 
+  private final DigitalInput leftArmAtZeroSwitch;
+  private final DigitalInput rightArmAtZeroSwitch;
+
   // angler pid 
   private final PIDController leftAnglePID;
   private final PIDController rightAnglePID;
@@ -21,7 +25,8 @@ public class ClimbAngle extends SubsystemBase {
 
   public ClimbAngle(
     MotorController leftAngleMotor, MotorController rightAngleMotor, 
-    Encoder leftAngleEncoder, Encoder rightAngleEncoder) {
+    Encoder leftAngleEncoder, Encoder rightAngleEncoder,
+    DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
 
     this.leftAngleMotor = leftAngleMotor;
     this.leftAngleEncoder = leftAngleEncoder;
@@ -32,6 +37,10 @@ public class ClimbAngle extends SubsystemBase {
     this.rightAngleEncoder = rightAngleEncoder;
     this.rightAngleEncoder.setDistancePerPulse(Constants.Climb.angler.encoderDistancePerPulse);
     rightAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+
+    // limit switches
+    this.leftArmAtZeroSwitch = leftArmAtZeroSwitch;
+    this.rightArmAtZeroSwitch = rightArmAtZeroSwitch;
 
   }
 
@@ -95,6 +104,20 @@ public class ClimbAngle extends SubsystemBase {
    */
   public void enableAnglePid(boolean enable) {
     anglePidEnabled = enable;
+  }
+
+  /**
+   * get left arm angle switch (corrected for wiring of bot)
+   */
+  public boolean getLeftArmAtZeroSwitch() {
+    return !leftArmAtZeroSwitch.get();
+  }
+
+  /**
+   * get right arm angle switch (corrected for wiring of bot)
+   */
+  public boolean getRightArmAtZeroSwitch() {
+    return !rightArmAtZeroSwitch.get();
   }
 
   @Override
