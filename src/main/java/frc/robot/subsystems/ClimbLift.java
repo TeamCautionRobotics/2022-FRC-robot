@@ -128,6 +128,17 @@ public class ClimbLift extends SubsystemBase {
   }
 
   /**
+   * manually set the power of the lift motors.
+   * this has an unknown effect on the internal spark max pid
+   * i don't know if it will cancel it
+   * @param power the desired lifter motor power
+   */
+  public void setPower(double power) {
+    leftLifterMotor.set(power);
+    rightLifterMotor.set(power);
+  }
+
+  /**
    * @return lifter reference point
    */
   public double getReference() {

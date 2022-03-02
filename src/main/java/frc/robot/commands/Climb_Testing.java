@@ -19,18 +19,21 @@ public class Climb_Testing extends CommandBase {
   // angle vars
   private boolean anglePidEnabled = true;
   private double angleSetpoint = 0;
+  private double angleManualPower = 0;
   private double angle_kP = Constants.Climb.angler.kP;
   private double angle_kI = Constants.Climb.angler.kI;
   private double angle_kD = Constants.Climb.angler.kD;
 
   private boolean anglePidEnabled_last = true;
   private double angleSetpoint_last = 0;
+  private double angleManualPower_last = 0;
   private double angle_kP_last = Constants.Climb.angler.kP;
   private double angle_kI_last = Constants.Climb.angler.kI;
   private double angle_kD_last = Constants.Climb.angler.kD;
 
   // lift vars
   private double liftSetpoint = 0;
+  private double liftManualPower = 0;
   private ControlType liftSetpointType = ControlType.kPosition;
   private double lift_kP = Constants.Climb.lift.kP;
   private double lift_kI = Constants.Climb.lift.kI;
@@ -39,6 +42,7 @@ public class Climb_Testing extends CommandBase {
   private double lift_kFF = Constants.Climb.lift.kFF;
 
   private double liftSetpoint_last = 0;
+  private double liftManualPower_last = 0;
   private double lift_kP_last = Constants.Climb.lift.kP;
   private double lift_kI_last = Constants.Climb.lift.kI;
   private double lift_kD_last = Constants.Climb.lift.kD;
@@ -74,6 +78,7 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Angle P", angle_kP);
     SmartDashboard.putNumber("Angle I", angle_kI);
     SmartDashboard.putNumber("Angle D", angle_kD);
+    SmartDashboard.putNumber("Angle Manual Pwr", angleManualPower);
 
     // lift vars
     SmartDashboard.putNumber("Lift Setpoint", liftSetpoint);
@@ -83,6 +88,7 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Lift D", lift_kI);
     SmartDashboard.putNumber("Lift I-Zone", lift_kD);
     SmartDashboard.putNumber("Lift Feedforward", lift_kFF);
+    SmartDashboard.putNumber("Lift Manual Pwr", liftManualPower);
 
     // hook vars
     SmartDashboard.putBoolean("Hook Deployed", hookEnabled);
@@ -105,6 +111,7 @@ public class Climb_Testing extends CommandBase {
     angle_kP = SmartDashboard.getNumber("Angle P", 0.0);
     angle_kI = SmartDashboard.getNumber("Angle I", 0.0);
     angle_kD = SmartDashboard.getNumber("Angle D", 0.0);
+    angleManualPower = SmartDashboard.getNumber("Angle Manual Pwr", 0.0);
 
     if (anglePidEnabled != anglePidEnabled_last) {
       anglePidEnabled_last = anglePidEnabled;
@@ -128,6 +135,12 @@ public class Climb_Testing extends CommandBase {
           System.out.println("updated angle PID vars");
         }
 
+    if (angleManualPower != angleManualPower_last) {
+      angleManualPower_last = angleManualPower;
+      angleSubsystem.setAnglePower(angleManualPower);
+      System.out.println("updated angle manual power");
+    }
+
     // print current lift vars
     SmartDashboard.putNumber("Lift Left Distance", liftSubsystem.getLeftLiftPosition());
     SmartDashboard.putNumber("Lift Right Distance", liftSubsystem.getRightLiftPosition());
@@ -148,6 +161,7 @@ public class Climb_Testing extends CommandBase {
     lift_kD = SmartDashboard.getNumber("Lift D", 0.0);
     lift_kIz = SmartDashboard.getNumber("Lift I-Zone", 0.0);
     lift_kFF = SmartDashboard.getNumber("Lift Feedforward", 0.0);
+    liftManualPower = SmartDashboard.getNumber("Lift Manual Pwr", 0.0);
 
     if (liftSetpoint != liftSetpoint_last) {
       liftSetpoint_last = liftSetpoint;
@@ -176,6 +190,12 @@ public class Climb_Testing extends CommandBase {
           liftSubsystem.setPidVars(lift_kP, lift_kI, lift_kD, lift_kIz, lift_kFF);
           System.out.println("updated lift pid vars");
         }
+
+    if (liftManualPower != liftManualPower_last) {
+      liftManualPower_last = liftManualPower;
+      liftSubsystem.setPower(liftManualPower);
+      System.out.println("updated lift manual power");
+    }
 
     // update hook vars
     hookEnabled = SmartDashboard.getBoolean("Hook Deployed", false);

@@ -69,6 +69,16 @@ public class ClimbAngle extends SubsystemBase {
   }
 
   /**
+   * sets the angle motor power manually
+   * the angle pid must be disabled for this to work
+   * @param power the desired power output (-1.0 to 1.0)
+   */
+  public void setAnglePower(double power) {
+    leftAngleMotor.set(power);
+    rightAngleMotor.set(power);
+  }
+
+  /**
    * @return angle reference point
    */
   public double getAngleReference() {
