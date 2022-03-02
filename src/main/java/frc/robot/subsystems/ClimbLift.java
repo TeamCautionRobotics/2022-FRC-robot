@@ -4,6 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -37,7 +39,16 @@ public class ClimbLift extends SubsystemBase {
   private double lifter_maxOutput_last = Constants.Climb.lift.kMaxOutput;
   private double lifter_minOutput_last = Constants.Climb.lift.kMinOutput;
 
-  public ClimbLift(CANSparkMax leftLifter, CANSparkMax rightLifter) {
+  // limit switches
+  private DigitalInput leftArmFullyDownSwitch;
+  private DigitalInput rightArmFullyDownSwitch;
+  
+
+  public ClimbLift(CANSparkMax leftLifter, CANSparkMax rightLifter, DigitalInput leftArmFullyDownSwitch, DigitalInput rightArmFullyDownSwitch) {
+
+    // limit switches
+    this.leftArmFullyDownSwitch = leftArmFullyDownSwitch;
+    this.rightArmFullyDownSwitch = rightArmFullyDownSwitch;
 
     // lifter
     this.leftLifterMotor = leftLifter;
@@ -178,6 +189,20 @@ public class ClimbLift extends SubsystemBase {
   public void stop() {
     leftLifterMotor.stopMotor();
     rightLifterMotor.stopMotor();
+  }
+
+  /**
+   * get left switch state (reversed to account for bot wiring)
+   */
+  public boolean getLeftArmFullyDownSwitch() {
+    return !leftArmFullyDownSwitch.get();
+  }
+
+  /**
+   * get right switch state (reversed to account for bot wiring)
+   */
+  public boolean getRightArmFullyDownSwitch() {
+    return !rightArmFullyDownSwitch.get();
   }
 
   @Override

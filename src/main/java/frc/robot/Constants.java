@@ -42,9 +42,14 @@ public final class Constants {
         
         public static final class lift {
 
-            // TODO: set these on controllers
-            public static final int leftID = 30;
-            public static final int rightID = 31;
+            // CAN IDS for motor controllers
+            public static final int leftMotorID = 30;
+            public static final int rightMotorID = 31;
+
+            // DIO ports for switches
+            public static final int leftArmFullyDownSwitchPort = 0;
+            public static final int rightArmFullyDownSwtichPort = 1;
+
 
             // one tick is one rotation of the winch motor
             // motor -> 3:1 -> 3:1 -> out
