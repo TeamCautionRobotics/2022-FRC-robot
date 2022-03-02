@@ -95,6 +95,9 @@ public class Climb_Testing extends CommandBase {
     // print current angle vars
     SmartDashboard.putNumber("Angle Left Distance", angleSubsystem.getLeftAngleEncoderDistance());
     SmartDashboard.putNumber("Angle Right Distance", angleSubsystem.getRightAngleEncoderDistance());
+
+    SmartDashboard.putBoolean("Angle Left Sw", angleSubsystem.getLeftArmAtZeroSwitch());
+    SmartDashboard.putBoolean("Angle Right Sw", angleSubsystem.getRightArmAtZeroSwitch());
   
     // update angle vars
     anglePidEnabled =  SmartDashboard.getBoolean("Angle PID Enable", false);
@@ -134,6 +137,9 @@ public class Climb_Testing extends CommandBase {
 
     SmartDashboard.putNumber("Lift Left Current Draw", liftSubsystem.getMotorCurrent(0));
     SmartDashboard.putNumber("Lift Right Current Draw", liftSubsystem.getMotorCurrent(1));
+
+    SmartDashboard.putBoolean("Lift Left Sw", liftSubsystem.getLeftArmFullyDownSwitch());
+    SmartDashboard.putBoolean("Lift Right Sw", liftSubsystem.getRightArmFullyDownSwitch());
     
     // update lift vars
     liftSetpoint = SmartDashboard.getNumber("Lift Setpoint Setpoint", 0.0);
