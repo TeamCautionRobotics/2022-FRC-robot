@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class ToggleIntakeDeploy extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Intake m_subsystem;
+  private boolean commandFinished = false;
 
   public ToggleIntakeDeploy(Intake subsystem) {
     m_subsystem = subsystem;
@@ -14,20 +15,13 @@ public class ToggleIntakeDeploy extends CommandBase {
   }
 
   @Override
-  public void initialize() {
-
+  public void execute() {
     m_subsystem.setDeploy(!m_subsystem.getDeploy());
-
+    commandFinished = true;
   }
 
   @Override
-  public void execute() {}
-
-  @Override
-  public void end(boolean interrupted) {}
-
-  @Override
   public boolean isFinished() {
-    return false;
+    return commandFinished;
   }
 }

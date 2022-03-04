@@ -18,17 +18,18 @@ public class SetIntakeMotor extends CommandBase {
   }
 
   @Override
-  public void initialize() {
+  public void execute() {
 
     m_subsystem.runIntake(power);
 
   }
 
   @Override
-  public void execute() {}
+  public void end(boolean interrupted) {
 
-  @Override
-  public void end(boolean interrupted) {}
+    m_subsystem.runIntake(0.0);
+
+  }
 
   @Override
   public boolean isFinished() {
