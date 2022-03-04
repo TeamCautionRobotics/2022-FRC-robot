@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class ClimbAngle extends SubsystemBase {
 
@@ -35,6 +36,11 @@ public class ClimbAngle extends SubsystemBase {
     this.leftArmAtZeroSwitch = leftArmAtZeroSwitch;
     this.rightArmAtZeroSwitch = rightArmAtZeroSwitch;
 
+  }
+
+  public void setNeutralMode(NeutralMode mode) {
+    leftAngleMotor.setNeutralMode(mode);
+    rightAngleMotor.setNeutralMode(mode);
   }
 
   /**
