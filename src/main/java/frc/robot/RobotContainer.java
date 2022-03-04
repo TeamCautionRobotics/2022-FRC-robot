@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.misc2022.EnhancedJoystick;
@@ -25,6 +27,9 @@ public class RobotContainer {
 
   public RobotContainer() {
     configureButtonBindings();
+
+    CameraServer.startAutomaticCapture("Rear Camera", 0);
+    CameraServer.startAutomaticCapture("Front Camera", 1);
 
     driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
     // getDistance returns inches, getRate returns inches/second
