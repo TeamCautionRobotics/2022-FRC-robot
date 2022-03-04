@@ -5,6 +5,8 @@ import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 
+import com.revrobotics.CANSparkMax.ControlType;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb_LiftArm extends CommandBase {
@@ -78,7 +80,7 @@ public class Climb_LiftArm extends CommandBase {
 
       case 2:
 
-        liftSubsystem.setLiftPosition(4.0);  // raise arm four inches
+        liftSubsystem.setReference(4.0, ControlType.kPosition);  // raise arm four inches
         angleSubsystem.setAngleReference(30);  // angle arm ??? degrees
         climbStep = climbStep + 1;  // go to next step
       

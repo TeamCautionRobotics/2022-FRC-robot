@@ -7,6 +7,7 @@ import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 
 import com.revrobotics.CANSparkMax.ControlType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -65,6 +66,20 @@ public class Climb_LiftAndLatch extends CommandBase {
 
       case 0:  // SAFE MODE
 
+        hookSubsystem.setHook(true);  // force the hooks out
+
+        angleSubsystem.enableAnglePid(false);  // disable pid
+        angleSubsystem.stop();  // stop motor
+        angleSubsystem.setNeutralMode(NeutralMode.Coast);  // force neutral mode to coasting
+  
+        // slowly lower the lift until it is fully lowered
+        if ((liftSubsystem.getLeftLiftPosition() + liftSubsystem.getRightLiftPosition()) / 2 < Constants.Climb.lift.fullyRaisedThreshold) {
+          liftSubsystem.setReference(Constants.Climb.lift.safeModeLoweringVelocity, ControlType.kVelocity);
+        } else {
+          liftSubsystem.stop();
+          commandDone = true;
+        }
+
       case 1:  // the first step of climbing
 
         liftSubsystem.setReference(0.0, ControlType.kPosition);  // pull down
@@ -86,39 +101,10 @@ public class Climb_LiftAndLatch extends CommandBase {
         liftSubsystem.setReference(1.0, ControlType.kPosition);  // run it up an inch so we're not resting on the arm
         commandDone = true;  // finished
 
-
     }
 
-
-    // SAFE MODE
-    if (climbStep == 0) {
-      
-      // force the hooks out
-      hookSubsystem.setHook(true);
-
-      // force cut power to angle motors
-      angleSubsystem.enableAnglePid(false);
-      angleSubsystem.stop();
-
-      // slowly lower the lift until it is fully lowered
-      if ((liftSubsystem.getLeftLiftPosition() + liftSubsystem.getRightLiftPosition()) / 2 < Constants.Climb.lift.fullyRaisedThreshold) {
-        liftSubsystem.setReference(Constants.Climb.lift.safeModeLoweringVelocity, ControlType.kVelocity);
-      } else {
-        liftSubsystem.stop();
-        commandDone = true;
-      }
-
-
-
-    // the first step of climbing 
-    } else if (climbStep == 1) {
-
-    } else {
-      // engage fallback state
-    }
 
     // check if motor current has exceeded threshold, if so, activate safe mode
-
     if (liftSubsystem.getMotorCurrent(0) > Constants.Climb.lift.maxCurrentThreshold ||
         liftSubsystem.getMotorCurrent(1) > Constants.Climb.lift.maxCurrentThreshold) {
 
