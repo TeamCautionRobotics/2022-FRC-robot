@@ -53,7 +53,7 @@ public final class Constants {
 
             // one tick is one rotation of the winch motor
             // motor -> 3:1 -> 3:1 -> out
-            public static final double encoderConversionFactor = 1.0 / 3.0 / 3.0;
+            public static final double encoderConversionFactor = (1.0 / 3.0 / 3.0) * 1.425 * Math.PI;
 
             // spark max pid
             // TODO: find these
