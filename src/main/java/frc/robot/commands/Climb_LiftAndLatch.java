@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.Constants.Climb.hook;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
@@ -41,10 +42,10 @@ public class Climb_LiftAndLatch extends CommandBase {
   public void initialize() {
 
     // check if arm is raised
-    if ((liftSubsystem.getLeftLiftPosition() < Constants.Climb.lift.fullyRaisedThreshold) && 
-        (liftSubsystem.getRightLiftPosition() < Constants.Climb.lift.fullyRaisedThreshold) &&
-        (angleSubsystem.getLeftAngleEncoderDistance() < Constants.Climb.angler.raisedThreshold) &&
-        (angleSubsystem.getRightAngleEncoderDistance() < Constants.Climb.angler.raisedThreshold)) {
+    if ((liftSubsystem.getLeftLiftPosition() < 3.9) && 
+        (liftSubsystem.getRightLiftPosition() < 3.9) &&
+        (angleSubsystem.getLeftAngleEncoderDistance() < 29) &&
+        (angleSubsystem.getRightAngleEncoderDistance() < 29)) {
 
           System.out.println("WARNING: Tried activating climb command when arm was not raised!");
           commandDone = true;
@@ -58,6 +59,36 @@ public class Climb_LiftAndLatch extends CommandBase {
 
   @Override
   public void execute() {
+
+
+    switch(climbStep) {
+
+      case 0:  // SAFE MODE
+
+      case 1:  // the first step of climbing
+
+        liftSubsystem.setReference(0.0, ControlType.kPosition);  // pull down
+        angleSubsystem.setAngleReference(0.0);  // angle down
+
+        // if the lifters and the anglers have both reached their setpoints, hook
+        if (
+          (liftSubsystem.getLeftLiftPosition() == liftSubsystem.getReference()) &&
+          (liftSubsystem.getRightLiftPosition() == liftSubsystem.getReference()) &&
+          (angleSubsystem.getLeftAngleEncoderDistance() == angleSubsystem.getAngleReference()) &&
+          (angleSubsystem.getRightAngleEncoderDistance() == angleSubsystem.getAngleReference())
+        ) {
+          hookSubsystem.setHook(true);
+          climbStep = climbStep + 1;
+        }
+
+      case 2:
+
+        liftSubsystem.setReference(1.0, ControlType.kPosition);  // run it up an inch so we're not resting on the arm
+        commandDone = true;  // finished
+
+
+    }
+
 
     // SAFE MODE
     if (climbStep == 0) {

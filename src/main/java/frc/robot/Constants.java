@@ -88,13 +88,6 @@ public final class Constants {
             public static final int leftArmAtZeroSwitchPort = 2;
             public static final int rightArmAtZeroSwitchPort = 3;
 
-            // TODO: find distanceperpulse
-            public static final int leftEncoderA = 0;
-            public static final int leftEncoderB = 1;
-            public static final int rightEncoderA = 2;
-            public static final int rightEncoderB = 3; 
-            public static final double encoderDistancePerPulse = 0;  // try to get return unit in degrees
-
             // internal wpilib pid
             // TODO: find these
             public static final double initialSetpoint = 0.0;
@@ -102,9 +95,8 @@ public final class Constants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
-            // thresholds in degrees
-            public static final double loweredThreshold = 10.0;
-            public static final double raisedThreshold = 90.0;
+            // math
+            public static final double encoderDistancePerPulse = 360.0 / (4096.0 * 10.0);  // return units in degrees
 
         }
 

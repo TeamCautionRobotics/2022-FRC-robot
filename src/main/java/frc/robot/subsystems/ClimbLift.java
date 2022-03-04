@@ -173,6 +173,11 @@ public class ClimbLift extends SubsystemBase {
     return rightLifterEncoder.getVelocity();
   }
 
+  public void setLiftPosition(double pos) {
+    leftLifterEncoder.setPosition(pos);
+    rightLifterEncoder.setPosition(pos);
+  }
+
   /**
    * returns the current consumption of a motor
    * @param motor 1: left, 2: right

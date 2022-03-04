@@ -1,18 +1,16 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimbAngle extends SubsystemBase {
 
-  private final MotorController leftAngleMotor;
-  private final MotorController rightAngleMotor;
-  private final Encoder leftAngleEncoder;
-  private final Encoder rightAngleEncoder;
+  private final WPI_TalonSRX leftAngleMotor;
+  private final WPI_TalonSRX rightAngleMotor;
 
   private final DigitalInput leftArmAtZeroSwitch;
   private final DigitalInput rightArmAtZeroSwitch;
@@ -24,18 +22,13 @@ public class ClimbAngle extends SubsystemBase {
   private double angleReference = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
-    MotorController leftAngleMotor, MotorController rightAngleMotor, 
-    Encoder leftAngleEncoder, Encoder rightAngleEncoder,
+    WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
 
     this.leftAngleMotor = leftAngleMotor;
-    this.leftAngleEncoder = leftAngleEncoder;
-    this.leftAngleEncoder.setDistancePerPulse(Constants.Climb.angler.encoderDistancePerPulse);
     leftAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
 
     this.rightAngleMotor = rightAngleMotor;
-    this.rightAngleEncoder = rightAngleEncoder;
-    this.rightAngleEncoder.setDistancePerPulse(Constants.Climb.angler.encoderDistancePerPulse);
     rightAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
 
     // limit switches
@@ -86,17 +79,35 @@ public class ClimbAngle extends SubsystemBase {
   }
 
   /**
-   * @return the getDistance method of the left angle encoder
+   * sets the coefficient to multiply the encoder readings by
+   * @param coeff
+   */
+  public void setAngleEncoderCoefficient(double coeff) {
+    leftAngleMotor.configSelectedFeedbackCoefficient(coeff);
+    rightAngleMotor.configSelectedFeedbackCoefficient(coeff);
+  }
+
+  /**
+   * sets the angle encoder's position (useful for zeroing)
+   * @param pos position to set
+   */
+  public void setAngleEncoderPosition(double pos) {
+    leftAngleMotor.setSelectedSensorPosition(pos);
+    rightAngleMotor.setSelectedSensorPosition(pos);
+  }
+
+  /**
+   * @return the getDistance method of the left angle encode
    */
   public double getLeftAngleEncoderDistance() {
-    return leftAngleEncoder.getDistance();
+    return leftAngleMotor.getSelectedSensorPosition();
   }
 
   /**
    * @return the getDistance method of the right angle encoder
    */
   public double getRightAngleEncoderDistance() {
-    return rightAngleEncoder.getDistance();
+    return rightAngleMotor.getSelectedSensorPosition();
   }
 
   /**
@@ -135,8 +146,8 @@ public class ClimbAngle extends SubsystemBase {
 
     // update PID for angle
     if (anglePidEnabled) {
-      leftAngleMotor.set(leftAnglePID.calculate(leftAngleEncoder.getDistance(), angleReference));
-      rightAngleMotor.set(rightAnglePID.calculate(rightAngleEncoder.getDistance(), angleReference));
+      leftAngleMotor.set(leftAnglePID.calculate(getLeftAngleEncoderDistance(), angleReference));
+      rightAngleMotor.set(rightAnglePID.calculate(getRightAngleEncoderDistance(), angleReference));
     }
     
   }

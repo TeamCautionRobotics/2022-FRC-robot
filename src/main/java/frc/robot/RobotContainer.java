@@ -1,11 +1,13 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,8 +45,6 @@ public class RobotContainer {
 
   public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.leftID);
   public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.rightID);
-  public final Encoder leftAngleEncoder = new Encoder(Constants.Climb.angler.leftEncoderA, Constants.Climb.angler.leftEncoderB);
-  public final Encoder rightAngleEncoder = new Encoder(Constants.Climb.angler.rightEncoderA, Constants.Climb.angler.rightEncoderB);
   public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
   public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.leftArmAtZeroSwitchPort);
   public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.rightArmAtZeroSwitchPort);
@@ -55,12 +55,32 @@ public class RobotContainer {
 
     driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
     climbLift = new ClimbLift(leftLifter, rightLifter, leftArmFullyDownSwitch, rightArmFullyDownSwitch);
-    climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftAngleEncoder, rightAngleEncoder, leftArmAngleAtZeroSwitch, rightArmAngleAtZeroSwitch);
+    climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftArmAngleAtZeroSwitch, rightArmAngleAtZeroSwitch);
     climbHook = new ClimbHook(hookPiston);
 
+    // configure things
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
 
+    // set the idle mode of the lift motors to braking
+    leftLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    rightLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+    // reset angle motors to defaults
+    leftAngleMotor.configFactoryDefault();
+    rightAngleMotor.configFactoryDefault();
+    // set the feedback devices to quad encoders
+    leftAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    rightAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
+    // set the angle encoder coefficient 
+    leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
+    rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
+    // set the idle mode to braking
+    leftAngleMotor.setNeutralMode(NeutralMode.Brake);
+    rightAngleMotor.setNeutralMode(NeutralMode.Brake);
+
+
+    // set default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
     climbLift.setDefaultCommand(new Climb_Testing(climbAngle, climbHook, climbLift));
 
