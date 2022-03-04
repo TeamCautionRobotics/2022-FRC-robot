@@ -81,7 +81,7 @@ public class Climb_LiftArm extends CommandBase {
       case 2:
 
         liftSubsystem.setReference(4.0, ControlType.kPosition);  // raise arm four inches
-        angleSubsystem.setAngleReference(30);  // angle arm ??? degrees
+        angleSubsystem.setAngleReference(60);  // angle arm 60 degrees
         climbStep = climbStep + 1;  // go to next step
       
       case 3:
