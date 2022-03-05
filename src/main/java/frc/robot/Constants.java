@@ -35,6 +35,13 @@ public final class Constants {
 
         public static final int motorID = 21;
         public static final int gatePCMChannel = 02;
+    }
         
+    public static final class Intake {
+
+        // TODO: Find these
+        public static final int pistonPCMChannel = 01;
+        public static final int intakeMotorID = 20;
+
     }
 }
