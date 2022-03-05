@@ -34,7 +34,7 @@ public final class Constants {
     public static final class Conveyor {
 
         public static final int motorID = 21;
-        public static final int gatePCMChannel = 01;
+        public static final int gatePCMChannel = 02;
         
     }
 }
