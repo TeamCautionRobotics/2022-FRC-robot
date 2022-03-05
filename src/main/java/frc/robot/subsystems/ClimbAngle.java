@@ -4,12 +4,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import javax.swing.text.StyleContext.SmallAttributeSet;
-
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class ClimbAngle extends SubsystemBase {
@@ -25,7 +21,7 @@ public class ClimbAngle extends SubsystemBase {
   private final PIDController rightAnglePID;
   private boolean anglePidEnabled = true;
   private boolean anglePidDisabled = false;
-  private double angleReference = Constants.Climb.angler.initialSetpoint;
+  private double angleSetpoint = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
@@ -43,9 +39,12 @@ public class ClimbAngle extends SubsystemBase {
 
   }
 
-  public void setNeutralMode(NeutralMode mode) {
-    leftAngleMotor.setNeutralMode(mode);
-    rightAngleMotor.setNeutralMode(mode);
+  /**
+   * enable/disable the angle pid
+   * @param enable
+   */
+  public void enableAnglePid(boolean enable) {
+    anglePidEnabled = enable;
   }
 
   /**
@@ -68,8 +67,8 @@ public class ClimbAngle extends SubsystemBase {
    * set the desired angle 
    * @param reference angle
    */
-  public void setAngleReference(double reference) {
-    angleReference = reference;
+  public void setPosition(double reference) {
+    angleSetpoint = reference;
   }
 
   /**
@@ -77,23 +76,25 @@ public class ClimbAngle extends SubsystemBase {
    * the angle pid must be disabled for this to work
    * @param power the desired power output (-1.0 to 1.0)
    */
-  public void setAnglePower(double power) {
+  public void setPower(double power) {
     leftAngleMotor.set(power);
     rightAngleMotor.set(power);
   }
 
   /**
-   * @return angle reference point
+   * sets the neutral mode of the angle controllers
+   * @param mode
    */
-  public double getAngleReference() {
-    return angleReference;
+  public void setNeutralMode(NeutralMode mode) {
+    leftAngleMotor.setNeutralMode(mode);
+    rightAngleMotor.setNeutralMode(mode);
   }
 
   /**
    * sets the coefficient to multiply the encoder readings by
    * @param coeff
    */
-  public void setAngleEncoderCoefficient(double coeff) {
+  public void setEncoderCoefficient(double coeff) {
     leftAngleMotor.configSelectedFeedbackCoefficient(coeff);
     rightAngleMotor.configSelectedFeedbackCoefficient(coeff);
   }
@@ -102,40 +103,30 @@ public class ClimbAngle extends SubsystemBase {
    * sets the angle encoder's position (useful for zeroing)
    * @param pos position to set
    */
-  public void setAngleEncoderPosition(double pos) {
+  public void setEncoderPosition(double pos) {
     leftAngleMotor.setSelectedSensorPosition(pos);
     rightAngleMotor.setSelectedSensorPosition(pos);
   }
 
   /**
+   * @return angle reference point
+   */
+  public double getSetpoint() {
+    return angleSetpoint;
+  }
+
+  /**
    * @return the getDistance method of the left angle encode
    */
-  public double getLeftAngleEncoderDistance() {
+  public double getLeftEncoderDistance() {
     return leftAngleMotor.getSelectedSensorPosition();
   }
 
   /**
    * @return the getDistance method of the right angle encoder
    */
-  public double getRightAngleEncoderDistance() {
+  public double getRightEncoderDistance() {
     return rightAngleMotor.getSelectedSensorPosition();
-  }
-
-  /**
-   * cut power to angle motors
-   */
-  public void stop() {
-    leftAngleMotor.stopMotor();
-    rightAngleMotor.stopMotor();
-  }
-
-  /**
-   * enable/disable the angle pid
-   * useful for stoppng all power output to the motors
-   * @param enable
-   */
-  public void enableAnglePid(boolean enable) {
-    anglePidEnabled = enable;
   }
 
   /**
@@ -152,14 +143,22 @@ public class ClimbAngle extends SubsystemBase {
     return !rightArmAtZeroSwitch.get();
   }
 
+  /**
+   * cut power to angle motors
+   */
+  public void stop() {
+    leftAngleMotor.stopMotor();
+    rightAngleMotor.stopMotor();
+  }
+
   @Override
   public void periodic() {
 
     // update PID for angle
     if (anglePidEnabled) {
       anglePidDisabled = false;
-      leftAngleMotor.set(leftAnglePID.calculate(getLeftAngleEncoderDistance(), angleReference));
-      rightAngleMotor.set(rightAnglePID.calculate(getRightAngleEncoderDistance(), angleReference));
+      leftAngleMotor.set(leftAnglePID.calculate(getLeftEncoderDistance(), angleSetpoint));
+      rightAngleMotor.set(rightAnglePID.calculate(getRightEncoderDistance(), angleSetpoint));
     } else {
       
       if (!anglePidDisabled) {

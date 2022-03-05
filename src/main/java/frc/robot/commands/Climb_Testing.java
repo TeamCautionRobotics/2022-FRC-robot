@@ -87,8 +87,8 @@ public class Climb_Testing extends CommandBase {
   public void execute() {
 
     // print current angle vars
-    SmartDashboard.putNumber("Angle Left Distance", angleSubsystem.getLeftAngleEncoderDistance());
-    SmartDashboard.putNumber("Angle Right Distance", angleSubsystem.getRightAngleEncoderDistance());
+    SmartDashboard.putNumber("Angle Left Distance", angleSubsystem.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Angle Right Distance", angleSubsystem.getRightEncoderDistance());
 
     SmartDashboard.putBoolean("Angle Left Sw", angleSubsystem.getLeftArmAtZeroSwitch());
     SmartDashboard.putBoolean("Angle Right Sw", angleSubsystem.getRightArmAtZeroSwitch());
@@ -109,7 +109,7 @@ public class Climb_Testing extends CommandBase {
 
     if (angleSetpoint != angleSetpoint_last) {
       angleSetpoint_last = angleSetpoint;
-      angleSubsystem.setAngleReference(angleSetpoint);
+      angleSubsystem.setPosition(angleSetpoint);
       System.out.println("updated angle setpoint");
     }
 
@@ -125,7 +125,7 @@ public class Climb_Testing extends CommandBase {
 
     if (angleManualPower != angleManualPower_last) {
       angleManualPower_last = angleManualPower;
-      angleSubsystem.setAnglePower(angleManualPower);
+      angleSubsystem.setPower(angleManualPower);
       System.out.println("updated angle manual power");
     }
 

@@ -68,11 +68,11 @@ public class Climb_LiftArm extends CommandBase {
         // if either arm isn't pressing the switch
         if (!angleSubsystem.getLeftArmAtZeroSwitch() || !angleSubsystem.getRightArmAtZeroSwitch()) {
           angleSubsystem.enableAnglePid(false);  // disable the angle pid
-          angleSubsystem.setAnglePower(-0.2);  // rotate back
+          angleSubsystem.setPower(-0.2);  // rotate back
         } else {  // if both arms are pressing the switch
-          angleSubsystem.setAnglePower(0.0);  // stop the motors
-          angleSubsystem.setAngleEncoderPosition(0.0);  // zero the encoder
-          angleSubsystem.setAngleReference(0.0);  // set the PID ref to zero
+          angleSubsystem.setPower(0.0);  // stop the motors
+          angleSubsystem.setEncoderPosition(0.0);  // zero the encoder
+          angleSubsystem.setPosition(0.0);  // set the PID ref to zero
           climbStep = climbStep + 1; // go to next step
         }
 
@@ -81,7 +81,7 @@ public class Climb_LiftArm extends CommandBase {
         liftSubsystem.enablePID(true);  // re-enable the lift pid
         angleSubsystem.enableAnglePid(true);  // re-enable the angle pid
         liftSubsystem.setPosition(15.0);  // winch out 15 inches
-        angleSubsystem.setAngleReference(60);  // angle arm 60 degrees
+        angleSubsystem.setPosition(60);  // angle arm 60 degrees
         climbStep = climbStep + 1;  // go to next step
       
       case 3:
