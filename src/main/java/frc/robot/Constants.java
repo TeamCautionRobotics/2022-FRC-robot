@@ -86,6 +86,8 @@ public final class Constants {
             public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
+            public static final double kIMax = 0.1;
+            public static final double kIMin = -0.1;
 
             // math
             public static final double encoderDistancePerPulse = 360.0 / (4096.0 * 10.0);  // return units in degrees

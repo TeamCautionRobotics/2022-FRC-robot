@@ -19,12 +19,14 @@ public class ClimbAngle extends SubsystemBase {
   // angler pid 
   private final PIDController anglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
   private boolean pidEnabled = false;
-  private boolean pidDisabled = true;
+  private boolean pidDisabled = false;
   private double setpoint = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
+
+    setIRange(Constants.Climb.angler.kIMax, Constants.Climb.angler.kIMin);
 
     // motor controllers
     this.leftMotor = leftAngleMotor;
@@ -54,6 +56,10 @@ public class ClimbAngle extends SubsystemBase {
 
   public void setD(double kD) {
     anglePID.setD(kD);
+  }
+
+  public void setIRange(double low, double high) {
+    anglePID.setIntegratorRange(low, high);
   }
 
   /**

@@ -24,7 +24,7 @@ public class ClimbLift extends SubsystemBase {
   private PIDController rightPID = new PIDController(Constants.Climb.lift.kP, Constants.Climb.lift.kI, Constants.Climb.lift.kD);
 
   private boolean PIDEnabled = false;
-  private boolean PIDDisabled = true;
+  private boolean PIDDisabled = false;
   private double setpoint = Constants.Climb.lift.initialReference;
 
 

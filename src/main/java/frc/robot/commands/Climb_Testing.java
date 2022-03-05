@@ -21,6 +21,8 @@ public class Climb_Testing extends CommandBase {
   private double angle_kP = Constants.Climb.angler.kP;
   private double angle_kI = Constants.Climb.angler.kI;
   private double angle_kD = Constants.Climb.angler.kD;
+  private double angle_kIMax = Constants.Climb.angler.kIMax;
+  private double angle_kIMin = Constants.Climb.angler.kIMin;
 
   private boolean anglePidEnabled_last = false;
   private double angleSetpoint_last = 0;
@@ -28,6 +30,8 @@ public class Climb_Testing extends CommandBase {
   private double angle_kP_last = Constants.Climb.angler.kP;
   private double angle_kI_last = Constants.Climb.angler.kI;
   private double angle_kD_last = Constants.Climb.angler.kD;
+  private double angle_kIMax_last = Constants.Climb.angler.kIMax;
+  private double angle_kIMin_last = Constants.Climb.angler.kIMin;
 
   // lift vars
   private boolean liftPidEnabled = false;
@@ -74,6 +78,8 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Angle P", angle_kP);
     SmartDashboard.putNumber("Angle I", angle_kI);
     SmartDashboard.putNumber("Angle D", angle_kD);
+    SmartDashboard.putNumber("Angle I Min", angle_kIMin);
+    SmartDashboard.putNumber("Angle I Max", angle_kIMax);
     SmartDashboard.putNumber("Angle Manual Pwr", angleManualPower);
 
     // lift vars
@@ -111,6 +117,8 @@ public class Climb_Testing extends CommandBase {
     angle_kP = SmartDashboard.getNumber("Angle P", 0.0);
     angle_kI = SmartDashboard.getNumber("Angle I", 0.0);
     angle_kD = SmartDashboard.getNumber("Angle D", 0.0);
+    angle_kIMin = SmartDashboard.getNumber("Angle I Min", 0.0);
+    angle_kIMax = SmartDashboard.getNumber("Angle I Max", 0.0);
     angleManualPower = SmartDashboard.getNumber("Angle Manual Pwr", 0.0);
 
     if (anglePidEnabled != anglePidEnabled_last) {
@@ -143,6 +151,13 @@ public class Climb_Testing extends CommandBase {
       System.out.println("updated angle kD");
     }
 
+    if ((angle_kIMax != angle_kIMax_last) || (angle_kIMin != angle_kIMin_last)) {
+      angle_kIMax_last = angle_kIMax;
+      angle_kIMin_last = angle_kIMin;
+      angleSubsystem.setIRange(angle_kIMax, angle_kIMin);
+      System.out.println("updated angle i range");
+    }
+
     if (angleManualPower != angleManualPower_last) {
       angleManualPower_last = angleManualPower;
       angleSubsystem.setPower(angleManualPower);
@@ -170,6 +185,8 @@ public class Climb_Testing extends CommandBase {
     lift_kP = SmartDashboard.getNumber("Lift P", 0.0);
     lift_kI = SmartDashboard.getNumber("Lift I", 0.0);
     lift_kD = SmartDashboard.getNumber("Lift D", 0.0);
+    lift_kIMin = SmartDashboard.getNumber("Lift I Min", 0.0);
+    lift_kIMax = SmartDashboard.getNumber("Lift I Max", 0.0);
     liftManualPower = SmartDashboard.getNumber("Lift Manual Pwr", 0.0);
 
     resetLiftEnc = SmartDashboard.getBoolean("Reset Lift Enc.", false);
