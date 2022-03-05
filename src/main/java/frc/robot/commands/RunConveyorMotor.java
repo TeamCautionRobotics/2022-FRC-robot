@@ -14,9 +14,6 @@ public class RunConveyorMotor extends CommandBase {
   }
 
   @Override
-  public void initialize() {}
-
-  @Override
   public void execute() {
     conveyor.setConveyorMotor(1.0);
   }
