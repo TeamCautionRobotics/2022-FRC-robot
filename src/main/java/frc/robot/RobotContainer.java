@@ -53,7 +53,6 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
-    intakeMotorButton.whenReleased(new RunIntakeMotor(intake));
 
   }
 
