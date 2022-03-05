@@ -10,28 +10,25 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class ClimbAngle extends SubsystemBase {
 
-  private final WPI_TalonSRX leftAngleMotor;
-  private final WPI_TalonSRX rightAngleMotor;
+  private final WPI_TalonSRX leftMotor;
+  private final WPI_TalonSRX rightMotor;
 
   private final DigitalInput leftArmAtZeroSwitch;
   private final DigitalInput rightArmAtZeroSwitch;
 
   // angler pid 
-  private final PIDController leftAnglePID;
-  private final PIDController rightAnglePID;
-  private boolean anglePidEnabled = true;
-  private boolean anglePidDisabled = false;
-  private double angleSetpoint = Constants.Climb.angler.initialSetpoint;
+  private final PIDController anglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+  private boolean pidEnabled = true;
+  private boolean pidDisabled = false;
+  private double setpoint = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
 
-    this.leftAngleMotor = leftAngleMotor;
-    leftAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
-
-    this.rightAngleMotor = rightAngleMotor;
-    rightAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+    // motor controllers
+    this.leftMotor = leftAngleMotor;
+    this.rightMotor = rightAngleMotor;
 
     // limit switches
     this.leftArmAtZeroSwitch = leftArmAtZeroSwitch;
@@ -44,23 +41,19 @@ public class ClimbAngle extends SubsystemBase {
    * @param enable
    */
   public void enableAnglePid(boolean enable) {
-    anglePidEnabled = enable;
+    pidEnabled = enable;
   }
 
-  /**
-   * updates the angle pid vars with new data.
-   * THIS WILL BE LOST IF ROBOT IS POWERED OFF!
-   * @param kP
-   * @param kI
-   * @param kD
-   */
-  public void setPidVars(double kP, double kI, double kD) {
-    leftAnglePID.setP(kP);
-    leftAnglePID.setI(kI);
-    leftAnglePID.setD(kD);
-    rightAnglePID.setP(kP);
-    rightAnglePID.setI(kI);
-    rightAnglePID.setD(kD);
+  public void setP(double kP) {
+    anglePID.setP(kP);
+  }
+
+  public void setI(double kI) {
+    anglePID.setI(kI);
+  }
+
+  public void setD(double kD) {
+    anglePID.setD(kD);
   }
 
   /**
@@ -68,7 +61,7 @@ public class ClimbAngle extends SubsystemBase {
    * @param reference angle
    */
   public void setPosition(double reference) {
-    angleSetpoint = reference;
+    setpoint = reference;
   }
 
   /**
@@ -77,8 +70,8 @@ public class ClimbAngle extends SubsystemBase {
    * @param power the desired power output (-1.0 to 1.0)
    */
   public void setPower(double power) {
-    leftAngleMotor.set(power);
-    rightAngleMotor.set(power);
+    leftMotor.set(power);
+    rightMotor.set(power);
   }
 
   /**
@@ -86,8 +79,17 @@ public class ClimbAngle extends SubsystemBase {
    * @param mode
    */
   public void setNeutralMode(NeutralMode mode) {
-    leftAngleMotor.setNeutralMode(mode);
-    rightAngleMotor.setNeutralMode(mode);
+    leftMotor.setNeutralMode(mode);
+    rightMotor.setNeutralMode(mode);
+  }
+  
+  /**
+   * sets the angle encoder's position (useful for zeroing)
+   * @param pos position to set
+   */
+  public void setEncoderPosition(double pos) {
+    leftMotor.setSelectedSensorPosition(pos);
+    rightMotor.setSelectedSensorPosition(pos);
   }
 
   /**
@@ -95,38 +97,29 @@ public class ClimbAngle extends SubsystemBase {
    * @param coeff
    */
   public void setEncoderCoefficient(double coeff) {
-    leftAngleMotor.configSelectedFeedbackCoefficient(coeff);
-    rightAngleMotor.configSelectedFeedbackCoefficient(coeff);
-  }
-
-  /**
-   * sets the angle encoder's position (useful for zeroing)
-   * @param pos position to set
-   */
-  public void setEncoderPosition(double pos) {
-    leftAngleMotor.setSelectedSensorPosition(pos);
-    rightAngleMotor.setSelectedSensorPosition(pos);
+    leftMotor.configSelectedFeedbackCoefficient(coeff);
+    rightMotor.configSelectedFeedbackCoefficient(coeff);
   }
 
   /**
    * @return angle reference point
    */
   public double getSetpoint() {
-    return angleSetpoint;
+    return setpoint;
   }
 
   /**
    * @return the getDistance method of the left angle encode
    */
   public double getLeftEncoderDistance() {
-    return leftAngleMotor.getSelectedSensorPosition();
+    return leftMotor.getSelectedSensorPosition();
   }
 
   /**
    * @return the getDistance method of the right angle encoder
    */
   public double getRightEncoderDistance() {
-    return rightAngleMotor.getSelectedSensorPosition();
+    return rightMotor.getSelectedSensorPosition();
   }
 
   /**
@@ -147,24 +140,28 @@ public class ClimbAngle extends SubsystemBase {
    * cut power to angle motors
    */
   public void stop() {
-    leftAngleMotor.stopMotor();
-    rightAngleMotor.stopMotor();
+    leftMotor.stopMotor();
+    rightMotor.stopMotor();
   }
 
   @Override
   public void periodic() {
 
     // update PID for angle
-    if (anglePidEnabled) {
-      anglePidDisabled = false;
-      leftAngleMotor.set(leftAnglePID.calculate(getLeftEncoderDistance(), angleSetpoint));
-      rightAngleMotor.set(rightAnglePID.calculate(getRightEncoderDistance(), angleSetpoint));
+    if (pidEnabled) {
+
+      pidDisabled = false;
+      double averageDist = (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
+      double power = anglePID.calculate(averageDist, setpoint);
+      leftMotor.set(power);
+      rightMotor.set(power);
+
     } else {
       
-      if (!anglePidDisabled) {
-        anglePidDisabled = true;
-        leftAngleMotor.set(0);
-        rightAngleMotor.set(0);
+      if (!pidDisabled) {
+        pidDisabled = true;
+        leftMotor.set(0);
+        rightMotor.set(0);
       }
 
     }

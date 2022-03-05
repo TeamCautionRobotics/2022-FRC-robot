@@ -113,15 +113,23 @@ public class Climb_Testing extends CommandBase {
       System.out.println("updated angle setpoint");
     }
 
-    if ((angle_kP != angle_kP_last) ||
-        (angle_kI != angle_kI_last) ||
-        (angle_kD != angle_kD_last)) {
-          angle_kP_last = angle_kP;
-          angle_kI_last = angle_kI;
-          angle_kD_last = angle_kD;
-          angleSubsystem.setPidVars(angle_kP, angle_kI, angle_kD);
-          System.out.println("updated angle PID vars");
-        }
+    if (angle_kP != angle_kP_last) {
+      angle_kP_last = angle_kP;
+      angleSubsystem.setP(angle_kP);
+      System.out.println("updated angle kP");
+    }
+
+    if (angle_kI != angle_kI_last) {
+      angle_kI_last = angle_kI;
+      angleSubsystem.setI(angle_kI);
+      System.out.println("updated angle kI");
+    }
+
+    if (angle_kD != angle_kD_last) {
+      angle_kD_last = angle_kD;
+      angleSubsystem.setD(angle_kD);
+      System.out.println("updated angle kD");
+    }
 
     if (angleManualPower != angleManualPower_last) {
       angleManualPower_last = angleManualPower;
