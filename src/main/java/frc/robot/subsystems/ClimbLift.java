@@ -64,8 +64,8 @@ public class ClimbLift extends SubsystemBase {
   }
 
   public void setI(double kI) {
-    leftPID.setP(kI);
-    rightPID.setP(kI);
+    leftPID.setI(kI);
+    rightPID.setI(kI);
   }
 
   public void setD(double kD) {
@@ -75,6 +75,7 @@ public class ClimbLift extends SubsystemBase {
 
   public void setIRange(double low, double high) {
     leftPID.setIntegratorRange(low, high);
+    rightPID.setIntegratorRange(low, high);
   }
 
   /**
