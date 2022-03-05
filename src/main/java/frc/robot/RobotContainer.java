@@ -8,7 +8,9 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
@@ -18,6 +20,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.SetConveyorGate;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
@@ -36,6 +39,7 @@ public class RobotContainer {
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);  
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
   public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
+  public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 1);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -68,6 +72,7 @@ public class RobotContainer {
     
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
+    conveyor.setDefaultCommand(new SetConveyorGate(conveyor, true));  // automatically set the gate when not in use
 
   }
 
@@ -78,6 +83,10 @@ public class RobotContainer {
     
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
+
+    grabBallButton.whenHeld(
+      new ParallelCommandGroup(new SetConveyorGate(conveyor, false), new RunConveyorMotor(conveyor))
+    );
 
   }
 
