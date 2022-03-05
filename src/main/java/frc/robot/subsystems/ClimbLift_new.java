@@ -2,44 +2,43 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+
 public class ClimbLift_new extends SubsystemBase {
 
-  // lifter objects
+  // lifter devices
   private final CANSparkMax leftLifterMotor;
-  private final RelativeEncoder leftLifterEncoder;
   private final CANSparkMax rightLifterMotor;
+  private final RelativeEncoder leftLifterEncoder;
   private final RelativeEncoder rightLifterEncoder;
-
-  // lifter pid objects
-  private boolean PIDEnabled = true;
-  private double lifterSetpoint = Constants.Climb.lift.initialReference;
-  private ControlType lifterControlType = ControlType.kPosition;
-  private double lifter_kP = Constants.Climb.lift.kP;
-  private double lifter_kI = Constants.Climb.lift.kI;
-  private double lifter_kD = Constants.Climb.lift.kD;
-
-  // limit switches
   private DigitalInput leftArmFullyDownSwitch;
   private DigitalInput rightArmFullyDownSwitch;
-  
+
+  // lifter pid variables
+  private PIDController leftPID = new PIDController(Constants.Climb.lift.kP, Constants.Climb.lift.kI, Constants.Climb.lift.kD);
+  private PIDController rightPID = new PIDController(Constants.Climb.lift.kP, Constants.Climb.lift.kI, Constants.Climb.lift.kD);
+
+  private boolean PIDEnabled = true;
+  private boolean PIDDisabled = false;
+  private double setpoint = Constants.Climb.lift.initialReference;
+
 
   public ClimbLift_new(CANSparkMax leftLifter, CANSparkMax rightLifter, DigitalInput leftArmFullyDownSwitch, DigitalInput rightArmFullyDownSwitch) {
-
-    // limit switches
-    this.leftArmFullyDownSwitch = leftArmFullyDownSwitch;
-    this.rightArmFullyDownSwitch = rightArmFullyDownSwitch;
 
     // lifter
     this.leftLifterMotor = leftLifter;
     leftLifterEncoder = leftLifter.getEncoder();
     this.rightLifterMotor = rightLifter;
     rightLifterEncoder = rightLifter.getEncoder();
+    
+    // limit switches
+    this.leftArmFullyDownSwitch = leftArmFullyDownSwitch;
+    this.rightArmFullyDownSwitch = rightArmFullyDownSwitch;
 
     // set lifter conversion factor (divide by 60 to get /sec instead of /min)
     leftLifterEncoder.setPositionConversionFactor(Constants.Climb.lift.encoderConversionFactor);
@@ -57,6 +56,21 @@ public class ClimbLift_new extends SubsystemBase {
     PIDEnabled = e;
   }
 
+  public void setP(double kP) {
+    leftPID.setP(kP);
+    rightPID.setP(kP);
+  }
+
+  public void setI(double kI) {
+    leftPID.setP(kI);
+    rightPID.setP(kI);
+  }
+
+  public void setD(double kD) {
+    leftPID.setD(kD);
+    rightPID.setD(kD);
+  }
+
   /**
    * sets the position of the encoders (useful for reset)
    * @param pos position to set
@@ -71,25 +85,28 @@ public class ClimbLift_new extends SubsystemBase {
    * @param pos desired point (length in inches)
    * @param controlType reference type
    */
-  public void setPosition(double pos, ControlType controlType) {
-    lifterSetpoint = pos;
-    lifterControlType = controlType;
+  public void setPosition(double pos) {
+    setpoint = pos;
   }
 
   /**
    * manually set the power of the lift motors.
+   * 
+   * <p> you must disable the pid to use this
    * @param power the desired lifter motor power
    */
   public void setPower(double power) {
-    leftLifterMotor.set(power);
-    rightLifterMotor.set(power);
+    if (!PIDEnabled) {
+      leftLifterMotor.set(power);
+      rightLifterMotor.set(power);
+    }
   }
 
   /**
    * @return lifter setpoint
    */
   public double getSetpoint() {
-    return lifterSetpoint;
+    return setpoint;
   }
 
   /**
@@ -121,14 +138,6 @@ public class ClimbLift_new extends SubsystemBase {
   }
 
   /**
-   * cut power to lifter motors
-   */
-  public void stop() {
-    leftLifterMotor.stopMotor();
-    rightLifterMotor.stopMotor();
-  }
-
-  /**
    * get left switch state (true is pressed)
    */
   public boolean getLeftArmFullyDownSwitch() {
@@ -142,8 +151,31 @@ public class ClimbLift_new extends SubsystemBase {
     return !rightArmFullyDownSwitch.get();
   }
 
+  /**
+   * cut power to lifter motors
+   */
+  public void stop() {
+    leftLifterMotor.stopMotor();
+    rightLifterMotor.stopMotor();
+  }
+
   @Override
   public void periodic() {
+
+    if (PIDEnabled) {
+
+      leftLifterMotor.set(leftPID.calculate(getLeftLiftPosition(), setpoint));
+      rightLifterMotor.set(rightPID.calculate(getRightLiftPosition(), setpoint));
+
+    } else {
+
+      if (!PIDDisabled) {
+        leftLifterMotor.set(0);
+        rightLifterMotor.set(0);
+        PIDDisabled = true;
+      }
+
+    }
 
   }
 
