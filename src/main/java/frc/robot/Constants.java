@@ -50,10 +50,8 @@ public final class Constants {
             public static final int leftArmFullyDownSwitchPort = 0;
             public static final int rightArmFullyDownSwtichPort = 1;
 
-
-            // one tick is one rotation of the winch motor
-            // motor -> 3:1 -> 3:1 -> out
-            public static final double encoderConversionFactor = (1.0 / 3.0 / 3.0) * ((1.425 / 2.0) * Math.PI);
+            // motor -> 3:1 -> 3:1 -> drum (r=0.7125in)
+            public static final double encoderConversionFactor = (0.7125 * Math.PI) / (1.0 / 9.0);  // output in inches
 
             // spark max pid
             // TODO: find these
