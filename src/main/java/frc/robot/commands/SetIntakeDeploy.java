@@ -5,13 +5,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class SetIntakeDeploy extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Intake m_subsystem;
+  private final Intake intakeSubsystem;
   private boolean commandFinished = false;
 
   private boolean intakeState;
 
   public SetIntakeDeploy(Intake subsystem, boolean state) {
-    m_subsystem = subsystem;
+    intakeSubsystem = subsystem;
 
     intakeState = state;
 
@@ -21,7 +21,7 @@ public class SetIntakeDeploy extends CommandBase {
   @Override
   public void execute() {
 
-    m_subsystem.setDeploy(intakeState);
+    intakeSubsystem.setDeploy(intakeState);
     commandFinished = true;
 
   }

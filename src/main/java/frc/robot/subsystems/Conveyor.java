@@ -17,23 +17,16 @@ public class Conveyor extends SubsystemBase {
 
   }
 
-  public void setConveyorMotor(double power) {
+  public void runMotor(double power) {
     conveyorMotor.set(power);
   }
 
-  public void setGatePiston(boolean state) {
+  public void setGate(boolean state) {
     gatePiston.set(state);
   }
 
-  public boolean getGatePiston() {
+  public boolean getGate() {
     return gatePiston.get();
   }
-
-  @Override
-  public void periodic() {
-  }
-
-  @Override
-  public void simulationPeriodic() {
-  }
+  
 }

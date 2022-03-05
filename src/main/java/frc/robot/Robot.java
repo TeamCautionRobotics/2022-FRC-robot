@@ -48,12 +48,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {
-
-    // Retract intake when disabled
-    m_robotContainer.intake.setDeploy(false);
-
-  }
+  public void disabledInit() {}
 
   @Override
   public void disabledPeriodic() {}

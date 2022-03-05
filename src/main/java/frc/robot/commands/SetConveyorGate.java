@@ -5,12 +5,12 @@ import frc.robot.subsystems.Conveyor;
 
 public class SetConveyorGate extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Conveyor conveyor;
+  private final Conveyor conveyorSubsystem;
   private boolean commandDone = false;
   private boolean gateState;
 
   public SetConveyorGate(Conveyor conveyor, boolean state) {
-    this.conveyor = conveyor;
+    this.conveyorSubsystem = conveyor;
     this.gateState = state;
 
     addRequirements(conveyor);
@@ -18,7 +18,7 @@ public class SetConveyorGate extends CommandBase {
 
   @Override
   public void execute() {
-    conveyor.setGatePiston(gateState);
+    conveyorSubsystem.setGate(gateState);
     commandDone = true;
   }
 

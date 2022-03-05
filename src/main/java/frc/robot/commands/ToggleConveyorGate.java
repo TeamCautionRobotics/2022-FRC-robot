@@ -5,11 +5,11 @@ import frc.robot.subsystems.Conveyor;
 
 public class ToggleConveyorGate extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Conveyor conveyor;
+  private final Conveyor conveyorSubsystem;
   private boolean commandDone = false;
 
   public ToggleConveyorGate(Conveyor conveyor) {
-    this.conveyor = conveyor;
+    this.conveyorSubsystem = conveyor;
 
     addRequirements(conveyor);
   }
@@ -17,7 +17,7 @@ public class ToggleConveyorGate extends CommandBase {
   @Override
   public void execute() {
 
-    conveyor.setGatePiston(!conveyor.getGatePiston());
+    conveyorSubsystem.setGate(!conveyorSubsystem.getGate());
     commandDone = true;
 
   }
