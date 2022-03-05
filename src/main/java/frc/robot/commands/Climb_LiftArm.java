@@ -80,7 +80,7 @@ public class Climb_LiftArm extends CommandBase {
 
         liftSubsystem.enablePID(true);  // re-enable the lift pid
         angleSubsystem.enableAnglePid(true);  // re-enable the angle pid
-        liftSubsystem.setPosition(15.0);  // winch out 15 inches
+        liftSubsystem.setPosition(20.0);  // winch out 15 inches
         angleSubsystem.setPosition(60);  // angle arm 60 degrees
         climbStep = climbStep + 1;  // go to next step
       
@@ -90,21 +90,7 @@ public class Climb_LiftArm extends CommandBase {
 
     }
 
-
-    // check if motor current has exceeded threshold, if so, activate safe mode
-
-    if (liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold ||
-        liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
-
-          System.out.println("ERROR: LIFT MOTORS HAVE EXCEEDED THE CURRENT LIMIT! ACTIVATING SAFE MODE");
-          climbStep = 0;
-
-    }
-
   }
-
-  @Override
-  public void end(boolean interrupted) {}
 
   @Override
   public boolean isFinished() {

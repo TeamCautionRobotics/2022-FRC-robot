@@ -18,12 +18,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
+import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_Testing;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 import frc.robot.Constants;
+import frc.robot.Constants.Climb.angler;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
@@ -45,6 +47,7 @@ public class RobotContainer {
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);  
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
   public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
+  public final JoystickButton liftArmButton = new JoystickButton(leftJoystick, 6);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -132,6 +135,7 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
+    liftArmButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
   }
 
 
