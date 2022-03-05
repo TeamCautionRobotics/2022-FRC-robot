@@ -18,8 +18,8 @@ public class ClimbAngle extends SubsystemBase {
 
   // angler pid 
   private final PIDController anglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
-  private boolean pidEnabled = true;
-  private boolean pidDisabled = false;
+  private boolean pidEnabled = false;
+  private boolean pidDisabled = true;
   private double setpoint = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(

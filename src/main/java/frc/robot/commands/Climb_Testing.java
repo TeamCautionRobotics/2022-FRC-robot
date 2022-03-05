@@ -15,14 +15,14 @@ public class Climb_Testing extends CommandBase {
   private final ClimbLift liftSubsystem;
 
   // angle vars
-  private boolean anglePidEnabled = true;
+  private boolean anglePidEnabled = false;
   private double angleSetpoint = 0;
   private double angleManualPower = 0;
   private double angle_kP = Constants.Climb.angler.kP;
   private double angle_kI = Constants.Climb.angler.kI;
   private double angle_kD = Constants.Climb.angler.kD;
 
-  private boolean anglePidEnabled_last = true;
+  private boolean anglePidEnabled_last = false;
   private double angleSetpoint_last = 0;
   private double angleManualPower_last = 0;
   private double angle_kP_last = Constants.Climb.angler.kP;
@@ -30,20 +30,24 @@ public class Climb_Testing extends CommandBase {
   private double angle_kD_last = Constants.Climb.angler.kD;
 
   // lift vars
-  private boolean liftPidEnabled = true;
+  private boolean liftPidEnabled = false;
   private double liftSetpoint = 0;
   private double liftManualPower = 0;
   private double lift_kP = Constants.Climb.lift.kP;
   private double lift_kI = Constants.Climb.lift.kI;
   private double lift_kD = Constants.Climb.lift.kD;
+  private double lift_kIMax = Constants.Climb.lift.kIMax;
+  private double lift_kIMin = Constants.Climb.lift.kIMin;
   private boolean resetLiftEnc = false;
 
-  private boolean liftPidEnabled_last = true;
+  private boolean liftPidEnabled_last = false;
   private double liftSetpoint_last = 0;
   private double liftManualPower_last = 0;
   private double lift_kP_last = Constants.Climb.lift.kP;
   private double lift_kI_last = Constants.Climb.lift.kI;
   private double lift_kD_last = Constants.Climb.lift.kD;
+  private double lift_kIMax_last = Constants.Climb.lift.kIMax;
+  private double lift_kIMin_last = Constants.Climb.lift.kIMin;
   private boolean resetLiftEnc_last = false;
 
   // hook vars
@@ -79,6 +83,8 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Lift I", lift_kI);
     SmartDashboard.putNumber("Lift D", lift_kD);
     SmartDashboard.putNumber("Lift Manual Pwr", liftManualPower);
+    SmartDashboard.putNumber("Lift I Min", lift_kIMin);
+    SmartDashboard.putNumber("Lift I Max", lift_kIMax);
     SmartDashboard.putBoolean("Reset Lift Enc.", resetLiftEnc);
 
     // hook vars
@@ -152,6 +158,11 @@ public class Climb_Testing extends CommandBase {
 
     SmartDashboard.putBoolean("Lift Left Sw", liftSubsystem.getLeftArmFullyDownSwitch());
     SmartDashboard.putBoolean("Lift Right Sw", liftSubsystem.getRightArmFullyDownSwitch());
+
+    // reset encoders when switch hit
+    if (liftSubsystem.getLeftArmFullyDownSwitch() && liftSubsystem.getRightArmFullyDownSwitch()) {
+      liftSubsystem.setEncoderPosition(0);
+    }
     
     // update lift vars
     liftPidEnabled = SmartDashboard.getBoolean("Lift PID Enable", true);
@@ -203,6 +214,13 @@ public class Climb_Testing extends CommandBase {
       resetLiftEnc_last = resetLiftEnc;
       liftSubsystem.setEncoderPosition(0);
       System.out.println("reset lift encoders");
+    }
+
+    if ((lift_kIMax != lift_kIMax_last) || (lift_kIMin != lift_kIMin_last)) {
+      lift_kIMax_last = lift_kIMax;
+      lift_kIMin_last = lift_kIMin;
+      liftSubsystem.setIRange(lift_kIMax, lift_kIMin);
+      System.out.println("updated lift i range");
     }
 
     // update hook vars

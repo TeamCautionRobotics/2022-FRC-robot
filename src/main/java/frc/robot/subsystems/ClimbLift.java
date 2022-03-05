@@ -23,12 +23,14 @@ public class ClimbLift extends SubsystemBase {
   private PIDController leftPID = new PIDController(Constants.Climb.lift.kP, Constants.Climb.lift.kI, Constants.Climb.lift.kD);
   private PIDController rightPID = new PIDController(Constants.Climb.lift.kP, Constants.Climb.lift.kI, Constants.Climb.lift.kD);
 
-  private boolean PIDEnabled = true;
-  private boolean PIDDisabled = false;
+  private boolean PIDEnabled = false;
+  private boolean PIDDisabled = true;
   private double setpoint = Constants.Climb.lift.initialReference;
 
 
   public ClimbLift(CANSparkMax leftLifter, CANSparkMax rightLifter, DigitalInput leftArmFullyDownSwitch, DigitalInput rightArmFullyDownSwitch) {
+
+    this.setIRange(Constants.Climb.lift.kIMin, Constants.Climb.lift.kIMax);
 
     // lifter
     this.leftLifterMotor = leftLifter;
@@ -69,6 +71,10 @@ public class ClimbLift extends SubsystemBase {
   public void setD(double kD) {
     leftPID.setD(kD);
     rightPID.setD(kD);
+  }
+
+  public void setIRange(double low, double high) {
+    leftPID.setIntegratorRange(low, high);
   }
 
   /**

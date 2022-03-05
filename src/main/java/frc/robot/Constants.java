@@ -55,6 +55,8 @@ public final class Constants {
             public static final double kP = 0.08;
             public static final double kI = 0.4;
             public static final double kD = 0.01;
+            public static final double kIMin = -0.1;
+            public static final double kIMax = 0.1;
 
             // thresholds in inches
             public static final double fullyLoweredThreshold = 5.0;
