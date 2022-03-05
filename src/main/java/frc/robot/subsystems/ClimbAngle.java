@@ -136,6 +136,14 @@ public class ClimbAngle extends SubsystemBase {
     return !rightArmAtZeroSwitch.get();
   }
 
+  public double getLeftPower() {
+    return leftMotor.get();
+  }
+
+  public double getRightPower() {
+    return rightMotor.get();
+  }
+
   /**
    * cut power to angle motors
    */

@@ -35,7 +35,7 @@ public class Climb_Testing extends CommandBase {
   private double liftManualPower = 0;
   private double lift_kP = Constants.Climb.lift.kP;
   private double lift_kI = Constants.Climb.lift.kI;
-  private double lift_kD = Constants.Climb.lift.kI;
+  private double lift_kD = Constants.Climb.lift.kD;
   private boolean resetLiftEnc = false;
 
   private boolean liftPidEnabled_last = true;
@@ -95,6 +95,9 @@ public class Climb_Testing extends CommandBase {
 
     SmartDashboard.putBoolean("Angle Left Sw", angleSubsystem.getLeftArmAtZeroSwitch());
     SmartDashboard.putBoolean("Angle Right Sw", angleSubsystem.getRightArmAtZeroSwitch());
+
+    SmartDashboard.putNumber("Angle Left Power", angleSubsystem.getLeftPower());
+    SmartDashboard.putNumber("Angle Right Power", angleSubsystem.getRightPower());
   
     // update angle vars
     anglePidEnabled =  SmartDashboard.getBoolean("Angle PID Enable", false);
