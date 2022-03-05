@@ -49,18 +49,12 @@ public final class Constants {
             public static final int rightArmFullyDownSwtichPort = 1;
 
             // motor -> 3:1 -> 3:1 -> drum (r=0.7125in)
-            public static final double encoderConversionFactor = (0.7125 * Math.PI) / (1.0 / 9.0);  // output in inches
+            public static final double encoderConversionFactor = (Math.PI * 1.425) * (1.0 / 9.0);  // output in inches
 
-            // spark max pid
-            // TODO: find these
             public static final double initialReference = 0.0;
-            public static final double kP = 0.0;
-            public static final double kI = 0.0;
+            public static final double kP = 0.08;
+            public static final double kI = 0.2;
             public static final double kD = 0.0;
-            public static final double kIz = 0.0;
-            public static final double kFF = 0.0;
-            public static final double kMinOutput = -1.0;
-            public static final double kMaxOutput = 1.0;
 
             // thresholds in inches
             public static final double fullyLoweredThreshold = 5.0;
