@@ -12,11 +12,19 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
+import frc.robot.Constants;
+import frc.robot.commands.RunConveyorMotor;
+import frc.robot.commands.TankDrive;
+import frc.robot.commands.ToggleConveyorGate;
+import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 public class RobotContainer {
@@ -26,36 +34,45 @@ public class RobotContainer {
   public final Gamepad manipulator = new Gamepad(Constants.Driver.manipulatorPort);
 
   public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 2);
-  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);
+  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);  
+  public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
+  public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
   public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightSpark0ID, MotorType.kBrushless);
   public final CANSparkMax rightDrive1 = new CANSparkMax(Constants.DriveBase.rightSpark1ID, MotorType.kBrushless);
-
+  
   public final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.Intake.intakeMotorID);
   public final Solenoid intakeDeploy = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Intake.pistonPCMChannel);
+  
+  public final Solenoid gatePiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Conveyor.gatePCMChannel);
+  public final WPI_VictorSPX conveyorMotor = new WPI_VictorSPX(Constants.Conveyor.motorID);
 
   public final DriveBase driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
+  public final Conveyor conveyor = new Conveyor(conveyorMotor, gatePiston);
   public final Intake intake = new Intake(intakeMotor, intakeDeploy);
 
   public RobotContainer() {
     configureButtonBindings();
 
+    conveyorMotor.setNeutralMode(NeutralMode.Brake);
+  
     intakeMotor.setInverted(true);
     intakeMotor.setNeutralMode(NeutralMode.Brake);
 
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
-
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
 
   }
 
   private void configureButtonBindings() {
 
-    intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
+    conveyorGateButton.whenPressed(new ToggleConveyorGate(conveyor));
+    conveyorMotorButton.whenHeld(new RunConveyorMotor(conveyor));
     
+    intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
   }

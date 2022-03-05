@@ -31,6 +31,12 @@ public final class Constants {
         public static final int rightSpark1ID = 13;
     }
 
+    public static final class Conveyor {
+
+        public static final int motorID = 21;
+        public static final int gatePCMChannel = 02;
+    }
+        
     public static final class Intake {
 
         // TODO: Find these
