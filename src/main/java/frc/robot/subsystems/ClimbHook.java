@@ -12,11 +12,11 @@ public class ClimbHook extends SubsystemBase {
   }
 
   /**
-   * Sets the static hook's state
+   * Sets the static hook's state. it is inverted on the bot!
    * @param state false: in, true: out
    */
   public void setHook(boolean state) {
-    hookPiston.set(state);
+    hookPiston.set(!state);
   }
   
   /**
