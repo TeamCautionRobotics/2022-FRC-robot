@@ -5,8 +5,6 @@ import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 
-import com.revrobotics.CANSparkMax.ControlType;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb_LiftArm extends CommandBase {
