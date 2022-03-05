@@ -8,7 +8,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -39,7 +38,8 @@ public class RobotContainer {
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);  
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
   public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
-  public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 1);
+  public final JoystickButton shootBallButton = new JoystickButton(leftJoystick, 1);
+  public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 4);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -84,8 +84,11 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
-    grabBallButton.whenHeld(
+    shootBallButton.whenHeld(  // primary button for shooting. open gate and run conveyor
       new ParallelCommandGroup(new SetConveyorGate(conveyor, false), new RunConveyorMotor(conveyor))
+    );
+    grabBallButton.whenHeld(  // primary button for intaking. close gate, run conveyor and intake
+      new ParallelCommandGroup(new SetConveyorGate(conveyor, true), new RunConveyorMotor(conveyor), new RunIntakeMotor(intake))
     );
 
   }
