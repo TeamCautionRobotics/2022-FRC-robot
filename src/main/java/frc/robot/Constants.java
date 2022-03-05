@@ -36,15 +36,15 @@ public final class Constants {
         public static final class hook {
 
             // TODO: set this on controller
-            public static final int hookPCMChannel = 1;
+            public static final int hookPCMChannel = 0;
 
         }
         
         public static final class lift {
 
             // CAN IDS for motor controllers
-            public static final int leftMotorID = 30;
-            public static final int rightMotorID = 31;
+            public static final int leftMotorID = 31;
+            public static final int rightMotorID = 30;
 
             // DIO ports for switches
             public static final int leftArmFullyDownSwitchPort = 0;

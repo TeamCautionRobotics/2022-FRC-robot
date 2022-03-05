@@ -4,8 +4,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 public class ClimbAngle extends SubsystemBase {
@@ -20,6 +24,7 @@ public class ClimbAngle extends SubsystemBase {
   private final PIDController leftAnglePID;
   private final PIDController rightAnglePID;
   private boolean anglePidEnabled = true;
+  private boolean anglePidDisabled = false;
   private double angleReference = Constants.Climb.angler.initialSetpoint;
 
   public ClimbAngle(
@@ -152,8 +157,17 @@ public class ClimbAngle extends SubsystemBase {
 
     // update PID for angle
     if (anglePidEnabled) {
+      anglePidDisabled = false;
       leftAngleMotor.set(leftAnglePID.calculate(getLeftAngleEncoderDistance(), angleReference));
       rightAngleMotor.set(rightAnglePID.calculate(getRightAngleEncoderDistance(), angleReference));
+    } else {
+      
+      if (!anglePidDisabled) {
+        anglePidDisabled = true;
+        leftAngleMotor.set(0);
+        rightAngleMotor.set(0);
+      }
+
     }
     
   }

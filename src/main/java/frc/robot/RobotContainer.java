@@ -62,9 +62,13 @@ public class RobotContainer {
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
 
+    rightLifter.setInverted(true);
+
     // set the idle mode of the lift motors to braking
     leftLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+    leftAngleMotor.setInverted(true);
 
     // reset angle motors to defaults
     leftAngleMotor.configFactoryDefault();
