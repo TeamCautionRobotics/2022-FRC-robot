@@ -14,12 +14,14 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
 import frc.robot.Constants;
+import frc.robot.commands.GrabBall;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.SetConveyorGate;
+import frc.robot.commands.ShootBall;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
@@ -72,7 +74,6 @@ public class RobotContainer {
     
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
-    conveyor.setDefaultCommand(new SetConveyorGate(conveyor, true));  // automatically set the gate when not in use
 
   }
 
@@ -84,12 +85,11 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
-    shootBallButton.whenHeld(  // primary button for shooting. open gate and run conveyor
-      new ParallelCommandGroup(new SetConveyorGate(conveyor, false), new RunConveyorMotor(conveyor))
-    );
-    grabBallButton.whenHeld(  // primary button for intaking. close gate, run conveyor and intake
-      new ParallelCommandGroup(new SetConveyorGate(conveyor, true), new RunConveyorMotor(conveyor), new RunIntakeMotor(intake))
-    );
+    // shootBallButton.whenHeld(  // primary button for shooting. open gate and run conveyor
+    //   new ParallelCommandGroup(new SetConveyorGate(conveyor, false), new RunConveyorMotor(conveyor))
+    // );
+    grabBallButton.whileHeld(new GrabBall(intake, conveyor));
+    shootBallButton.whileHeld(new ShootBall(conveyor));
 
   }
 
