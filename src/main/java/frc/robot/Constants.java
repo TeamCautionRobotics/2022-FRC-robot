@@ -20,11 +20,10 @@ public final class Constants {
 
         public static final double wheelSize = 4.0;  // inches
         public static final double gearboxReductionFactor = 9.47;  // 1 / 9.47
-        public static final int motorTemperatureWarnThreshold = 60;  // 60 deg C
-        public static final int motorCurrentWarnThreshold = 100; //  TODO: Find this
-        public static final int motorCurrentMaxThreshold = 120; //  TODO: Find this
+        public static final int motorTemperatureWarnThreshold = 60;
+        public static final int motorCurrentWarnThreshold = 100;
+        public static final int motorCurrentMaxThreshold = 120;
 
-        // TODO: find these
         public static final int leftSpark0ID = 10;
         public static final int leftSpark1ID = 11;
         public static final int rightSpark0ID = 12;
@@ -35,7 +34,6 @@ public final class Constants {
 
         public static final class hook {
 
-            // TODO: set this on controller
             public static final int hookPCMChannel = 0;
 
         }
@@ -97,6 +95,20 @@ public final class Constants {
             public static final double encoderDistancePerPulse = 360.0 / (4096.0 * 10.0);  // return units in degrees
 
         }
+
+    }
+
+    public static final class Conveyor {
+
+        public static final int motorID = 21;
+        public static final int gatePCMChannel = 02;
+
+    }
+        
+    public static final class Intake {
+
+        public static final int pistonPCMChannel = 01;
+        public static final int intakeMotorID = 20;
 
     }
 }
