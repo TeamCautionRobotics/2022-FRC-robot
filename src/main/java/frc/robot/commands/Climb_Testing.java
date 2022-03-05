@@ -36,6 +36,7 @@ public class Climb_Testing extends CommandBase {
   private double lift_kP = Constants.Climb.lift.kP;
   private double lift_kI = Constants.Climb.lift.kI;
   private double lift_kD = Constants.Climb.lift.kI;
+  private boolean resetLiftEnc = false;
 
   private boolean liftPidEnabled_last = true;
   private double liftSetpoint_last = 0;
@@ -43,6 +44,7 @@ public class Climb_Testing extends CommandBase {
   private double lift_kP_last = Constants.Climb.lift.kP;
   private double lift_kI_last = Constants.Climb.lift.kI;
   private double lift_kD_last = Constants.Climb.lift.kD;
+  private boolean resetLiftEnc_last = false;
 
   // hook vars
   private boolean hookEnabled = false;
@@ -77,6 +79,7 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Lift I", lift_kI);
     SmartDashboard.putNumber("Lift D", lift_kD);
     SmartDashboard.putNumber("Lift Manual Pwr", liftManualPower);
+    SmartDashboard.putBoolean("Reset Lift Enc.", resetLiftEnc);
 
     // hook vars
     SmartDashboard.putBoolean("Hook Deployed", hookEnabled);
@@ -155,6 +158,8 @@ public class Climb_Testing extends CommandBase {
     lift_kD = SmartDashboard.getNumber("Lift D", 0.0);
     liftManualPower = SmartDashboard.getNumber("Lift Manual Pwr", 0.0);
 
+    resetLiftEnc = SmartDashboard.getBoolean("Reset Lift Enc.", false);
+
     if (liftPidEnabled != liftPidEnabled_last) {
       liftPidEnabled_last = liftPidEnabled;
       liftSubsystem.enablePID(liftPidEnabled);
@@ -189,6 +194,12 @@ public class Climb_Testing extends CommandBase {
       liftManualPower_last = liftManualPower;
       liftSubsystem.setPower(liftManualPower);
       System.out.println("updated lift manual power");
+    }
+
+    if (resetLiftEnc != resetLiftEnc_last) {
+      resetLiftEnc_last = resetLiftEnc;
+      liftSubsystem.setEncoderPosition(0);
+      System.out.println("reset lift encoders");
     }
 
     // update hook vars
