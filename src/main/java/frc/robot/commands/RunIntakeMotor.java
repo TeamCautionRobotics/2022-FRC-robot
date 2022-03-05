@@ -3,16 +3,12 @@ package frc.robot.commands;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class SetIntakeMotor extends CommandBase {
+public class RunIntakeMotor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Intake m_subsystem;
 
-  private double power;
-
-  public SetIntakeMotor(Intake subsystem, double power) {
+  public RunIntakeMotor(Intake subsystem) {
     m_subsystem = subsystem;
-
-    this.power = power;
 
     addRequirements(subsystem);
   }
@@ -20,7 +16,7 @@ public class SetIntakeMotor extends CommandBase {
   @Override
   public void execute() {
 
-    m_subsystem.runIntake(power);
+    m_subsystem.runIntake(1.0);
 
   }
 

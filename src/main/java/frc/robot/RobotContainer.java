@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
-import frc.robot.commands.SetIntakeMotor;
+import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
@@ -27,9 +27,6 @@ public class RobotContainer {
   public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 2);
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);
 
-  public final DriveBase driveBase;
-  public final Intake intake;
-
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
   public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightSpark0ID, MotorType.kBrushless);
@@ -38,12 +35,11 @@ public class RobotContainer {
   public final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.Intake.intakeMotorID);
   public final Solenoid intakeDeploy = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Intake.pistonPCMChannel);
 
+  public final DriveBase driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
+  public final Intake intake = new Intake(intakeMotor, intakeDeploy);
+
   public RobotContainer() {
     configureButtonBindings();
-
-    driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
-    intake = new Intake(intakeMotor, intakeDeploy);
-
 
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
@@ -56,8 +52,8 @@ public class RobotContainer {
 
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     
-    intakeMotorButton.whileHeld(new SetIntakeMotor(intake, 1.0));
-    intakeMotorButton.whenReleased(new SetIntakeMotor(intake, 0.0));
+    intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
+    intakeMotorButton.whenReleased(new RunIntakeMotor(intake));
 
   }
 
