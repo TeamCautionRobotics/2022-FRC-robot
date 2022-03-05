@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,6 +55,12 @@ public class RobotContainer {
   public RobotContainer() {
     configureButtonBindings();
 
+    CameraServer.startAutomaticCapture("Rear Camera", 0);
+    CameraServer.startAutomaticCapture("Front Camera", 1);
+
+    driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
+    // getDistance returns inches, getRate returns inches/second
+    driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
     // config
     conveyorMotor.setNeutralMode(NeutralMode.Brake);  // brake the conveyor when stopped
 
