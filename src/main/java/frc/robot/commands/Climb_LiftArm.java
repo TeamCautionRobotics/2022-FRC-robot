@@ -56,7 +56,7 @@ public class Climb_LiftArm extends CommandBase {
         // if either arm isn't pressing the switch
         if (!liftSubsystem.getLeftArmFullyDownSwitch() || !liftSubsystem.getRightArmFullyDownSwitch()) {
           liftSubsystem.enablePID(false);  // disable the PID
-          liftSubsystem.setPower(-0.2);  // pull down
+          liftSubsystem.setPower(-0.1);  // pull down
         } else {  // if both arms are pressing the switch
           liftSubsystem.setPower(0.0);  // stop the motors
           liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
