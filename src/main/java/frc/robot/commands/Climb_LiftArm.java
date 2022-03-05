@@ -57,10 +57,11 @@ public class Climb_LiftArm extends CommandBase {
 
         // if either arm isn't pressing the switch
         if (!liftSubsystem.getLeftArmFullyDownSwitch() || !liftSubsystem.getRightArmFullyDownSwitch()) {
+          liftSubsystem.enablePID(false);  // disable the PID
           liftSubsystem.setPower(-0.2);  // pull down
         } else {  // if both arms are pressing the switch
           liftSubsystem.setPower(0.0);  // stop the motors
-          liftSubsystem.setLiftPosition(0.0);  // zero the encoders
+          liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
           climbStep = climbStep + 1;  // go to next step
         }
 
@@ -74,13 +75,14 @@ public class Climb_LiftArm extends CommandBase {
           angleSubsystem.setAnglePower(0.0);  // stop the motors
           angleSubsystem.setAngleEncoderPosition(0.0);  // zero the encoder
           angleSubsystem.setAngleReference(0.0);  // set the PID ref to zero
-          angleSubsystem.enableAnglePid(true);  // re-enable the angle pid
           climbStep = climbStep + 1; // go to next step
         }
 
       case 2:
 
-        liftSubsystem.setReference(4.0, ControlType.kPosition);  // raise arm four inches
+        liftSubsystem.enablePID(true);  // re-enable the lift pid
+        angleSubsystem.enableAnglePid(true);  // re-enable the angle pid
+        liftSubsystem.setPosition(15.0);  // winch out 15 inches
         angleSubsystem.setAngleReference(60);  // angle arm 60 degrees
         climbStep = climbStep + 1;  // go to next step
       
@@ -93,14 +95,13 @@ public class Climb_LiftArm extends CommandBase {
 
     // check if motor current has exceeded threshold, if so, activate safe mode
 
-    if (liftSubsystem.getMotorCurrent(0) > Constants.Climb.lift.maxCurrentThreshold ||
-        liftSubsystem.getMotorCurrent(1) > Constants.Climb.lift.maxCurrentThreshold) {
+    if (liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold ||
+        liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
 
           System.out.println("ERROR: LIFT MOTORS HAVE EXCEEDED THE CURRENT LIMIT! ACTIVATING SAFE MODE");
           climbStep = 0;
 
-        }
-
+    }
 
   }
 

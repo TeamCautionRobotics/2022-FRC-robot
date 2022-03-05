@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import com.revrobotics.CANSparkMax.ControlType;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -32,24 +30,19 @@ public class Climb_Testing extends CommandBase {
   private double angle_kD_last = Constants.Climb.angler.kD;
 
   // lift vars
+  private boolean liftPidEnabled = true;
   private double liftSetpoint = 0;
   private double liftManualPower = 0;
-  private ControlType liftSetpointType = ControlType.kPosition;
   private double lift_kP = Constants.Climb.lift.kP;
   private double lift_kI = Constants.Climb.lift.kI;
-  private double lift_kD = Constants.Climb.lift.kD;
-  private double lift_kIz = Constants.Climb.lift.kIz;
-  private double lift_kFF = Constants.Climb.lift.kFF;
+  private double lift_kD = Constants.Climb.lift.kI;
 
+  private boolean liftPidEnabled_last = true;
   private double liftSetpoint_last = 0;
   private double liftManualPower_last = 0;
   private double lift_kP_last = Constants.Climb.lift.kP;
   private double lift_kI_last = Constants.Climb.lift.kI;
   private double lift_kD_last = Constants.Climb.lift.kD;
-  private double lift_kIz_last = Constants.Climb.lift.kIz;
-  private double lift_kFF_last = Constants.Climb.lift.kFF;
-
-  private SendableChooser<ControlType> liftSetpointTypeChooser = new SendableChooser<>();
 
   // hook vars
   private boolean hookEnabled = false;
@@ -62,9 +55,6 @@ public class Climb_Testing extends CommandBase {
     this.angleSubsystem = angleSubsystem;
     this.hookSubsystem = hookSubsystem;
     this.liftSubsystem = liftSubsystem;
-
-    liftSetpointTypeChooser.setDefaultOption("Lift: kPosition", ControlType.kPosition);
-    liftSetpointTypeChooser.addOption("Lift: kVelocity", ControlType.kVelocity);
 
   }
 
@@ -81,13 +71,11 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Angle Manual Pwr", angleManualPower);
 
     // lift vars
+    SmartDashboard.putBoolean("Lift PID Enable", liftPidEnabled);
     SmartDashboard.putNumber("Lift Setpoint", liftSetpoint);
-    SmartDashboard.putData(liftSetpointTypeChooser);
-    SmartDashboard.putNumber("Lift P", liftSetpoint);
-    SmartDashboard.putNumber("Lift I", lift_kP);
-    SmartDashboard.putNumber("Lift D", lift_kI);
-    SmartDashboard.putNumber("Lift I-Zone", lift_kD);
-    SmartDashboard.putNumber("Lift Feedforward", lift_kFF);
+    SmartDashboard.putNumber("Lift P", lift_kP);
+    SmartDashboard.putNumber("Lift I", lift_kI);
+    SmartDashboard.putNumber("Lift D", lift_kD);
     SmartDashboard.putNumber("Lift Manual Pwr", liftManualPower);
 
     // hook vars
@@ -145,51 +133,49 @@ public class Climb_Testing extends CommandBase {
     SmartDashboard.putNumber("Lift Left Distance", liftSubsystem.getLeftLiftPosition());
     SmartDashboard.putNumber("Lift Right Distance", liftSubsystem.getRightLiftPosition());
 
-    SmartDashboard.putNumber("Lift Left Velocity", liftSubsystem.getLeftLiftVelocity());
-    SmartDashboard.putNumber("Lift Right Velocity", liftSubsystem.getRightLiftVelocity());
-
-    SmartDashboard.putNumber("Lift Left Current Draw", liftSubsystem.getMotorCurrent(0));
-    SmartDashboard.putNumber("Lift Right Current Draw", liftSubsystem.getMotorCurrent(1));
+    SmartDashboard.putNumber("Lift Left Current Draw", liftSubsystem.getLeftMotorCurrent());
+    SmartDashboard.putNumber("Lift Right Current Draw", liftSubsystem.getRightMotorCurrent());
 
     SmartDashboard.putBoolean("Lift Left Sw", liftSubsystem.getLeftArmFullyDownSwitch());
     SmartDashboard.putBoolean("Lift Right Sw", liftSubsystem.getRightArmFullyDownSwitch());
     
     // update lift vars
-    liftSetpoint = SmartDashboard.getNumber("Lift Setpoint Setpoint", 0.0);
+    liftPidEnabled = SmartDashboard.getBoolean("Lift PID Enable", true);
+    liftSetpoint = SmartDashboard.getNumber("Lift Setpoint", 0.0);
     lift_kP = SmartDashboard.getNumber("Lift P", 0.0);
     lift_kI = SmartDashboard.getNumber("Lift I", 0.0);
     lift_kD = SmartDashboard.getNumber("Lift D", 0.0);
-    lift_kIz = SmartDashboard.getNumber("Lift I-Zone", 0.0);
-    lift_kFF = SmartDashboard.getNumber("Lift Feedforward", 0.0);
     liftManualPower = SmartDashboard.getNumber("Lift Manual Pwr", 0.0);
+
+    if (liftPidEnabled != liftPidEnabled_last) {
+      liftPidEnabled_last = liftPidEnabled;
+      liftSubsystem.enablePID(liftPidEnabled);
+      System.out.println("updated lift pid enable state");
+    }
 
     if (liftSetpoint != liftSetpoint_last) {
       liftSetpoint_last = liftSetpoint;
-      liftSubsystem.setReference(liftSetpoint, liftSetpointType);
+      liftSubsystem.setPosition(liftSetpoint);
       System.out.println("updated lift setpoint");
     }
 
-    if (liftSetpointTypeChooser.getSelected() != liftSetpointType) {
-      liftSetpointType = liftSetpointTypeChooser.getSelected();
-      liftSubsystem.setReference(liftSetpoint, liftSetpointType);
-      System.out.println("updated lift setpoint type");
+    if (lift_kP != lift_kP_last) {
+      lift_kP_last = lift_kP;
+      liftSubsystem.setP(lift_kP);
+      System.out.println("updated lift kP");
     }
 
-    if ((lift_kP != lift_kP_last) ||
-        (lift_kI != lift_kI_last) ||
-        (lift_kD != lift_kD_last) ||
-        (lift_kIz != lift_kIz_last) ||
-        (lift_kFF != lift_kFF_last)) {
+    if (lift_kI != lift_kI_last) {
+      lift_kI_last = lift_kI;
+      liftSubsystem.setI(lift_kI);
+      System.out.println("updated lift kI");
+    }
 
-          lift_kP_last = lift_kP;
-          lift_kI_last = lift_kI;
-          lift_kD_last = lift_kD;
-          lift_kIz_last = lift_kIz;
-          lift_kFF_last = lift_kFF;
-
-          liftSubsystem.setPidVars(lift_kP, lift_kI, lift_kD, lift_kIz, lift_kFF);
-          System.out.println("updated lift pid vars");
-        }
+    if (lift_kD != lift_kD_last) {
+      lift_kD_last = lift_kD;
+      liftSubsystem.setD(lift_kD);
+      System.out.println("updated lift kD");
+    }
 
     if (liftManualPower != liftManualPower_last) {
       liftManualPower_last = liftManualPower;
