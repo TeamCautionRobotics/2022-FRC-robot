@@ -52,9 +52,9 @@ public final class Constants {
             public static final double encoderConversionFactor = (Math.PI * 1.425) * (1.0 / 9.0);  // output in inches
 
             public static final double initialReference = 0.0;
-            public static final double kP = 0.08;
-            public static final double kI = 0.4;
-            public static final double kD = 0.01;
+            public static final double kP = 0.12;
+            public static final double kI = 0.00001;
+            public static final double kD = 0.002;
             public static final double kIMin = -0.1;
             public static final double kIMax = 0.1;
 
