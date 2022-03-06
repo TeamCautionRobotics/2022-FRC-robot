@@ -104,8 +104,8 @@ public class RobotContainer {
     leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
     rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
     // set the idle mode to braking
-    leftAngleMotor.setNeutralMode(NeutralMode.Brake);
-    rightAngleMotor.setNeutralMode(NeutralMode.Brake);
+    leftAngleMotor.setNeutralMode(NeutralMode.Coast);
+    rightAngleMotor.setNeutralMode(NeutralMode.Coast);
 
 
     // set default commands
