@@ -58,13 +58,6 @@ public final class Constants {
             public static final double kIMin = -0.1;
             public static final double kIMax = 0.1;
 
-            // thresholds in inches
-            public static final double fullyLoweredThreshold = 5.0;
-            public static final double fullyRaisedThreshold = 50.0;
-
-            // other misc constants
-            public static final double safeModeLoweringVelocity = -0.1;
-
             // current thresholds
             public static final double maxCurrentThreshold = 60.0;  // if current exceeds this, the climb fails!
 
