@@ -80,7 +80,7 @@ public class Climb_LiftArm extends CommandBase {
 
         liftSubsystem.enablePID(true);  // re-enable the lift pid
         angleSubsystem.enablePID(true);  // re-enable the angle pid
-        liftSubsystem.setPosition(20.0);  // winch out 15 inches
+        liftSubsystem.setPosition(20.0);  // winch out 20 inches
         angleSubsystem.setPosition(60);  // angle arm 60 degrees
         climbStep = climbStep + 1;  // go to next step
       
