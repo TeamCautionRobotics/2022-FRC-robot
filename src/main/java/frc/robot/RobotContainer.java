@@ -6,10 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -24,17 +21,15 @@ import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
-import frc.robot.Constants;
-import frc.robot.Constants.Climb.angler;
+import frc.robot.commands.GrabBall;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.ShootBall;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 public class RobotContainer {
@@ -43,11 +38,15 @@ public class RobotContainer {
   public final EnhancedJoystick rightJoystick = new EnhancedJoystick(Constants.Driver.rightJoystickPort);
   public final Gamepad manipulator = new Gamepad(Constants.Driver.manipulatorPort);
 
-  public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 2);
-  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 3);  
-  public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 2);
-  public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 3);
-  public final JoystickButton liftArmButton = new JoystickButton(leftJoystick, 6);
+  public final JoystickButton shootBallButton = new JoystickButton(leftJoystick, 1);
+  public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 3);
+
+  public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 6);
+  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 7);  
+  public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
+  public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 10);
+
+  public final JoystickButton liftArmButton = new JoystickButton(rightJoystick, 6);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -136,6 +135,10 @@ public class RobotContainer {
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
     liftArmButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
+    
+    grabBallButton.whileHeld(new GrabBall(intake, conveyor));
+    shootBallButton.whileHeld(new ShootBall(conveyor));
+
   }
 
 

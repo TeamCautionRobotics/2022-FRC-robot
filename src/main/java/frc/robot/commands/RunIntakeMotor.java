@@ -16,7 +16,7 @@ public class RunIntakeMotor extends CommandBase {
   @Override
   public void execute() {
 
-    intakeSubsystem.runMotor(0.69);
+    intakeSubsystem.runMotor(1.0);
 
   }
 
