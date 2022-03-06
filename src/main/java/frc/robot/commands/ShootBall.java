@@ -24,7 +24,7 @@ public class ShootBall extends CommandBase {
   @Override
   public void execute() {
 
-    conveyorSubsystem.runMotor(1.0);
+    conveyorSubsystem.runMotor(0.70);
 
   }
 
