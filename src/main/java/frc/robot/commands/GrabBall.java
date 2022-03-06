@@ -18,25 +18,19 @@ public class GrabBall extends CommandBase {
 
   @Override
   public void initialize() {
-
-    conveyorSubsystem.setGate(true);
-
+    conveyorSubsystem.setGate(true);  // close the gate
   }
 
   @Override
   public void execute() {
-
-    intakeSubsystem.runMotor(1.0);
-    conveyorSubsystem.runMotor(1.0);
-
+    intakeSubsystem.runMotor(1.0);  // run the intake
+    conveyorSubsystem.runMotor(1.0);  // run the conveyor
   }
 
   @Override
   public void end(boolean interrupted) {
-
-    intakeSubsystem.runMotor(0.0);
-    conveyorSubsystem.runMotor(0.0);
-
+    intakeSubsystem.runMotor(0.0);  // stop the intake
+    conveyorSubsystem.runMotor(0.0);  // stop the conveyor
   }
 
   @Override

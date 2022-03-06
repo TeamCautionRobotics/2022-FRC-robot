@@ -85,9 +85,6 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
-    // shootBallButton.whenHeld(  // primary button for shooting. open gate and run conveyor
-    //   new ParallelCommandGroup(new SetConveyorGate(conveyor, false), new RunConveyorMotor(conveyor))
-    // );
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     shootBallButton.whileHeld(new ShootBall(conveyor));
 
