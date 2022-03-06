@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -107,6 +108,15 @@ public class ClimbLift extends SubsystemBase {
       leftLifterMotor.set(power);
       rightLifterMotor.set(power);
     }
+  }
+
+  /**
+   * sets the idle mode of the spark maxes
+   * @param m
+   */
+  public void setIdleMode(IdleMode m) {
+    leftLifterMotor.setIdleMode(m);
+    rightLifterMotor.setIdleMode(m);
   }
 
   /**

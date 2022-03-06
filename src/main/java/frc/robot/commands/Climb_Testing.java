@@ -123,7 +123,7 @@ public class Climb_Testing extends CommandBase {
 
     if (anglePidEnabled != anglePidEnabled_last) {
       anglePidEnabled_last = anglePidEnabled;
-      angleSubsystem.enableAnglePid(anglePidEnabled);
+      angleSubsystem.enablePID(anglePidEnabled);
       System.out.println("updated angle PID enable state");
     }
 
@@ -245,7 +245,7 @@ public class Climb_Testing extends CommandBase {
 
     if (hookEnabled != hookEnabled_last) {
       hookEnabled_last = hookEnabled;
-      hookSubsystem.setHook(hookEnabled);
+      hookSubsystem.set(hookEnabled);
       System.out.println("updated hook state");
     }
 

@@ -42,7 +42,7 @@ public class ClimbAngle extends SubsystemBase {
    * enable/disable the angle pid
    * @param enable
    */
-  public void enableAnglePid(boolean enable) {
+  public void enablePID(boolean enable) {
     pidEnabled = enable;
   }
 
