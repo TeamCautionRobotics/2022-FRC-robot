@@ -110,6 +110,11 @@ public class Climb_Testing extends CommandBase {
 
     SmartDashboard.putNumber("Angle Left Power", angleSubsystem.getLeftPower());
     SmartDashboard.putNumber("Angle Right Power", angleSubsystem.getRightPower());
+
+    // reset angle when switches hit
+    if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
+      angleSubsystem.setEncoderPosition(0);
+    }
   
     // update angle vars
     anglePidEnabled =  SmartDashboard.getBoolean("Angle PID Enable", false);
