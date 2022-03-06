@@ -66,7 +66,7 @@ public final class Constants {
             public static final double safeModeLoweringVelocity = -0.1;
 
             // current thresholds
-            public static final double maxCurrentThreshold = 100.0;  // if current exceeds this, the climb fails!
+            public static final double maxCurrentThreshold = 60.0;  // if current exceeds this, the climb fails!
 
         }
 
