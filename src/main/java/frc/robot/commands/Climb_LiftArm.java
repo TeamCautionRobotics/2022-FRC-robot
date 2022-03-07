@@ -4,6 +4,8 @@ import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 
+import java.util.concurrent.LinkedTransferQueue;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb_LiftArm extends CommandBase {
@@ -43,6 +45,8 @@ public class Climb_LiftArm extends CommandBase {
     // start on step 0 for calibration
     climbStep = 0;
 
+    commandDone = false;
+
   }
 
   @Override
@@ -50,43 +54,73 @@ public class Climb_LiftArm extends CommandBase {
 
     switch(climbStep) {
 
-      case 0:  // Calibrate the lift encoders
+      case 0:
 
-        // if either arm isn't pressing the switch
-        if (!liftSubsystem.getLeftArmFullyDownSwitch() || !liftSubsystem.getRightArmFullyDownSwitch()) {
-          liftSubsystem.enablePID(false);  // disable the PID
-          liftSubsystem.setPower(-0.1);  // pull down
-        } else {  // if both arms are pressing the switch
+        commandDone = false;
+        if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
+          angleSubsystem.setPower(0.0);
+          angleSubsystem.setEncoderPosition(0.0);
+          climbStep = 1;
+        } else {
+          angleSubsystem.enablePID(false);
+          angleSubsystem.setPower(-0.2);
+        }
+        break;
+
+      case 1:  // Calibrate the lift encoders
+
+        if (liftSubsystem.getLeftArmFullyDownSwitch() && liftSubsystem.getRightArmFullyDownSwitch()) {
           liftSubsystem.setPower(0.0);  // stop the motors
           liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
-          climbStep = climbStep + 1;  // go to next step
+          climbStep = 3;  // go to next step
+        } else {
+          liftSubsystem.enablePID(false);  // disable the PID
+          liftSubsystem.setPower(-0.1);  // pull down
+        }  
+        break;
+
+      case 3:  // extend the lift 20 in
+
+        if ((liftSubsystem.getLeftLiftPosition() > 19.8) &&
+           (liftSubsystem.getRightLiftPosition() > 19.8)) {
+
+            climbStep = 4;
+
+        } else {
+             liftSubsystem.enablePID(true);
+             liftSubsystem.setPosition(20.0);
         }
+        break;
 
-      case 1:  // calibrate the angle encoders
-        
-        // if either arm isn't pressing the switch
-        if (!angleSubsystem.getLeftArmAtZeroSwitch() || !angleSubsystem.getRightArmAtZeroSwitch()) {
-          angleSubsystem.enablePID(false);  // disable the angle pid
-          angleSubsystem.setPower(-0.2);  // rotate back
-        } else {  // if both arms are pressing the switch
-          angleSubsystem.setPower(0.0);  // stop the motors
-          angleSubsystem.setEncoderPosition(0.0);  // zero the encoder
-          angleSubsystem.setPosition(0.0);  // set the PID ref to zero
-          climbStep = climbStep + 1; // go to next step
+      case 4:
+
+        if ((angleSubsystem.getLeftEncoderDistance() > 95) &&
+           (angleSubsystem.getRightEncoderDistance() > 95)) {
+
+            climbStep = 5;
+
+        } else {
+
+          angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(110);
+
         }
+        break;
 
-      case 2:
-
-        liftSubsystem.enablePID(true);  // re-enable the lift pid
-        angleSubsystem.enablePID(true);  // re-enable the angle pid
-        liftSubsystem.setPosition(20.0);  // winch out 20 inches
-        angleSubsystem.setPosition(60);  // angle arm 60 degrees
-        climbStep = climbStep + 1;  // go to next step
-      
-      case 3:
+      case 5:
 
         commandDone = true;  // we're done
+        break;
 
+    }
+
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+
+    if (interrupted) {
+      System.out.println("command terminated");
     }
 
   }
