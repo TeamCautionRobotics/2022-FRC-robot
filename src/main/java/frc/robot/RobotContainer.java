@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
+import frc.robot.commands.ClimbAngle_GoLimp;
 import frc.robot.commands.Climb_CalibrateArm;
+import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_Testing;
 import frc.robot.commands.TankDrive;
@@ -49,6 +51,7 @@ public class RobotContainer {
 
   public final JoystickButton calibrateArmButton = new JoystickButton(rightJoystick, 6);
   public final JoystickButton liftArmButton = new JoystickButton(rightJoystick, 7);
+  public final JoystickButton firstBarButton = new JoystickButton(rightJoystick, 8);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -138,6 +141,7 @@ public class RobotContainer {
 
     calibrateArmButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
     liftArmButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
+    firstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     shootBallButton.whileHeld(new ShootBall(conveyor));
