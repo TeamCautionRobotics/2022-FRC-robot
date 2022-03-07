@@ -24,14 +24,14 @@ public class Climb_Testing extends CommandBase {
   private double angle_kIMax = Constants.Climb.angler.kIMax;
   private double angle_kIMin = Constants.Climb.angler.kIMin;
 
-  private boolean anglePidEnabled_last = false;
-  private double angleSetpoint_last = 0;
-  private double angleManualPower_last = 0;
-  private double angle_kP_last = Constants.Climb.angler.kP;
-  private double angle_kI_last = Constants.Climb.angler.kI;
-  private double angle_kD_last = Constants.Climb.angler.kD;
-  private double angle_kIMax_last = Constants.Climb.angler.kIMax;
-  private double angle_kIMin_last = Constants.Climb.angler.kIMin;
+  private boolean anglePidEnabled_last = true;
+  private double angleSetpoint_last = -1;
+  private double angleManualPower_last = -1;
+  private double angle_kP_last = -1;
+  private double angle_kI_last = -1;
+  private double angle_kD_last = -1;
+  private double angle_kIMax_last = -1;
+  private double angle_kIMin_last = -1;
 
   // lift vars
   private boolean liftPidEnabled = false;
@@ -44,19 +44,19 @@ public class Climb_Testing extends CommandBase {
   private double lift_kIMin = Constants.Climb.lift.kIMin;
   private boolean resetLiftEnc = false;
 
-  private boolean liftPidEnabled_last = false;
-  private double liftSetpoint_last = 0;
-  private double liftManualPower_last = 0;
-  private double lift_kP_last = Constants.Climb.lift.kP;
-  private double lift_kI_last = Constants.Climb.lift.kI;
-  private double lift_kD_last = Constants.Climb.lift.kD;
-  private double lift_kIMax_last = Constants.Climb.lift.kIMax;
-  private double lift_kIMin_last = Constants.Climb.lift.kIMin;
-  private boolean resetLiftEnc_last = false;
+  private boolean liftPidEnabled_last = true;
+  private double liftSetpoint_last = 0.001;
+  private double liftManualPower_last = 0.001;
+  private double lift_kP_last = -1;
+  private double lift_kI_last = -1;
+  private double lift_kD_last = -1;
+  private double lift_kIMax_last = -1;
+  private double lift_kIMin_last = -1;
+  private boolean resetLiftEnc_last = true;
 
   // hook vars
   private boolean hookEnabled = false;
-  private boolean hookEnabled_last = false;
+  private boolean hookEnabled_last = true;
 
 
   public Climb_Testing(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
