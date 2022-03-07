@@ -17,7 +17,8 @@ public class ClimbAngle extends SubsystemBase {
   private final DigitalInput rightArmAtZeroSwitch;
 
   // angler pid 
-  private final PIDController anglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+  private final PIDController leftAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+  private final PIDController rightAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
   private boolean pidEnabled = false;
   private boolean pidDisabled = false;
   private double setpoint = Constants.Climb.angler.initialSetpoint;
@@ -47,19 +48,23 @@ public class ClimbAngle extends SubsystemBase {
   }
 
   public void setP(double kP) {
-    anglePID.setP(kP);
+    leftAnglePID.setP(kP);
+    rightAnglePID.setP(kP);
   }
 
   public void setI(double kI) {
-    anglePID.setI(kI);
+    leftAnglePID.setI(kI);
+    rightAnglePID.setI(kI);
   }
 
   public void setD(double kD) {
-    anglePID.setD(kD);
+    leftAnglePID.setD(kD);
+    rightAnglePID.setD(kD);
   }
 
   public void setIRange(double low, double high) {
-    anglePID.setIntegratorRange(low, high);
+    leftAnglePID.setIntegratorRange(low, high);
+    rightAnglePID.setIntegratorRange(low, high);
   }
 
   /**
@@ -67,7 +72,14 @@ public class ClimbAngle extends SubsystemBase {
    * @param reference angle
    */
   public void setPosition(double reference) {
-    setpoint = reference;
+
+    if (reference > 100) {
+      setpoint = 0;
+    } else if (reference < 0) {
+      setpoint = 0;
+    } else {
+      setpoint = reference;
+    }
   }
 
   /**
@@ -165,10 +177,8 @@ public class ClimbAngle extends SubsystemBase {
     if (pidEnabled) {
 
       pidDisabled = false;
-      double averageDist = (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
-      double power = anglePID.calculate(averageDist, setpoint);
-      leftMotor.set(power);
-      rightMotor.set(power);
+      leftMotor.set(leftAnglePID.calculate(getLeftEncoderDistance(), setpoint));
+      rightMotor.set(rightAnglePID.calculate(getRightEncoderDistance(), setpoint));
 
     } else {
       
