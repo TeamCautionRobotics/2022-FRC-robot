@@ -12,13 +12,10 @@ public class Climb_LiftArm extends CommandBase {
   private final ClimbLift liftSubsystem; 
 
   private boolean commandDone = false;
-
   private int climbStep = 0;
 
 
   /**
-   * creates a new Climb_LiftAndLatch commnad.
-   * pulls down and hooks onto the first bar, lifts and latches using the static hooks.
    * @param angleSubsystem
    * @param hookSubsystem
    * @param liftSubsystem
@@ -39,7 +36,7 @@ public class Climb_LiftArm extends CommandBase {
     // retract the static hooks
     hookSubsystem.set(false);
 
-    // start on step 0 for calibration
+    // start on step 0
     climbStep = 0;
 
     commandDone = false;
@@ -51,60 +48,36 @@ public class Climb_LiftArm extends CommandBase {
 
     switch(climbStep) {
 
-      case 0:
+      case 0:  // extend the lift 20 in
 
-        commandDone = false;
-        if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
-          angleSubsystem.setPower(0.0);
-          angleSubsystem.setEncoderPosition(0.0);
-          climbStep = 1;
-        } else {
-          angleSubsystem.enablePID(false);
-          angleSubsystem.setPower(-0.2);
-        }
-        break;
-
-      case 1:  // Calibrate the lift encoders
-
-        if (liftSubsystem.getLeftArmFullyDownSwitch() && liftSubsystem.getRightArmFullyDownSwitch()) {
-          liftSubsystem.setPower(0.0);  // stop the motors
-          liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
-          climbStep = 3;  // go to next step
-        } else {
-          liftSubsystem.enablePID(false);  // disable the PID
-          liftSubsystem.setPower(-0.1);  // pull down
-        }  
-        break;
-
-      case 3:  // extend the lift 20 in
-
+      commandDone = false;
         if ((liftSubsystem.getLeftLiftPosition() > 19.8) &&
            (liftSubsystem.getRightLiftPosition() > 19.8)) {
 
-            climbStep = 4;
+            climbStep = 1;
 
         } else {
-             liftSubsystem.enablePID(true);
-             liftSubsystem.setPosition(20.0);
+             liftSubsystem.enablePID(true);  // enable pid
+             liftSubsystem.setPosition(20.0);  // set setpoint
         }
         break;
 
-      case 4:
+      case 1:  // angle the arms 110 deg
 
-        if ((angleSubsystem.getLeftEncoderDistance() > 95) &&
-           (angleSubsystem.getRightEncoderDistance() > 95)) {
+        if ((angleSubsystem.getLeftEncoderDistance() > 100) &&
+           (angleSubsystem.getRightEncoderDistance() > 100)) {
 
-            climbStep = 5;
+            climbStep = 2;
 
         } else {
 
-          angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(110);
+          angleSubsystem.enablePID(true);  // enable pid
+          angleSubsystem.setPosition(110);  // set setpoint
 
         }
         break;
 
-      case 5:
+      case 2:
 
         commandDone = true;  // we're done
         break;
