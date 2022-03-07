@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -44,6 +46,13 @@ public class DriveBase extends SubsystemBase {
     this.leftSpark0.setInverted(true);
     this.leftSpark1.setInverted(true);
 
+  }
+
+  public void setIdleMode(IdleMode m) {
+    leftSpark0.setIdleMode(m);
+    leftSpark1.setIdleMode(m);
+    rightSpark0.setIdleMode(m);
+    rightSpark1.setIdleMode(m);
   }
   
   public void drive(double leftPower, double rightPower) {
