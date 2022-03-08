@@ -25,6 +25,7 @@ import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 import frc.robot.commands.GrabBall;
+import frc.robot.commands.Hook_Idle;
 import frc.robot.commands.Lift_Idle;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.ToggleConveyorGate;
@@ -130,6 +131,7 @@ public class RobotContainer {
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
     climbLift.setDefaultCommand(new Lift_Idle(climbLift));
     climbAngle.setDefaultCommand(new Angle_Idle(climbAngle));
+    climbHook.setDefaultCommand(new Hook_Idle(climbHook));
 
   }
 
