@@ -5,6 +5,9 @@ import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
+import frc.robot.Constants;
 
 public class Climb_FirstBar extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -35,13 +38,13 @@ public class Climb_FirstBar extends CommandBase {
   @Override
   public void initialize() {
 
-    // retract the static hooks
-    hookSubsystem.set(false);
-
-    // start on step 0
-    climbStep = 0;
-
     commandDone = false;  // wpilib bug workaround
+
+    hookSubsystem.set(false);  // retract the static hooks
+    angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
+    liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
+
+    climbStep = 10;  // start on step 10
 
   }
 
@@ -50,13 +53,40 @@ public class Climb_FirstBar extends CommandBase {
 
     switch(climbStep) {
 
-      case 0:  // pull lift down
+      case 0:  // SAFE MODE
 
-      commandDone = false;
+        System.out.println("WARNING: Winch exceeded current limit! Activating safe mode...");
+
+        hookSubsystem.set(true);  // extend the hooks
+
+        // brake all motors
+        angleSubsystem.setNeutralMode(NeutralMode.Brake);
+        liftSubsystem.setIdleMode(IdleMode.kBrake);
+
+        // cut all power to angle
+        angleSubsystem.enablePID(false);
+        angleSubsystem.setPower(0);
+        angleSubsystem.stop();
+
+        // cut all power to lift
+        liftSubsystem.enablePID(false);
+        liftSubsystem.setPower(0);
+        liftSubsystem.stop();
+
+        commandDone = true;  // we're done
+        climbStep = 1;  // do nothing for remainder of command
+        break;
+
+      case 1:
+        ;  // do nothing
+        break;
+
+      case 10:  // pull lift down
+
         if ((liftSubsystem.getLeftLiftPosition() < 0.2) &&
            (liftSubsystem.getRightLiftPosition() < 0.2)) {
 
-            climbStep = 1;
+            climbStep = 11;
 
         } else {
 
@@ -68,28 +98,36 @@ public class Climb_FirstBar extends CommandBase {
         }
         break;
 
-      case 1:  // latch
+      case 11:  // latch
 
         hookSubsystem.set(true);  // extend hooks
         timer0.reset();  // reset timer
         timer0.start();  // start timer
-        climbStep = 2;  // move to next step
+        climbStep = 12;  // move to next step
         break;
 
-      case 2:  // kill power to winch
+      case 12:  // kill power to winch
         
         if (timer0.get() > 0.5) {  // wait half a second
           timer0.stop();  // stop the timer
           liftSubsystem.enablePID(false);  // disable the winch pid
           liftSubsystem.setPower(0);  // zero the power to winch motors
-          climbStep = 3;  // move to next step
+          climbStep = 13;  // move to next step
         }
         break;
 
-      case 3:
+      case 13:
 
         commandDone = true;  // we're done
         break;
+
+    }
+
+    // safe mode trigger
+    if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
+      liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
+
+      climbStep = 0;
 
     }
 
