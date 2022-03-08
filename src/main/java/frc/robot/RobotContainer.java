@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
+import frc.robot.commands.Angle_Idle;
 import frc.robot.commands.Climb_CalibrateArm;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
@@ -24,6 +25,7 @@ import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 import frc.robot.commands.GrabBall;
+import frc.robot.commands.Lift_Idle;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
@@ -126,7 +128,8 @@ public class RobotContainer {
     
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
-    // climbLift.setDefaultCommand(new Climb_Testing(climbAngle, climbHook, climbLift));
+    climbLift.setDefaultCommand(new Lift_Idle(climbLift));
+    climbAngle.setDefaultCommand(new Angle_Idle(climbAngle));
 
   }
 
