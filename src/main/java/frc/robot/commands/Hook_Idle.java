@@ -27,6 +27,9 @@ public class Hook_Idle extends CommandBase {
     timer.reset(); 
     timer.start();
 
+    // start with hooks back
+    hookSubsystem.set(false);
+
   }
 
   @Override
@@ -34,7 +37,7 @@ public class Hook_Idle extends CommandBase {
 
     if (timer.get() > 1.0) {  // every second
 
-      hookSubsystem.set(true);  // extend hooks
+      hookSubsystem.set(false);  // retract hooks
 
       // full reset timer
       timer.stop();
