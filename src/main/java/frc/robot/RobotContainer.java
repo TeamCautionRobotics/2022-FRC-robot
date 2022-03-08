@@ -126,7 +126,7 @@ public class RobotContainer {
     
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
-    climbLift.setDefaultCommand(new Climb_Testing(climbAngle, climbHook, climbLift));
+    // climbLift.setDefaultCommand(new Climb_Testing(climbAngle, climbHook, climbLift));
 
   }
 
