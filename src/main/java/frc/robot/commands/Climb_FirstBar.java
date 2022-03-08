@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
-import frc.robot.Constants;
 
 public class Climb_FirstBar extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -119,6 +118,7 @@ public class Climb_FirstBar extends CommandBase {
       case 13:
 
         commandDone = true;  // we're done
+        climbStep = 1;  // make loop do nothing
         break;
 
     }
@@ -138,8 +138,10 @@ public class Climb_FirstBar extends CommandBase {
 
   }
 
+  // TODO: FIX THIS
   @Override
   public boolean isFinished() {
-    return commandDone;
+    // return commandDone;
+    return false;  // force never-ending for testing
   }
 }

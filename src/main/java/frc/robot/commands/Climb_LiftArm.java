@@ -12,7 +12,7 @@ public class Climb_LiftArm extends CommandBase {
   private final ClimbLift liftSubsystem; 
 
   private boolean commandDone = false;
-  private int climbStep = 0;
+  private int climbStep = 10;
 
 
   /**
@@ -37,7 +37,7 @@ public class Climb_LiftArm extends CommandBase {
     hookSubsystem.set(false);
 
     // start on step 0
-    climbStep = 0;
+    climbStep = 10;
 
     commandDone = false;
 
@@ -48,13 +48,17 @@ public class Climb_LiftArm extends CommandBase {
 
     switch(climbStep) {
 
-      case 0:  // extend the lift 20 in
+      case 1:  // do nothing
+        ;
+        break;
+
+      case 10:  // extend the lift 20 in
 
       commandDone = false;
         if ((liftSubsystem.getLeftLiftPosition() > 13.8) &&
            (liftSubsystem.getRightLiftPosition() > 13.8)) {
 
-            climbStep = 1;
+            climbStep = 11;
 
         } else {
              liftSubsystem.enablePID(true);  // enable pid
@@ -62,12 +66,12 @@ public class Climb_LiftArm extends CommandBase {
         }
         break;
 
-      case 1:  // angle the arms 110 deg
+      case 11:  // angle the arms 110 deg
 
         if ((angleSubsystem.getLeftEncoderDistance() > 100) &&
            (angleSubsystem.getRightEncoderDistance() > 100)) {
 
-            climbStep = 2;
+            climbStep = 12;
 
         } else {
 
@@ -77,9 +81,10 @@ public class Climb_LiftArm extends CommandBase {
         }
         break;
 
-      case 2:
+      case 12:
 
         commandDone = true;  // we're done
+        climbStep = 1;  // make loop do nothing
         break;
 
     }
@@ -95,8 +100,10 @@ public class Climb_LiftArm extends CommandBase {
 
   }
 
+  // TODO: FIX THIS
   @Override
   public boolean isFinished() {
-    return commandDone;
+    // return commandDone;
+    return false;  // make command never-ending for testing
   }
 }

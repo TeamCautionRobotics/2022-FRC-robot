@@ -12,7 +12,7 @@ public class Climb_CalibrateArm extends CommandBase {
 
   private boolean commandDone = false;
 
-  private int climbStep = 0;
+  private int climbStep = 10;
 
 
   /**
@@ -35,7 +35,7 @@ public class Climb_CalibrateArm extends CommandBase {
   public void initialize() {
 
     // start on step 0 for calibration
-    climbStep = 0;
+    climbStep = 10;
 
     commandDone = false;
 
@@ -46,34 +46,39 @@ public class Climb_CalibrateArm extends CommandBase {
 
     switch(climbStep) {
 
-      case 0:
+      case 1:  // do nothing
+        ;
+        break;
+
+      case 10:
 
         commandDone = false;
         if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
           angleSubsystem.setPower(0.0);
           angleSubsystem.setEncoderPosition(0.0);
-          climbStep = 1;
+          climbStep = 11;
         } else {
           angleSubsystem.enablePID(false);
           angleSubsystem.setPower(-0.25);
         }
         break;
 
-      case 1:  // Calibrate the lift encoders
+      case 11:  // Calibrate the lift encoders
 
         if (liftSubsystem.getLeftArmFullyDownSwitch() && liftSubsystem.getRightArmFullyDownSwitch()) {
           liftSubsystem.setPower(0.0);  // stop the motors
           liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
-          climbStep = 3;  // go to next step
+          climbStep = 12;  // go to next step
         } else {
           liftSubsystem.enablePID(false);  // disable the PID
           liftSubsystem.setPower(-0.1);  // pull down
         }  
         break;
 
-      case 3:
+      case 12:
 
         commandDone = true;  // we're done
+        climbStep = 1;  // do nothing for rest of loop
         break;
 
     }
@@ -85,8 +90,10 @@ public class Climb_CalibrateArm extends CommandBase {
 
   }
 
+  // TODO: FIX THIS
   @Override
   public boolean isFinished() {
-    return commandDone;
+    // return commandDone;
+    return false;  // force never-ending for testing
   }
 }
