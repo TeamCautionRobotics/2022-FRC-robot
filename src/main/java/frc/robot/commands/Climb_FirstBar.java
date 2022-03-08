@@ -17,7 +17,7 @@ public class Climb_FirstBar extends CommandBase {
 
   private boolean commandDone = false;
   private int climbStep = 0;
-  private Timer timer0;
+  private Timer timer0 = new Timer();
 
 
   /**
@@ -83,8 +83,8 @@ public class Climb_FirstBar extends CommandBase {
 
       case 10:  // pull lift down
 
-        if ((liftSubsystem.getLeftLiftPosition() < 0.2) &&
-           (liftSubsystem.getRightLiftPosition() < 0.2)) {
+        if ((liftSubsystem.getLeftLiftPosition() < -0.5) &&
+           (liftSubsystem.getRightLiftPosition() < -0.5)) {
 
             climbStep = 11;
 
@@ -94,7 +94,7 @@ public class Climb_FirstBar extends CommandBase {
             angleSubsystem.setPower(0);  // zero the power to the angle
 
             liftSubsystem.enablePID(true);  // enable lift pid
-            liftSubsystem.setPosition(0.0);  // set setpoint
+            liftSubsystem.setPosition(-1.0);  // set setpoint
         }
         break;
 
@@ -124,12 +124,12 @@ public class Climb_FirstBar extends CommandBase {
     }
 
     // safe mode trigger
-    if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
-      liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
+    // if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
+    //   liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
 
-      climbStep = 0;
+    //   climbStep = 0;
 
-    }
+    // }
 
   }
 

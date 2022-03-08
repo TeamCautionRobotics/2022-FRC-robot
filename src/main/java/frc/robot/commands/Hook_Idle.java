@@ -7,7 +7,7 @@ public class Hook_Idle extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimbHook hookSubsystem; 
 
-  private Timer timer;
+  private Timer timer = new Timer();
   private boolean commandDone = false;
 
   public Hook_Idle(ClimbHook hookSubsystem) {

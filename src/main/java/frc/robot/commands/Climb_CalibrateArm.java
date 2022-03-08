@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbLift;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb_CalibrateArm extends CommandBase {
@@ -54,7 +55,7 @@ public class Climb_CalibrateArm extends CommandBase {
           climbStep = 1;
         } else {
           angleSubsystem.enablePID(false);
-          angleSubsystem.setPower(-0.2);
+          angleSubsystem.setPower(-0.25);
         }
         break;
 
