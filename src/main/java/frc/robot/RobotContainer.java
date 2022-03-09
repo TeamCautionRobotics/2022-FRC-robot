@@ -7,6 +7,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,6 +17,9 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
 import frc.robot.Constants;
+import frc.robot.commands.AutoGrabShootBall;
+import frc.robot.commands.AutoGrabShootBall2;
+import frc.robot.commands.Auto_DriveThreeFeet;
 import frc.robot.commands.GrabBall;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
@@ -59,6 +64,7 @@ public class RobotContainer {
   public final Intake intake = new Intake(intakeMotor, intakeDeploy);
 
   public final SequentialCommandGroup liftIntakeDelayed = new SequentialCommandGroup(new WaitCommand(1), new SetIntakeDeploy(intake, false));
+  final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   public RobotContainer() {
     configureButtonBindings();
@@ -77,6 +83,11 @@ public class RobotContainer {
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
 
+    autonomousChooser.setDefaultOption("Do Nothing Autonomous", new InstantCommand());
+    autonomousChooser.addOption("Drive forward", new Auto_DriveThreeFeet(driveBase));
+    autonomousChooser.addOption("Grab ball and shoot", new AutoGrabShootBall(driveBase, conveyor, intake));
+    autonomousChooser.addOption("Grab ball and shoot two: The sequel", new AutoGrabShootBall2(driveBase, conveyor, intake));
+    SmartDashboard.putData(autonomousChooser);
   }
 
   private void configureButtonBindings() {
@@ -95,6 +106,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    return autonomousChooser.getSelected();
   }
 }
