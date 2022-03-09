@@ -46,16 +46,17 @@ public class Robot extends TimedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
 
-    SmartDashboard.putNumber("left winch pwr", m_robotContainer.leftLifter.get());
-    SmartDashboard.putNumber("right winch pwr", m_robotContainer.rightLifter.get());
+    SmartDashboard.putNumber("Left Winch amps", m_robotContainer.leftLifter.getOutputCurrent());
+    SmartDashboard.putNumber("Right Winch amps", m_robotContainer.rightLifter.getOutputCurrent());
+    SmartDashboard.putNumber("Left Winch dist", m_robotContainer.climbLift.getLeftLiftPosition());
+    SmartDashboard.putNumber("Right Winch dist", m_robotContainer.climbLift.getRightLiftPosition());
+    SmartDashboard.putBoolean("Left Winch sw", m_robotContainer.climbLift.getLeftArmFullyDownSwitch());
+    SmartDashboard.putBoolean("Right Winch sw", m_robotContainer.climbLift.getRightArmFullyDownSwitch());
 
-    SmartDashboard.putNumber("left winch amps", m_robotContainer.leftLifter.getOutputCurrent());
-    SmartDashboard.putNumber("right winch amps", m_robotContainer.rightLifter.getOutputCurrent());
-
-    SmartDashboard.putNumber("left winch dist", m_robotContainer.climbLift.getLeftLiftPosition());
-
-    SmartDashboard.putBoolean("left lift sw", m_robotContainer.climbLift.getLeftArmFullyDownSwitch());
-    SmartDashboard.putBoolean("right lift sw", m_robotContainer.climbLift.getRightArmFullyDownSwitch());
+    SmartDashboard.putNumber("Left Angle pwr", m_robotContainer.leftAngleMotor.get());
+    SmartDashboard.putNumber("Right Angle pwr", m_robotContainer.rightAngleMotor.get());
+    SmartDashboard.putBoolean("Left angle sw", m_robotContainer.climbAngle.getLeftArmAtZeroSwitch());
+    SmartDashboard.putBoolean("Right angle sw", m_robotContainer.climbAngle.getRightArmAtZeroSwitch());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
