@@ -123,8 +123,8 @@ public class Climb_NextBar extends CommandBase {
       case 12:  // go time! pull down
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftLiftPosition() < -0.5 &&
-            liftSubsystem.getRightLiftPosition() < -0.5) {
+        if (liftSubsystem.getLeftLiftPosition() < -0.2 &&
+            liftSubsystem.getRightLiftPosition() < -0.2) {
 
           climbStep = 13;
 
