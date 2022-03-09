@@ -59,7 +59,8 @@ public final class Constants {
             public static final double kIMax = 0.5;
 
             // current thresholds
-            public static final double maxCurrentThreshold = 60.0;  // if current exceeds this, the climb fails!
+            public static final double maxCurrentThreshold = 65.0;  // failiure current threshold
+            public static final double maxCurrentTimeout = 1.0;  // if the above current is exceeded for this long, fail
 
         }
 
