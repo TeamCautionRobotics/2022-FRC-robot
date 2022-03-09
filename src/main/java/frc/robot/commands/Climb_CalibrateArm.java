@@ -89,11 +89,10 @@ public class Climb_CalibrateArm extends CommandBase {
   public void end(boolean interrupted) {
 
   }
-
-  // TODO: FIX THIS
+  
   @Override
   public boolean isFinished() {
-    // return commandDone;
-    return false;  // force never-ending for testing
+    return commandDone;
+    // return false;  // force never-ending for testing
   }
 }

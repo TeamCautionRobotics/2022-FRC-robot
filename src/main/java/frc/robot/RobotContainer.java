@@ -23,6 +23,7 @@ import frc.robot.commands.Angle_Idle;
 import frc.robot.commands.Climb_CalibrateArm;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
+import frc.robot.commands.Climb_NextBar;
 import frc.robot.commands.Climb_Testing;
 import frc.robot.Constants;
 import frc.robot.commands.AutoGrabShootBall;
@@ -61,9 +62,10 @@ public class RobotContainer {
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
   public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 10);
 
-  public final JoystickButton calibrateArmButton = new JoystickButton(rightJoystick, 6);
-  public final JoystickButton liftArmButton = new JoystickButton(rightJoystick, 7);
-  public final JoystickButton firstBarButton = new JoystickButton(rightJoystick, 8);
+  public final JoystickButton climbStartButton = new JoystickButton(rightJoystick, 6);
+  public final JoystickButton climbFirstBarButton = new JoystickButton(rightJoystick, 7);
+  public final JoystickButton climbAdvanceButton = new JoystickButton(rightJoystick, 8);
+  public final JoystickButton climbResetButton = new JoystickButton(rightJoystick, 9);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -162,10 +164,13 @@ public class RobotContainer {
     intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
-    calibrateArmButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
-    liftArmButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
-    firstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
-    
+    climbStartButton.whenPressed(new SequentialCommandGroup(
+      new Climb_CalibrateArm(climbAngle, climbLift), 
+      new Climb_LiftArm(climbAngle, climbHook, climbLift)));
+    climbFirstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
+    climbAdvanceButton.whenPressed(new Climb_NextBar(climbAngle, climbHook, climbLift));
+    climbResetButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
+
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     grabBallButton.whenReleased(liftIntakeDelayed);
     shootBallButton.whileHeld(new ShootBall(conveyor));
