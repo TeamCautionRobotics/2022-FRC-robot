@@ -18,11 +18,11 @@ public class Climb_Testing extends CommandBase {
   private boolean anglePidEnabled = false;
   private double angleSetpoint = 0;
   private double angleManualPower = 0;
-  private double angle_kP = Constants.Climb.angler.kP;
-  private double angle_kI = Constants.Climb.angler.kI;
-  private double angle_kD = Constants.Climb.angler.kD;
-  private double angle_kIMax = Constants.Climb.angler.kIMax;
-  private double angle_kIMin = Constants.Climb.angler.kIMin;
+  private double angle_kP = Constants.Climb.angle.kP;
+  private double angle_kI = Constants.Climb.angle.kI;
+  private double angle_kD = Constants.Climb.angle.kD;
+  private double angle_kIMax = Constants.Climb.angle.kIMax;
+  private double angle_kIMin = Constants.Climb.angle.kIMin;
 
   private boolean anglePidEnabled_last = true;
   private double angleSetpoint_last = -1;

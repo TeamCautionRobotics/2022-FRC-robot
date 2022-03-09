@@ -64,7 +64,7 @@ public final class Constants {
 
         }
 
-        public static final class angler {
+        public static final class angle {
 
             // CAN IDs for motor controllers
             public static final int leftID = 32;

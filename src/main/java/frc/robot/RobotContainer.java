@@ -83,11 +83,11 @@ public class RobotContainer {
   public final DigitalInput leftArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.leftArmFullyDownSwitchPort);
   public final DigitalInput rightArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.rightArmFullyDownSwtichPort);
 
-  public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.leftID);
-  public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angler.rightID);
+  public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.leftID);
+  public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.rightID);
   public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
-  public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.leftArmAtZeroSwitchPort);
-  public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angler.rightArmAtZeroSwitchPort);
+  public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.leftArmAtZeroSwitchPort);
+  public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.rightArmAtZeroSwitchPort);
 
   public final DriveBase driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
   public final Conveyor conveyor = new Conveyor(conveyorMotor, gatePiston);
@@ -123,8 +123,8 @@ public class RobotContainer {
     leftAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     // set the angle encoder coefficient 
-    leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
-    rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angler.encoderDistancePerPulse);
+    leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderDistancePerPulse);
+    rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderDistancePerPulse);
     // set the idle mode to braking
     leftAngleMotor.setNeutralMode(NeutralMode.Coast);
     rightAngleMotor.setNeutralMode(NeutralMode.Coast);

@@ -17,17 +17,17 @@ public class ClimbAngle extends SubsystemBase {
   private final DigitalInput rightArmAtZeroSwitch;
 
   // angler pid 
-  private final PIDController leftAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
-  private final PIDController rightAnglePID = new PIDController(Constants.Climb.angler.kP, Constants.Climb.angler.kI, Constants.Climb.angler.kD);
+  private final PIDController leftAnglePID = new PIDController(Constants.Climb.angle.kP, Constants.Climb.angle.kI, Constants.Climb.angle.kD);
+  private final PIDController rightAnglePID = new PIDController(Constants.Climb.angle.kP, Constants.Climb.angle.kI, Constants.Climb.angle.kD);
   private boolean pidEnabled = false;
   private boolean pidDisabled = false;
-  private double setpoint = Constants.Climb.angler.initialSetpoint;
+  private double setpoint = Constants.Climb.angle.initialSetpoint;
 
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
 
-    setIRange(Constants.Climb.angler.kIMax, Constants.Climb.angler.kIMin);
+    setIRange(Constants.Climb.angle.kIMax, Constants.Climb.angle.kIMin);
 
     // motor controllers
     this.leftMotor = leftAngleMotor;
