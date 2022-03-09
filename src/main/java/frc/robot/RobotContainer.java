@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
@@ -24,6 +26,7 @@ import frc.robot.commands.TankDrive;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.SetIntakeDeploy;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
@@ -40,7 +43,6 @@ public class RobotContainer {
 
   public final JoystickButton shootBallButton = new JoystickButton(leftJoystick, 1);
   public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 3);
-
   public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 6);
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 7);  
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
@@ -61,6 +63,7 @@ public class RobotContainer {
   public final Conveyor conveyor = new Conveyor(conveyorMotor, gatePiston);
   public final Intake intake = new Intake(intakeMotor, intakeDeploy);
 
+  public final SequentialCommandGroup liftIntakeDelayed = new SequentialCommandGroup(new WaitCommand(1), new SetIntakeDeploy(intake, false));
   final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   public RobotContainer() {
@@ -96,6 +99,7 @@ public class RobotContainer {
     intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
+    grabBallButton.whenReleased(liftIntakeDelayed);
     shootBallButton.whileHeld(new ShootBall(conveyor));
 
   }
