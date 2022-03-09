@@ -19,6 +19,11 @@ public class SetIntakeDeploy extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+    commandFinished = false;  // wpilib bug workaround
+  }
+
+  @Override
   public void execute() {
 
     intakeSubsystem.setDeploy(intakeState);

@@ -19,6 +19,7 @@ public class GrabBall extends CommandBase {
   @Override
   public void initialize() {
     conveyorSubsystem.setGate(true);  // close the gate
+    intakeSubsystem.setDeploy(true);  // drop intake
   }
 
   @Override
@@ -29,6 +30,7 @@ public class GrabBall extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    // intakeSubsystem.setDeploy(false);  // lift intake
     intakeSubsystem.runMotor(0.0);  // stop the intake
     conveyorSubsystem.runMotor(0.0);  // stop the conveyor
   }

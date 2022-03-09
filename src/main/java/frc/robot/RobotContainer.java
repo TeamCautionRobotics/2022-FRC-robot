@@ -10,8 +10,12 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
@@ -20,6 +24,12 @@ import frc.robot.commands.Climb_CalibrateArm;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_Testing;
+import frc.robot.Constants;
+import frc.robot.commands.AutoGrabShootBall;
+import frc.robot.commands.AutoGrabShootBall2;
+import frc.robot.commands.Auto_DriveThreeFeet;
+import frc.robot.commands.GrabBall;
+import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
@@ -31,6 +41,7 @@ import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
+import frc.robot.commands.SetIntakeDeploy;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
@@ -45,7 +56,6 @@ public class RobotContainer {
 
   public final JoystickButton shootBallButton = new JoystickButton(leftJoystick, 1);
   public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 3);
-
   public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 6);
   public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 7);  
   public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
@@ -84,6 +94,9 @@ public class RobotContainer {
   public final ClimbAngle climbAngle = new ClimbAngle(leftAngleMotor, rightAngleMotor, leftArmAngleAtZeroSwitch, rightArmAngleAtZeroSwitch);
   public final ClimbHook climbHook = new ClimbHook(hookPiston);
 
+
+  public final SequentialCommandGroup liftIntakeDelayed = new SequentialCommandGroup(new WaitCommand(1), new SetIntakeDeploy(intake, false));
+  final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   public RobotContainer() {
     configureButtonBindings();
@@ -134,6 +147,11 @@ public class RobotContainer {
     climbAngle.setDefaultCommand(new Angle_Idle(climbAngle));
     climbHook.setDefaultCommand(new Hook_Idle(climbHook));
 
+    autonomousChooser.setDefaultOption("Do Nothing Autonomous", new InstantCommand());
+    autonomousChooser.addOption("Drive forward", new Auto_DriveThreeFeet(driveBase));
+    autonomousChooser.addOption("Grab ball and shoot", new AutoGrabShootBall(driveBase, conveyor, intake));
+    autonomousChooser.addOption("Grab ball and shoot two: The sequel", new AutoGrabShootBall2(driveBase, conveyor, intake));
+    SmartDashboard.putData(autonomousChooser);
   }
 
   private void configureButtonBindings() {
@@ -149,12 +167,13 @@ public class RobotContainer {
     firstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
+    grabBallButton.whenReleased(liftIntakeDelayed);
     shootBallButton.whileHeld(new ShootBall(conveyor));
 
   }
 
 
   public Command getAutonomousCommand() {
-    return new InstantCommand();
+    return autonomousChooser.getSelected();
   }
 }
