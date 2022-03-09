@@ -109,8 +109,8 @@ public class Climb_NextBar extends CommandBase {
         if (angleSubsystem.getLeftEncoderDistance() > 55 &&
             angleSubsystem.getRightEncoderDistance() > 55) {
 
-          hookSubsystem.set(false);  // retract the hooks
-          climbStep = 12;
+          // hookSubsystem.set(false);  // retract the hooks
+          climbStep = 15;
 
         } else {  // if we're not there yet
 
