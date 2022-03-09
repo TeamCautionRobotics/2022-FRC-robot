@@ -82,8 +82,8 @@ public class Climb_FirstBar extends CommandBase {
 
       case 10:  // pull lift down
 
-        if ((liftSubsystem.getLeftLiftPosition() < -0.5) &&
-           (liftSubsystem.getRightLiftPosition() < -0.5)) {
+        if ((liftSubsystem.getLeftLiftPosition() < -0.2) &&
+           (liftSubsystem.getRightLiftPosition() < -0.2)) {
 
             climbStep = 11;
 

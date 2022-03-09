@@ -55,7 +55,7 @@ public final class Constants {
             public static final double kP = 0.17;
             public static final double kI = 0.06;
             public static final double kD = 0.002;
-            public static final double kIMin = -0.1;
+            public static final double kIMin = -0.3;
             public static final double kIMax = 0.5;
 
             // current thresholds
