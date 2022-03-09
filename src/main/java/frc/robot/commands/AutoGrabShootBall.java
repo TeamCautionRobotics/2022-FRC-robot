@@ -11,8 +11,7 @@ public class AutoGrabShootBall extends SequentialCommandGroup {
   public AutoGrabShootBall(DriveBase driveBase, Conveyor conveyor, Intake intake) {
     addCommands(
       // Prepare for reaping the ball
-      new SetIntakeDeploy(intake, true),    // is true correct for harvesting?
-      new SetConveyorGate(conveyor, false), // is false correct for closed?
+      new SetIntakeDeploy(intake, true),
 
       // drive backwards while reaping. Stop reaping slightly after driving finishes
       new ParallelDeadlineGroup(
@@ -29,7 +28,6 @@ public class AutoGrabShootBall extends SequentialCommandGroup {
           // also, TODO: should this have a timer as a fallback completetion
       
       // sow the ball into the goal and switch off after five (5) seconds
-      new SetConveyorGate(conveyor, true), // is true correct for depositing?
       new ParallelDeadlineGroup(
         new WaitCommand(5),
         new ShootBall(conveyor)
