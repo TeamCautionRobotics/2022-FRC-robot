@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
@@ -16,6 +17,7 @@ public class Climb_FirstBar extends CommandBase {
 
   private boolean commandDone = false;
   private int climbStep = 0;
+  private Timer currentLimitTimeout = new Timer();
   private Timer timer0 = new Timer();
 
 
@@ -38,6 +40,8 @@ public class Climb_FirstBar extends CommandBase {
   public void initialize() {
 
     commandDone = false;  // wpilib bug workaround
+
+    currentLimitTimeout.start();  // start the current timeout timer
 
     hookSubsystem.set(false);  // retract the static hooks
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
@@ -124,12 +128,19 @@ public class Climb_FirstBar extends CommandBase {
     }
 
     // safe mode trigger
-    // if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
-    //   liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
+    // if we're exceeding current limit:
+    if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
+      liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
 
-    //   climbStep = 0;
+        if (currentLimitTimeout.get() > Constants.Climb.lift.maxCurrentTimeout) {  // if the timeout has expired while the current is exceeded
+          currentLimitTimeout.stop(); // stop the timeout timer
+          climbStep = 0; // go to safe mode!
+        }
 
-    // }
+    } else {  // if the current has not exceeded threshold
+      currentLimitTimeout.reset();  // full reset the timer
+      currentLimitTimeout.start();
+    }
 
   }
 
