@@ -55,6 +55,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Left Angle pwr", m_robotContainer.leftAngleMotor.get());
     SmartDashboard.putNumber("Right Angle pwr", m_robotContainer.rightAngleMotor.get());
+    SmartDashboard.putNumber("Left Angle dist", m_robotContainer.climbAngle.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Angle dist", m_robotContainer.climbAngle.getRightEncoderDistance());
     SmartDashboard.putBoolean("Left angle sw", m_robotContainer.climbAngle.getLeftArmAtZeroSwitch());
     SmartDashboard.putBoolean("Right angle sw", m_robotContainer.climbAngle.getRightArmAtZeroSwitch());
   }
