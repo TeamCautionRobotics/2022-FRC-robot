@@ -106,15 +106,15 @@ public class Climb_NextBar extends CommandBase {
       case 11:  // angle out
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 110 &&
-            angleSubsystem.getRightEncoderDistance() > 110) {
+        if (angleSubsystem.getLeftEncoderDistance() > 107.5 &&
+            angleSubsystem.getRightEncoderDistance() > 107.5) {
 
           // hookSubsystem.set(false);  // retract the hooks
           climbStep = 15;
 
         } else {  // if we're not there yet
 
-          angleSubsystem.setPosition(120);
+          angleSubsystem.setPosition(115);
           angleSubsystem.enablePID(true);
 
         }
