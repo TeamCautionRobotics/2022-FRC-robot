@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,6 +21,7 @@ import frc.robot.Constants;
 import frc.robot.commands.AutoGrabShootBall;
 import frc.robot.commands.AutoGrabShootBall2;
 import frc.robot.commands.Auto_DriveThreeFeet;
+import frc.robot.commands.EjectBall;
 import frc.robot.commands.GrabBall;
 import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
@@ -43,11 +45,12 @@ public class RobotContainer {
 
   public final JoystickButton shootBallButton = new JoystickButton(leftJoystick, 1);
   public final JoystickButton grabBallButton = new JoystickButton(leftJoystick, 3);
-  public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 6);
-  public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 7);  
-  public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
-  public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 10);
-
+  public final JoystickButton ejectBallButton = new JoystickButton(leftJoystick, 5);
+  // public final JoystickButton intakeDeployButton = new JoystickButton(leftJoystick, 6);
+  // public final JoystickButton intakeMotorButton = new JoystickButton(leftJoystick, 7);  
+  // public final JoystickButton conveyorGateButton = new JoystickButton(rightJoystick, 11);
+  // public final JoystickButton conveyorMotorButton = new JoystickButton(rightJoystick, 10);
+  
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
   public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightSpark0ID, MotorType.kBrushless);
@@ -101,6 +104,7 @@ public class RobotContainer {
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     grabBallButton.whenReleased(liftIntakeDelayed);
     shootBallButton.whileHeld(new ShootBall(conveyor));
+    ejectBallButton.whenHeld(new EjectBall(intake, conveyor));
 
   }
 
