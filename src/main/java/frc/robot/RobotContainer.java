@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -101,11 +102,18 @@ public class RobotContainer {
   public final SequentialCommandGroup liftIntakeDelayed = new SequentialCommandGroup(new WaitCommand(1), new SetIntakeDeploy(intake, false));
   final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
+  public UsbCamera cam0 = CameraServer.startAutomaticCapture("Rear Camera", 0);
+  public UsbCamera cam1 = CameraServer.startAutomaticCapture("Front Camera", 1);
+
   public RobotContainer() {
     configureButtonBindings();
 
-
     // configure things
+    cam0.setFPS(15);
+    cam0.setResolution(150, 113);
+    cam1.setFPS(15);
+    cam1.setResolution(150, 113);
+
     // getDistance returns inches, getRate returns inches/second
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);
 
@@ -130,10 +138,6 @@ public class RobotContainer {
     leftAngleMotor.setNeutralMode(NeutralMode.Coast);
     rightAngleMotor.setNeutralMode(NeutralMode.Coast);
 
-
-    // set default commands
-    CameraServer.startAutomaticCapture("Rear Camera", 0);
-    CameraServer.startAutomaticCapture("Front Camera", 1);
 
     // config
     conveyorMotor.setNeutralMode(NeutralMode.Brake);  // brake the conveyor when stopped
