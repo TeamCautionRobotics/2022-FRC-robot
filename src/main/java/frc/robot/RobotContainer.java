@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -69,11 +70,16 @@ public class RobotContainer {
   public final SequentialCommandGroup liftIntakeDelayed = new SequentialCommandGroup(new WaitCommand(1), new SetIntakeDeploy(intake, false));
   final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
+  public UsbCamera cam0 = CameraServer.startAutomaticCapture("Rear Camera", 0);
+  public UsbCamera cam1 = CameraServer.startAutomaticCapture("Front Camera", 1);
+
   public RobotContainer() {
     configureButtonBindings();
 
-    CameraServer.startAutomaticCapture("Rear Camera", 0);
-    CameraServer.startAutomaticCapture("Front Camera", 1);
+    cam0.setFPS(15);
+    cam1.setFPS(15);
+
+
 
     // config
     conveyorMotor.setNeutralMode(NeutralMode.Brake);  // brake the conveyor when stopped
