@@ -95,11 +95,11 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    conveyorGateButton.whenPressed(new ToggleConveyorGate(conveyor));
-    conveyorMotorButton.whenHeld(new RunConveyorMotor(conveyor));
+    // conveyorGateButton.whenPressed(new ToggleConveyorGate(conveyor));
+    // conveyorMotorButton.whenHeld(new RunConveyorMotor(conveyor));
     
-    intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
-    intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
+    // intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
+    // intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     grabBallButton.whenReleased(liftIntakeDelayed);
