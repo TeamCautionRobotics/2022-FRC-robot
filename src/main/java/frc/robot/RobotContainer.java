@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
@@ -65,6 +66,7 @@ public class RobotContainer {
   public final JoystickButton climbFirstBarButton = new JoystickButton(rightJoystick, 7);
   public final JoystickButton climbAdvanceButton = new JoystickButton(rightJoystick, 8);
   public final JoystickButton climbResetButton = new JoystickButton(rightJoystick, 9);
+  public final JoystickButton climbCancelButton = new JoystickButton(rightJoystick, 11);
 
   public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
   public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
@@ -169,6 +171,11 @@ public class RobotContainer {
     climbFirstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     climbAdvanceButton.whenPressed(new Climb_NextBar(climbAngle, climbHook, climbLift));
     climbResetButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
+    climbCancelButton.whenPressed(new ParallelCommandGroup(
+      new Angle_Idle(climbAngle),
+      new Lift_Idle(climbLift),
+      new Hook_Idle(climbHook)
+    ));
 
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     grabBallButton.whenReleased(liftIntakeDelayed);
