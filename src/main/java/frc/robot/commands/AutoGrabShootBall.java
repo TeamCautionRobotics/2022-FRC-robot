@@ -31,7 +31,9 @@ public class AutoGrabShootBall extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new WaitCommand(5),
         new ShootBall(conveyor)
-      )
+      ),
+
+      new AutoDriveDistance(driveBase, -60)
     );
   }
 }

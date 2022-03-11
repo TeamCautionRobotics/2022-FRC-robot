@@ -35,7 +35,9 @@ public class AutoAtGoal extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         new WaitCommand(3),
         new ShootBall_HighPower(conveyor)
-      )
+      ),
+
+      new AutoDriveDistance(driveBase, -86)
     );
   }
 }
