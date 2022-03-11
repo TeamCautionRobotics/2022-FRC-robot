@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbLift;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -13,6 +14,7 @@ public class Climb_CalibrateArm extends CommandBase {
   private boolean commandDone = false;
 
   private int climbStep = 10;
+  private Timer failTimer = new Timer();
 
 
   /**
@@ -39,6 +41,10 @@ public class Climb_CalibrateArm extends CommandBase {
 
     commandDone = false;
 
+    failTimer.stop();
+    failTimer.reset();
+    failTimer.start();
+
   }
 
   @Override
@@ -56,6 +62,8 @@ public class Climb_CalibrateArm extends CommandBase {
         if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
           angleSubsystem.setPower(0.0);
           angleSubsystem.setEncoderPosition(0.0);
+          failTimer.reset();
+          failTimer.start();
           climbStep = 11;
         } else {
           angleSubsystem.enablePID(false);
@@ -68,6 +76,8 @@ public class Climb_CalibrateArm extends CommandBase {
         if (liftSubsystem.getLeftArmFullyDownSwitch() && liftSubsystem.getRightArmFullyDownSwitch()) {
           liftSubsystem.setPower(0.0);  // stop the motors
           liftSubsystem.setEncoderPosition(0.0);  // zero the encoders
+          failTimer.reset();
+          failTimer.start();
           climbStep = 12;  // go to next step
         } else {
           liftSubsystem.enablePID(false);  // disable the PID
@@ -77,9 +87,24 @@ public class Climb_CalibrateArm extends CommandBase {
 
       case 12:
 
+        failTimer.stop();
         commandDone = true;  // we're done
         climbStep = 1;  // do nothing for rest of loop
         break;
+
+    }
+
+    if (failTimer.get() > 2) {  // if we're doing a single step for more than 2 seconds, fail out
+      System.out.println("CALIBRATION ERROR: Timed out (Check limit switches!)");
+
+      // kill power to stuff
+      liftSubsystem.enablePID(false);
+      liftSubsystem.setPower(0);
+      angleSubsystem.enablePID(false);
+      liftSubsystem.setPower(0);
+      
+      // exit
+      climbStep = 12;
 
     }
 
