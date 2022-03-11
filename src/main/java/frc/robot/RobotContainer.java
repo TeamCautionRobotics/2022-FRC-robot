@@ -78,9 +78,7 @@ public class RobotContainer {
 
     cam0.setFPS(15);
     cam1.setFPS(15);
-
-
-
+    
     // config
     conveyorMotor.setNeutralMode(NeutralMode.Brake);  // brake the conveyor when stopped
 
