@@ -26,6 +26,11 @@ public class DriveBase extends SubsystemBase {
 
   private boolean usingLeftEncoder = true;
 
+  private double leftRampPrevOut = 0;
+  private double leftRampOut = 0;
+  private double rightRampPrevOut = 0;
+  private double rightRampOut = 0;
+
 
   public DriveBase(CANSparkMax leftSpark0, CANSparkMax leftSpark1, CANSparkMax rightSpark0, CANSparkMax rightSpark1) {  
 
@@ -63,6 +68,27 @@ public class DriveBase extends SubsystemBase {
   public void drive(double power) {
     this.leftDriveGroup.set(power);
     this.rightSparkGroup.set(power);
+  }
+
+  public void driveRamping(double leftPower, double rightPower, double rampBand) {
+
+    if (Math.abs(leftPower - leftRampPrevOut) > rampBand) {
+      leftRampOut = leftPower - leftRampPrevOut > 0 ? leftRampPrevOut + rampBand : leftRampPrevOut - rampBand;
+    } else {
+      leftRampOut = leftPower;
+    }
+
+    if (Math.abs(rightPower - rightRampPrevOut) > rampBand) {
+      rightRampOut = rightPower - rightRampPrevOut > 0 ? rightRampPrevOut + rampBand : rightRampPrevOut - rampBand;
+    } else {
+      rightRampOut = rightPower;
+    }
+
+    this.leftDriveGroup.set(leftRampOut);
+    this.rightSparkGroup.set(rightRampOut);
+    leftRampPrevOut = leftRampOut;
+    rightRampPrevOut = rightRampOut;
+
   }
 
   public void resetEncoders() {
