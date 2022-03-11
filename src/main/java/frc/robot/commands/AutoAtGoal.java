@@ -12,7 +12,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
     addCommands(
 
       // shoot preloaded ball for five secs
-      new ParallelDeadlineGroup(new WaitCommand(5), new ShootBall(conveyor)),
+      new ParallelDeadlineGroup(new WaitCommand(5), new ShootBall_HighPower(conveyor)),
 
       // Prepare for reaping the ball
       new SetIntakeDeploy(intake, true),
@@ -21,7 +21,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         // run GrabBall command for as long as drive followed by wait takes
         new SequentialCommandGroup(
-          new AutoDriveDistance(driveBase, -119),  // I think this distance is correct.
+          new AutoDriveDistance(driveBase, -120),  // I think this distance is correct.
           new WaitCommand(0.5)  // wait a bit for the ball to be succ and the robot to stop.
         ),
         new GrabBall(intake, conveyor)
@@ -34,7 +34,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
       // sow the ball into the goal and switch off after five (5) seconds
       new ParallelDeadlineGroup(
         new WaitCommand(5),
-        new ShootBall(conveyor)
+        new ShootBall_HighPower(conveyor)
       )
     );
   }
