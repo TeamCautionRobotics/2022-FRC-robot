@@ -29,6 +29,7 @@ import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_NextBar;
 import frc.robot.commands.Climb_Testing;
 import frc.robot.Constants;
+import frc.robot.commands.AutoAtGoal;
 import frc.robot.commands.AutoGrabShootBall;
 import frc.robot.commands.AutoGrabShootBall2;
 import frc.robot.commands.Auto_DriveThreeFeet;
@@ -157,7 +158,8 @@ public class RobotContainer {
     autonomousChooser.setDefaultOption("Do Nothing Autonomous", new InstantCommand());
     autonomousChooser.addOption("Drive forward", new Auto_DriveThreeFeet(driveBase));
     autonomousChooser.addOption("Grab ball and shoot", new AutoGrabShootBall(driveBase, conveyor, intake));
-    autonomousChooser.addOption("Grab ball and shoot two: The sequel", new AutoGrabShootBall2(driveBase, conveyor, intake));
+    // autonomousChooser.addOption("Grab ball and shoot two: The sequel", new AutoGrabShootBall2(driveBase, conveyor, intake));
+    autonomousChooser.addOption("At goal: shoot, grab, shoot", new AutoAtGoal(driveBase, conveyor, intake));
     SmartDashboard.putData(autonomousChooser);
   }
 
