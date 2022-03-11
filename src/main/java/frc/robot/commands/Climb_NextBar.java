@@ -101,8 +101,8 @@ public class Climb_NextBar extends CommandBase {
           angleSubsystem.setPower(0);
 
           // go 28 inches out
-          liftSubsystem.setPosition(26);
           liftSubsystem.enablePID(true);
+          liftSubsystem.setPosition(26);
 
           sectionDone = true;
 

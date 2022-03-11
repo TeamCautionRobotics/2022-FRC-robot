@@ -94,7 +94,7 @@ public class ClimbLift extends SubsystemBase {
    * @param controlType reference type
    */
   public void setPosition(double pos) {
-    setpoint = pos;
+    this.setpoint = pos;
   }
 
   /**
