@@ -73,13 +73,16 @@ public class ClimbAngle extends SubsystemBase {
    */
   public void setPosition(double reference) {
 
-    if (reference > 110) {
-      setpoint = 0;
-    } else if (reference < 0) {
-      setpoint = 0;
-    } else {
-      setpoint = reference;
-    }
+    setpoint = reference;
+
+    // if (reference > 110) {
+    //   setpoint = 0;
+    // } else if (reference < 0) {
+    //   setpoint = 0;
+    // } else {
+    //   setpoint = reference;
+    // }
+
   }
 
   /**
