@@ -16,6 +16,7 @@ public class Climb_NextBar extends CommandBase {
   private final ClimbLift liftSubsystem; 
 
   private boolean commandDone = false;
+  private boolean sectionDone = false;
   private int climbStep = 0;
   private Timer currentLimitTimeout = new Timer();
   private Timer timer0 = new Timer();
@@ -40,6 +41,7 @@ public class Climb_NextBar extends CommandBase {
   public void initialize() {
 
     commandDone = false;  // wpilib bug workaround
+    sectionDone = false;
 
     hookSubsystem.set(false);  // retract the static hooks
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
@@ -86,8 +88,10 @@ public class Climb_NextBar extends CommandBase {
 
         // if we're at the setpoint
         if (liftSubsystem.getLeftLiftPosition() > 25.8 &&
-            liftSubsystem.getRightLiftPosition() > 25.8) {
+            liftSubsystem.getRightLiftPosition() > 25.8 &&
+            sectionDone) {
 
+              sectionDone = false;
               climbStep = 11;
 
         } else {  // if we're not there yet
@@ -100,6 +104,8 @@ public class Climb_NextBar extends CommandBase {
           liftSubsystem.setPosition(26);
           liftSubsystem.enablePID(true);
 
+          sectionDone = true;
+
         }
         break;
       
@@ -107,15 +113,18 @@ public class Climb_NextBar extends CommandBase {
 
         // if we're at the setpoint
         if (angleSubsystem.getLeftEncoderDistance() > 107.5 &&
-            angleSubsystem.getRightEncoderDistance() > 107.5) {
+            angleSubsystem.getRightEncoderDistance() > 107.5 &&
+            sectionDone) {
 
           // hookSubsystem.set(false);  // retract the hooks
+          sectionDone = false;
           climbStep = 15;
 
         } else {  // if we're not there yet
 
-          angleSubsystem.setPosition(115);
           angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(115);
+          sectionDone = true;
 
         }
         break;
@@ -124,8 +133,10 @@ public class Climb_NextBar extends CommandBase {
 
         // if we're at the setpoint
         if (liftSubsystem.getLeftLiftPosition() < -0.2 &&
-            liftSubsystem.getRightLiftPosition() < -0.2) {
+            liftSubsystem.getRightLiftPosition() < -0.2 && 
+            sectionDone) {
 
+          sectionDone = false;
           climbStep = 13;
 
         } else {  // if we're not there yet
@@ -137,6 +148,8 @@ public class Climb_NextBar extends CommandBase {
           // pull down
           liftSubsystem.setPosition(-1.0);
           liftSubsystem.enablePID(true);
+
+          sectionDone = true;
 
         }
         break;
