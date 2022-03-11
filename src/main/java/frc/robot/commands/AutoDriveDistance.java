@@ -21,7 +21,7 @@ public class AutoDriveDistance extends CommandBase {
   public AutoDriveDistance(DriveBase driveBase, double distance) {
     this.driveBase = driveBase;
     driveDistance = distance;
-    drivePower = distance > 0 ? -0.5 : 0.5;
+    drivePower = distance > 0 ? -0.37 : 0.37;
     addRequirements(driveBase);
   }
 
