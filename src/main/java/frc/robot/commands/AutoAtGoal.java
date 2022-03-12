@@ -21,7 +21,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
       new ParallelDeadlineGroup(
         // run GrabBall command for as long as drive followed by wait takes
         new SequentialCommandGroup(
-          new AutoDriveDistance(driveBase, -83),  // I think this distance is correct.
+          new AutoDriveDistance(driveBase, -79.5),  // I think this distance is correct.
           new WaitCommand(0.5)  // wait a bit for the ball to be succ and the robot to stop.
         ),
         new GrabBall(intake, conveyor)
