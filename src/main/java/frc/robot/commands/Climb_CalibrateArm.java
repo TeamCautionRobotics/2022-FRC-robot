@@ -88,9 +88,9 @@ public class Climb_CalibrateArm extends CommandBase {
 
       case 12:
 
-      // set calibration success
-      angleSubsystem.setCalibrated(true);
-      liftSubsystem.setCalibrated(true);
+        // set calibration success
+        angleSubsystem.setCalibrated(true);
+        liftSubsystem.setCalibrated(true);
 
         failTimer.stop();
         commandDone = true;  // we're done

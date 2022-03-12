@@ -33,13 +33,18 @@ public class Climb_LiftArm extends CommandBase {
   @Override
   public void initialize() {
 
-    // retract the static hooks
-    hookSubsystem.set(false);
+    if (!angleSubsystem.getCalibrated() || !liftSubsystem.getCalibrated()) {
+      climbStep = 12;
+    } else {
 
-    // start on step 0
-    climbStep = 10;
+      // retract the static hooks
+      hookSubsystem.set(false);
 
-    commandDone = false;
+      // start on step 0
+      climbStep = 10;
+
+      commandDone = false;
+    }
 
   }
 
