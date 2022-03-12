@@ -59,7 +59,8 @@ public class Climb_CalibrateArm extends CommandBase {
       case 10:
 
         commandDone = false;
-        if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
+        // if (angleSubsystem.getLeftArmAtZeroSwitch() && angleSubsystem.getRightArmAtZeroSwitch()) {
+          if (angleSubsystem.getRightArmAtZeroSwitch()) {
           angleSubsystem.setPower(0.0);
           angleSubsystem.setEncoderPosition(0.0);
           failTimer.reset();
@@ -87,6 +88,10 @@ public class Climb_CalibrateArm extends CommandBase {
 
       case 12:
 
+      // set calibration success
+      angleSubsystem.setCalibrated(true);
+      liftSubsystem.setCalibrated(true);
+
         failTimer.stop();
         commandDone = true;  // we're done
         climbStep = 1;  // do nothing for rest of loop
@@ -95,7 +100,7 @@ public class Climb_CalibrateArm extends CommandBase {
     }
 
     if (failTimer.get() > 2) {  // if we're doing a single step for more than 2 seconds, fail out
-      System.out.println("CALIBRATION ERROR: Timed out (Check limit switches!)");
+      System.out.println("ERROR: Calibration timed out (Check limit switches!)");
 
       // kill power to stuff
       liftSubsystem.enablePID(false);
@@ -103,9 +108,9 @@ public class Climb_CalibrateArm extends CommandBase {
       angleSubsystem.enablePID(false);
       liftSubsystem.setPower(0);
 
-      // set calibration success
-      angleSubsystem.setCalibrated(true);
-      liftSubsystem.setCalibrated(true);
+      // set calibration failiure
+      angleSubsystem.setCalibrated(false);
+      liftSubsystem.setCalibrated(false);
       
       // exit
       climbStep = 12;
