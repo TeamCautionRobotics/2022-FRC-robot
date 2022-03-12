@@ -49,6 +49,7 @@ import frc.robot.subsystems.Conveyor;
 import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.SetIntakeDeploy;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.ShootBall_HighPower;
 import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
@@ -185,7 +186,7 @@ public class RobotContainer {
 
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
     grabBallButton.whenReleased(liftIntakeDelayed);
-    shootBallButton.whileHeld(new ShootBall(conveyor));
+    shootBallButton.whileHeld(new ShootBall_HighPower(conveyor));
     ejectBallButton.whenHeld(new EjectBall(intake, conveyor));
 
   }
