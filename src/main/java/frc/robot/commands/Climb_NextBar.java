@@ -118,7 +118,7 @@ public class Climb_NextBar extends CommandBase {
 
           // hookSubsystem.set(false);  // retract the hooks
           sectionDone = false;
-          climbStep = 15;
+          climbStep = 12;
 
         } else {  // if we're not there yet
 
