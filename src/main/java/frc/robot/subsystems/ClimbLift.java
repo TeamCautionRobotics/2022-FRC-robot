@@ -28,6 +28,8 @@ public class ClimbLift extends SubsystemBase {
   private boolean PIDDisabled = false;
   private double setpoint = Constants.Climb.lift.initialReference;
 
+  private boolean calibrated = false;
+
 
   public ClimbLift(CANSparkMax leftLifter, CANSparkMax rightLifter, DigitalInput leftArmFullyDownSwitch, DigitalInput rightArmFullyDownSwitch) {
 
@@ -49,6 +51,14 @@ public class ClimbLift extends SubsystemBase {
     rightLifterEncoder.setPositionConversionFactor(Constants.Climb.lift.encoderConversionFactor);
     rightLifterEncoder.setVelocityConversionFactor(Constants.Climb.lift.encoderConversionFactor/60.0);
 
+  }
+
+  public void setCalibrated(boolean s) {
+    this.calibrated = s;
+  }
+
+  public boolean getCalibrated() {
+    return this.calibrated;
   }
 
   /**

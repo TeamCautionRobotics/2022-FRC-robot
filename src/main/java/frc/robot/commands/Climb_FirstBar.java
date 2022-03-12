@@ -41,13 +41,19 @@ public class Climb_FirstBar extends CommandBase {
 
     commandDone = false;  // wpilib bug workaround
 
-    currentLimitTimeout.start();  // start the current timeout timer
+    if (!angleSubsystem.getCalibrated() || !liftSubsystem.getCalibrated()) {
+      climbStep = 13;
+    } else {
 
-    hookSubsystem.set(false);  // retract the static hooks
-    angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
-    liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
+      currentLimitTimeout.start();  // start the current timeout timer
 
-    climbStep = 10;  // start on step 10
+      hookSubsystem.set(false);  // retract the static hooks
+      angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
+      liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
+
+      climbStep = 10;  // start on step 10
+
+    }
 
   }
 

@@ -102,6 +102,10 @@ public class Climb_CalibrateArm extends CommandBase {
       liftSubsystem.setPower(0);
       angleSubsystem.enablePID(false);
       liftSubsystem.setPower(0);
+
+      // set calibration success
+      angleSubsystem.setCalibrated(true);
+      liftSubsystem.setCalibrated(true);
       
       // exit
       climbStep = 12;

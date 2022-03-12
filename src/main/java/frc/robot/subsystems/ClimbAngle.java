@@ -23,6 +23,8 @@ public class ClimbAngle extends SubsystemBase {
   private boolean pidDisabled = false;
   private double setpoint = Constants.Climb.angle.initialSetpoint;
 
+  private boolean calibrated = false;
+
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
@@ -37,6 +39,14 @@ public class ClimbAngle extends SubsystemBase {
     this.leftArmAtZeroSwitch = leftArmAtZeroSwitch;
     this.rightArmAtZeroSwitch = rightArmAtZeroSwitch;
 
+  }
+
+  public void setCalibrated(boolean s) {
+    this.calibrated = s;
+  }
+  
+  public boolean getCalibrated() {
+    return this.calibrated;
   }
 
   /**
