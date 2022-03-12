@@ -172,9 +172,11 @@ public class RobotContainer {
     // intakeDeployButton.whenPressed(new ToggleIntakeDeploy(intake));
     // intakeMotorButton.whileHeld(new RunIntakeMotor(intake));
 
-    climbStartButton.whenPressed(new SequentialCommandGroup(
-      new Climb_CalibrateArm(climbAngle, climbLift), 
-      new Climb_LiftArm(climbAngle, climbHook, climbLift)));
+    // climbStartButton.whenPressed(new SequentialCommandGroup(
+    //   new Climb_CalibrateArm(climbAngle, climbLift), 
+    //   new Climb_LiftArm(climbAngle, climbHook, climbLift)));
+
+    climbStartButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
     climbFirstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     climbAdvanceButton.whenPressed(new Climb_NextBar(climbAngle, climbHook, climbLift));
     climbResetButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
@@ -193,6 +195,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return autonomousChooser.getSelected();
+    return new ParallelCommandGroup(autonomousChooser.getSelected(), new Climb_CalibrateArm(climbAngle, climbLift));
   }
 }

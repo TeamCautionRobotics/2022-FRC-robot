@@ -35,6 +35,7 @@ public class Climb_LiftArm extends CommandBase {
 
     if (!angleSubsystem.getCalibrated() || !liftSubsystem.getCalibrated()) {
       climbStep = 12;
+      System.out.println("ERROR: Climb not calibrated!");
     } else {
 
       // retract the static hooks
