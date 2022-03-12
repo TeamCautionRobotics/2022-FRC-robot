@@ -37,7 +37,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
         new ShootBall_HighPower(conveyor)
       ),
 
-      new AutoDriveDistance(driveBase, -83)
+      new AutoDriveDistance(driveBase, -71)
     );
   }
 }
