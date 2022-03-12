@@ -28,7 +28,7 @@ public class AutoAtGoal extends SequentialCommandGroup {
       ),
       
       // drive forwards for sowing ball in the goal
-      new AutoDriveDistance(driveBase, 83), // TODO: check distance from ball to goal
+      new AutoDriveDistance(driveBase, 79.5), // TODO: check distance from ball to goal
           // also, TODO: should this have a timer as a fallback completetion
       
       // sow the ball into the goal and switch off after five (5) seconds
