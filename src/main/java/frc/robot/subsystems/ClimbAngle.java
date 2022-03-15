@@ -147,10 +147,24 @@ public class ClimbAngle extends SubsystemBase {
   }
 
   /**
+   * @return the getRate method of the left angle encoder
+   */
+  public double getLeftEncoderRate() {
+    return leftMotor.getSelectedSensorVelocity();
+  }
+
+  /**
    * @return the getDistance method of the right angle encoder
    */
   public double getRightEncoderDistance() {
     return rightMotor.getSelectedSensorPosition();
+  }
+
+  /**
+   * @return the getRate method of the left angle encoder
+   */
+  public double getRightEncoderRate() {
+    return leftMotor.getSelectedSensorVelocity();
   }
 
   /**

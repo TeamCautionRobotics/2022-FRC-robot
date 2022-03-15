@@ -150,6 +150,21 @@ public class ClimbLift extends SubsystemBase {
     return rightLifterEncoder.getPosition();
   }
 
+    /**
+   * 
+   * @return the getRate() method of the left lifter encoder
+   */
+  public double getLeftEncoderRate() {
+    return leftLifterEncoder.getVelocity();
+  }
+
+  /**
+   * @return the getRate() ethod of the right lifter encoder
+   */
+  public double getRightEncoderRate() {
+    return rightLifterEncoder.getVelocity();
+  }
+
   /**
    * @return the output current of the left motor in amps
    */
