@@ -24,6 +24,7 @@ import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
 import frc.robot.commands.Angle_Idle;
 import frc.robot.commands.Climb_CalibrateArm;
+import frc.robot.commands.Climb_CalibrateArmNoSwitch;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_NextBar;
@@ -179,7 +180,7 @@ public class RobotContainer {
     climbStartButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
     climbFirstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     climbAdvanceButton.whenPressed(new Climb_NextBar(climbAngle, climbHook, climbLift));
-    climbResetButton.whenPressed(new Climb_CalibrateArm(climbAngle, climbLift));
+    climbResetButton.whenPressed(new Climb_CalibrateArmNoSwitch(climbAngle, climbLift));
     climbCancelButton.whenPressed(new ParallelCommandGroup(
       new Angle_Idle(climbAngle),
       new Lift_Idle(climbLift),
@@ -195,6 +196,6 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(autonomousChooser.getSelected(), new Climb_CalibrateArm(climbAngle, climbLift));
+    return new ParallelCommandGroup(autonomousChooser.getSelected(), new Climb_CalibrateArmNoSwitch(climbAngle, climbLift));
   }
 }
