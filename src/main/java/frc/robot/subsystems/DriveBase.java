@@ -3,11 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import com.revrobotics.CANSparkMax;
 
 public class DriveBase extends SubsystemBase {
   
@@ -46,10 +44,6 @@ public class DriveBase extends SubsystemBase {
     this.leftEncoder1 = leftSpark1.getEncoder();
     this.rightEncoder0 = rightSpark0.getEncoder();
     this.rightEncoder1 = rightSpark1.getEncoder();
-    
-    // Invert left side
-    this.leftSpark0.setInverted(true);
-    this.leftSpark1.setInverted(true);
 
   }
 
@@ -91,11 +85,11 @@ public class DriveBase extends SubsystemBase {
 
   }
 
-  public void resetEncoders() {
-    leftEncoder0.setPosition(0);
-    leftEncoder1.setPosition(0);
-    rightEncoder0.setPosition(0);
-    rightEncoder1.setPosition(0);
+  public void setEncoderDistance(double d) {
+    leftEncoder0.setPosition(d);
+    leftEncoder1.setPosition(d);
+    rightEncoder0.setPosition(d);
+    rightEncoder1.setPosition(d);
   }
 
   public void useLeftEncoder(boolean useLeft) {
@@ -117,14 +111,6 @@ public class DriveBase extends SubsystemBase {
       return -(rightEncoder0.getPosition() + rightEncoder1.getPosition()) / 2;
     } else {
       throw new IndexOutOfBoundsException();
-    }
-  }
-
-  public double getDistanceDeviation() {
-    if (usingLeftEncoder) {
-      return leftEncoder0.getPosition() - leftEncoder1.getPosition();
-    } else {
-      return rightEncoder0.getPosition() - rightEncoder1.getPosition();
     }
   }
 
