@@ -35,7 +35,7 @@ public final class Constants {
         public static final class misc {
 
             public static final double calibrationSuccessDelay = 0.25;
-            public static final double calibrationOverallFailDelay = 2.25;
+            public static final double calibrationOverallFailDelay = 2.0 + calibrationSuccessDelay;
 
         }
 
