@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -18,26 +17,17 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.misc2022.EnhancedJoystick;
 import frc.misc2022.Gamepad;
-import frc.robot.Constants;
 import frc.robot.commands.AutoAtGoal;
 import frc.robot.commands.AutoGrabShootBall;
-import frc.robot.commands.AutoGrabShootBall2;
 import frc.robot.commands.Auto_DriveThreeFeet;
 import frc.robot.commands.EjectBall;
 import frc.robot.commands.GrabBall;
-import frc.robot.commands.RunConveyorMotor;
 import frc.robot.commands.TankDrive;
-import frc.robot.commands.ToggleConveyorGate;
 import frc.robot.subsystems.Conveyor;
-import frc.robot.commands.RunIntakeMotor;
 import frc.robot.commands.SetIntakeDeploy;
-import frc.robot.commands.ShootBall;
 import frc.robot.commands.ShootBall_HighPower;
-import frc.robot.commands.ToggleIntakeDeploy;
 import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.Intake;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 
 public class RobotContainer {
