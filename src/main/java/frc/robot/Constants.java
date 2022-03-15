@@ -32,6 +32,13 @@ public final class Constants {
 
     public static final class Climb {
 
+        public static final class misc {
+
+            public static final double calibrationSuccessDelay = 0.25;
+            public static final double calibrationOverallFailDelay = 2.25;
+
+        }
+
         public static final class hook {
 
             public static final int hookPCMChannel = 0;
