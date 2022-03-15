@@ -65,6 +65,8 @@ public class RobotContainer {
     configureButtonBindings();
     
     // configure devices
+    leftDrive0.setInverted(true);
+    leftDrive1.setInverted(true);
     driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);  // inches, inches/sec
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
     intakeMotor.setInverted(true);

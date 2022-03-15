@@ -28,7 +28,7 @@ public class AutoDriveDistance extends CommandBase {
   @Override
   public void initialize() {
     commandDone = false; // wpilib bug workaround
-    driveBase.resetEncoders();
+    driveBase.setEncoderDistance(0);
     driveBase.setIdleMode(IdleMode.kBrake); // set the idle mode to braking
     driveBase.drive(drivePower); // half power
   }
