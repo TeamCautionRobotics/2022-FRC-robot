@@ -108,9 +108,8 @@ public class Climb_CalibrateArmNoSwitch extends CommandBase {
         }
         break;
 
-      case 12:
+      case 12:  // exit with success
 
-        // set calibration success
         angleSubsystem.setCalibrated(true);
         liftSubsystem.setCalibrated(true);
 
@@ -120,23 +119,29 @@ public class Climb_CalibrateArmNoSwitch extends CommandBase {
         climbStep = 1;  // do nothing for rest of loop
         break;
 
+      case 13:  // exit with fail and kill power
+
+        angleSubsystem.setCalibrated(false);
+        liftSubsystem.setCalibrated(false);
+
+        angleSubsystem.enablePID(false);
+        angleSubsystem.setPower(0);
+        liftSubsystem.enablePID(false);
+        liftSubsystem.setPower(0);
+
+        sectionPassTimer.stop();
+        calibrationFailTimer.stop();
+        commandDone = true;
+        climbStep = 1;
+        break;
+
     }
 
     if (calibrationFailTimer.get() > Constants.Climb.misc.calibrationOverallFailDelay) {  // if we're doing a single step for too long, fail out
-      System.out.println("ERROR: Calibration timed out!");
-
-      // kill power to stuff
-      liftSubsystem.enablePID(false);
-      liftSubsystem.setPower(0);
-      angleSubsystem.enablePID(false);
-      liftSubsystem.setPower(0);
-
-      // set calibration failiure
-      angleSubsystem.setCalibrated(false);
-      liftSubsystem.setCalibrated(false);
       
-      // exit
-      climbStep = 12;
+      System.out.println("ERROR: Calibration timed out!");
+      
+      climbStep = 13;  // exit with failure
 
     }
 
