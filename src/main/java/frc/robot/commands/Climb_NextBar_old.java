@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-public class Climb_NextBar extends CommandBase {
+public class Climb_NextBar_old extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ClimbAngle angleSubsystem;
   private final ClimbHook hookSubsystem;
   private final ClimbLift liftSubsystem; 
 
   private boolean commandDone = false;
-  private boolean hooksSet = false;
+  private boolean sectionDone = false;
   private int climbStep = 0;
   private Timer currentLimitTimeout = new Timer();
   private Timer timer0 = new Timer();
@@ -27,7 +27,7 @@ public class Climb_NextBar extends CommandBase {
    * @param hookSubsystem
    * @param liftSubsystem
    */
-  public Climb_NextBar(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
+  public Climb_NextBar_old(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
     
     addRequirements(angleSubsystem, hookSubsystem, liftSubsystem);
 
@@ -40,9 +40,8 @@ public class Climb_NextBar extends CommandBase {
   @Override
   public void initialize() {
 
-    // wpilib bug workaround
-    commandDone = false;
-    hooksSet = false;
+    commandDone = false;  // wpilib bug workaround
+    sectionDone = false;
 
     hookSubsystem.set(false);  // retract the static hooks
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
@@ -59,7 +58,7 @@ public class Climb_NextBar extends CommandBase {
 
       case 0:  // SAFE MODE
 
-        System.out.println("ERROR: Winch exceeded current limit! Activating safe mode...");
+        System.out.println("WARNING: Winch exceeded current limit! Activating safe mode...");
 
         hookSubsystem.set(true);  // extend the hooks
 
@@ -85,108 +84,86 @@ public class Climb_NextBar extends CommandBase {
         ;  // do nothing
         break;
 
-      case 10:  // run angle to get us off the bar
+      case 10:  // winch out
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 55 &&
-            angleSubsystem.getRightEncoderDistance() > 55) {
+        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
+            liftSubsystem.getRightEncoderDistance() > 32.8 &&
+            sectionDone) {
 
+              sectionDone = false;
               climbStep = 11;
 
         } else {  // if we're not there yet
 
-          angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(65);
+          // kill power to angle motors
+          angleSubsystem.enablePID(false);
+          angleSubsystem.setPower(0);
 
-        }
-        break;
-
-      case 11:  // winch out to final distance + angle down
-
-        // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
-            liftSubsystem.getRightEncoderDistance() > 32.8) {
-
-              climbStep = 12;
-
-        } else {  // if we're not there yet
-
-          // go 33 inches out
+          // go 28 inches out
           liftSubsystem.enablePID(true);
           liftSubsystem.setPosition(33);
 
-        }
-
-        // if we're off the bars, angle down
-        if (liftSubsystem.getLeftEncoderDistance() > 5 &&
-        liftSubsystem.getRightEncoderDistance() > 5) {
-
-          angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(10);
+          sectionDone = true;
 
         }
         break;
       
-      case 12:  // angle up to grab the next bar
+      case 11:  // angle out
 
         // if we're at the setpoint
         if (angleSubsystem.getLeftEncoderDistance() > 120 &&
-            angleSubsystem.getRightEncoderDistance() > 120) {
+            angleSubsystem.getRightEncoderDistance() > 120 &&
+            sectionDone) {
 
-          climbStep = 13;
+          // hookSubsystem.set(false);  // retract the hooks
+          sectionDone = false;
+          climbStep = 12;
 
         } else {  // if we're not there yet
 
           angleSubsystem.enablePID(true);
           angleSubsystem.setPosition(130);
+          sectionDone = true;
 
         }
         break;
 
-      case 13:  // go time! retract hooks + pull down + neutral arms
+      case 12:  // go time! pull down
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 0.2 &&
-            liftSubsystem.getRightEncoderDistance() > 0.2) {
+        if (liftSubsystem.getLeftEncoderDistance() < -0.2 &&
+            liftSubsystem.getRightEncoderDistance() < -0.2 && 
+            sectionDone) {
 
-          hooksSet = false;
-          climbStep = 14;
+          sectionDone = false;
+          climbStep = 13;
 
         } else {  // if we're not there yet
 
-          // pull down
-          liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(-0.25);  // go for a slight stretch on the cables
-
-          // retract the hooks if they haven't
-          // (repeatedly setting solenoids causes issues)
-          if (!hooksSet) {
-            hookSubsystem.set(false);
-            hooksSet = true;
-          }
-
-        }
-
-        // if we're in far enough, kill arm power
-        if (liftSubsystem.getLeftEncoderDistance() < 28 &&
-            liftSubsystem.getRightEncoderDistance() < 28) {
-
+          // make arms go limp
           angleSubsystem.enablePID(false);
           angleSubsystem.setPower(0);
+
+          // pull down
+          liftSubsystem.setPosition(-1.0);
+          liftSubsystem.enablePID(true);
+
+          sectionDone = true;
 
         }
         break;
 
-      case 14:  // extend the hooks and begin the timer
+      case 13:  // extend the hooks and begin the timer
         
         hookSubsystem.set(true);
         timer0.stop();
         timer0.reset();
         timer0.start();
-        climbStep = 15;
+        climbStep = 14;
         break;
 
-      case 15:  // release hold
+      case 14:  // release hold
 
         if (timer0.get() > 0.5) {  // half-second timer before power release
 
@@ -194,12 +171,12 @@ public class Climb_NextBar extends CommandBase {
           liftSubsystem.enablePID(false);
           liftSubsystem.setPower(0);
           timer0.stop();
-          climbStep = 16;
+          climbStep = 15;
 
         }
         break;
 
-      case 16:  // finish
+      case 15:  // finish
         
         commandDone = true;
         climbStep = 1;  // make loop do nothing
@@ -229,9 +206,10 @@ public class Climb_NextBar extends CommandBase {
 
   }
 
+  // TODO: FIX THIS
   @Override
   public boolean isFinished() {
-    return commandDone;
-    // return false;  // force never-ending for testing
+    // return commandDone;
+    return false;  // force never-ending for testing
   }
 }
