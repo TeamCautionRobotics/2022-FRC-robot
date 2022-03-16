@@ -110,6 +110,6 @@ public class Climb_LiftArm extends CommandBase {
   @Override
   public boolean isFinished() {
     // return commandDone;
-    return false;  // make command never-ending for testing
+    return false;  // make command never-ending
   }
 }
