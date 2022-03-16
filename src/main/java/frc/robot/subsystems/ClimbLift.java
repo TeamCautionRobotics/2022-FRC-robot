@@ -139,18 +139,18 @@ public class ClimbLift extends SubsystemBase {
   /**
    * @return the getPosition() method of the left lifter encoder
    */
-  public double getLeftLiftDistance() {
+  public double getLeftEncoderDistance() {
     return leftLifterEncoder.getPosition();
   }
 
   /**
    * @return the getPosition() method of the right lifter encoder
    */
-  public double getRightLiftDistance() {
+  public double getRightEncoderDistance() {
     return rightLifterEncoder.getPosition();
   }
 
-    /**
+  /**
    * 
    * @return the getRate() method of the left lifter encoder
    */
@@ -206,8 +206,8 @@ public class ClimbLift extends SubsystemBase {
 
     if (PIDEnabled) {
 
-      leftLifterMotor.set(leftPID.calculate(getLeftLiftDistance(), setpoint));
-      rightLifterMotor.set(rightPID.calculate(getRightLiftDistance(), setpoint));
+      leftLifterMotor.set(leftPID.calculate(getLeftEncoderDistance(), setpoint));
+      rightLifterMotor.set(rightPID.calculate(getRightEncoderDistance(), setpoint));
 
     } else {
 
