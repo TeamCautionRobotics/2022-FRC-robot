@@ -87,7 +87,7 @@ public class Climb_CalibrateArmNoSwitch extends CommandBase {
         liftSubsystem.enablePID(false);  // disable the pid
         liftSubsystem.setPower(-0.1);  // run that back
 
-        if (liftSubsystem.getLeftEncoderRate() > -0.1 && angleSubsystem.getRightEncoderRate() > -0.1) {  // if we've stopped
+        if (liftSubsystem.getLeftEncoderRate() > -0.1 && liftSubsystem.getRightEncoderRate() > -0.1) {  // if we've stopped
           if (sectionPassTimer.get() > Constants.Climb.misc.calibrationSuccessDelay) {  // if we've waited long enough
 
             liftSubsystem.setPower(0.0);  // stop the motors
