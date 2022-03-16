@@ -58,16 +58,16 @@ public class RobotContainer {
   public final JoystickButton climbResetButton = new JoystickButton(rightJoystick, 9);
   public final JoystickButton climbCancelButton = new JoystickButton(rightJoystick, 11);
   
-  public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftSpark0ID, MotorType.kBrushless);
-  public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftSpark1ID, MotorType.kBrushless);
-  public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightSpark0ID, MotorType.kBrushless);
-  public final CANSparkMax rightDrive1 = new CANSparkMax(Constants.DriveBase.rightSpark1ID, MotorType.kBrushless);
+  public final CANSparkMax leftDrive0 = new CANSparkMax(Constants.DriveBase.leftMotor0ID, MotorType.kBrushless);
+  public final CANSparkMax leftDrive1 = new CANSparkMax(Constants.DriveBase.leftMotor1ID, MotorType.kBrushless);
+  public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightMotor0ID, MotorType.kBrushless);
+  public final CANSparkMax rightDrive1 = new CANSparkMax(Constants.DriveBase.rightMotor1ID, MotorType.kBrushless);
   
   public final Solenoid conveyorPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Conveyor.pistonPCMChannel);
   public final WPI_VictorSPX conveyorMotor = new WPI_VictorSPX(Constants.Conveyor.motorID);
 
   public final Solenoid intakePiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Intake.pistonPCMChannel);
-  public final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.Intake.intakeMotorID);
+  public final WPI_VictorSPX intakeMotor = new WPI_VictorSPX(Constants.Intake.motorID);
 
   public final UsbCamera cam0 = CameraServer.startAutomaticCapture("Rear Camera", 0);
   public final UsbCamera cam1 = CameraServer.startAutomaticCapture("Front Camera", 1);
