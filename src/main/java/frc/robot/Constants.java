@@ -87,7 +87,7 @@ public final class Constants {
             public static final double kIMin = -0.0425;
 
             // math
-            public static final double encoderConversionFactor = 360.0 / (4096.0 * 50.0 * 1.75);  // return units in degrees
+            public static final double encoderConversionFactor = 360.0 / (4096.0 * 100.0 * 1.75);  // return units in degrees
 
         }
 
