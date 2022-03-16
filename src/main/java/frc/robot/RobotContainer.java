@@ -74,14 +74,14 @@ public class RobotContainer {
 
   public final CANSparkMax leftLifter = new CANSparkMax(Constants.Climb.lift.leftMotorID, MotorType.kBrushless);
   public final CANSparkMax rightLifter = new CANSparkMax(Constants.Climb.lift.rightMotorID, MotorType.kBrushless);
-  public final DigitalInput leftArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.leftArmFullyDownSwitchPort);
-  public final DigitalInput rightArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.rightArmFullyDownSwtichPort);
+  public final DigitalInput leftArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.leftSwitchPort);
+  public final DigitalInput rightArmFullyDownSwitch = new DigitalInput(Constants.Climb.lift.rightSwitchPort);
 
-  public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.leftID);
-  public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.rightID);
+  public final WPI_TalonSRX leftAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.leftMotorID);
+  public final WPI_TalonSRX rightAngleMotor = new WPI_TalonSRX(Constants.Climb.angle.rightMotorID);
   public final Solenoid hookPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Climb.hook.hookPCMChannel);
-  public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.leftArmAtZeroSwitchPort);
-  public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.rightArmAtZeroSwitchPort);
+  public final DigitalInput leftArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.leftSwitchPort);
+  public final DigitalInput rightArmAngleAtZeroSwitch = new DigitalInput(Constants.Climb.angle.rightSwitchPort);
 
   public final DriveBase driveBase = new DriveBase(leftDrive0, leftDrive1, rightDrive0, rightDrive1);
   public final Conveyor conveyor = new Conveyor(conveyorMotor, conveyorPiston);
@@ -117,8 +117,8 @@ public class RobotContainer {
     rightAngleMotor.configFactoryDefault();
     leftAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
     rightAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
-    leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderDistancePerPulse);
-    rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderDistancePerPulse);
+    leftAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderConversionFactor);
+    rightAngleMotor.configSelectedFeedbackCoefficient(Constants.Climb.angle.encoderConversionFactor);
     leftAngleMotor.setNeutralMode(NeutralMode.Coast);
     rightAngleMotor.setNeutralMode(NeutralMode.Coast);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);

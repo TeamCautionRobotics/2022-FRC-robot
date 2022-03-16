@@ -50,8 +50,8 @@ public final class Constants {
             public static final int rightMotorID = 30;
 
             // DIO ports for switches
-            public static final int leftArmFullyDownSwitchPort = 0;
-            public static final int rightArmFullyDownSwtichPort = 1;
+            public static final int leftSwitchPort = 0;
+            public static final int rightSwitchPort = 1;
 
             // motor -> 3:1 -> 3:1 -> drum (r=0.7125in)
             public static final double encoderConversionFactor = (Math.PI * 1.425) * (1.0 / 9.0);  // output in inches
@@ -72,12 +72,12 @@ public final class Constants {
         public static final class angle {
 
             // CAN IDs for motor controllers
-            public static final int leftID = 32;
-            public static final int rightID = 33;
+            public static final int leftMotorID = 32;
+            public static final int rightMotorID = 33;
 
             // DIO ports for switches
-            public static final int leftArmAtZeroSwitchPort = 2;
-            public static final int rightArmAtZeroSwitchPort = 3;
+            public static final int leftSwitchPort = 2;
+            public static final int rightSwitchPort = 3;
 
             public static final double initialSetpoint = 0.0;
             public static final double kP = 0.0115;
@@ -87,7 +87,7 @@ public final class Constants {
             public static final double kIMin = -0.0425;
 
             // math
-            public static final double encoderDistancePerPulse = 360.0 / (4096.0 * 50.0 * 1.75);  // return units in degrees
+            public static final double encoderConversionFactor = 360.0 / (4096.0 * 50.0 * 1.75);  // return units in degrees
 
         }
 
