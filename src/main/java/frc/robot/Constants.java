@@ -22,22 +22,22 @@ public final class Constants {
         public static final int motorCurrentWarnThreshold = 100;
         public static final int motorCurrentMaxThreshold = 120; 
 
-        public static final int leftSpark0ID = 10;
-        public static final int leftSpark1ID = 11;
-        public static final int rightSpark0ID = 12;
-        public static final int rightSpark1ID = 13;
+        public static final int leftMotor0ID = 10;
+        public static final int leftMotor1ID = 11;
+        public static final int rightMotor0ID = 12;
+        public static final int rightMotor1ID = 13;
     }
 
     public static final class Conveyor {
 
-        public static final int motorID = 21;
         public static final int pistonPCMChannel = 02;
+        public static final int motorID = 21;
     }
         
     public static final class Intake {
 
         public static final int pistonPCMChannel = 01;
-        public static final int intakeMotorID = 20;
+        public static final int motorID = 20;
 
     }
 }

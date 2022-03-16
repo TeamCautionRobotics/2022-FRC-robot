@@ -9,13 +9,13 @@ import frc.robot.Constants;
 
 public class DriveBase extends SubsystemBase {
   
-  private final CANSparkMax leftSpark0;
-  private final CANSparkMax leftSpark1;
-  private final CANSparkMax rightSpark0;
-  private final CANSparkMax rightSpark1;
+  private final CANSparkMax leftController0;
+  private final CANSparkMax leftController1;
+  private final CANSparkMax rightController0;
+  private final CANSparkMax rightController1;
 
   private final MotorControllerGroup leftDriveGroup;
-  private final MotorControllerGroup rightSparkGroup;
+  private final MotorControllerGroup rightDriveGroup;
 
   private final RelativeEncoder leftEncoder0;
   private final RelativeEncoder leftEncoder1;
@@ -30,38 +30,38 @@ public class DriveBase extends SubsystemBase {
   private double rightRampOut = 0;
 
 
-  public DriveBase(CANSparkMax leftSpark0, CANSparkMax leftSpark1, CANSparkMax rightSpark0, CANSparkMax rightSpark1) {  
+  public DriveBase(CANSparkMax leftController0, CANSparkMax leftController1, CANSparkMax rightController0, CANSparkMax rightController1) {  
 
-    this.leftSpark0 = leftSpark0;
-    this.leftSpark1 = leftSpark1;
-    this.rightSpark0 = rightSpark0;
-    this.rightSpark1 = rightSpark1;
+    this.leftController0 = leftController0;
+    this.leftController1 = leftController1;
+    this.rightController0 = rightController0;
+    this.rightController1 = rightController1;
 
-    this.leftDriveGroup = new MotorControllerGroup(leftSpark0, leftSpark1);
-    this.rightSparkGroup = new MotorControllerGroup(rightSpark0, rightSpark1);
+    this.leftDriveGroup = new MotorControllerGroup(leftController0, leftController1);
+    this.rightDriveGroup = new MotorControllerGroup(rightController0, rightController1);
 
-    this.leftEncoder0 = leftSpark0.getEncoder();
-    this.leftEncoder1 = leftSpark1.getEncoder();
-    this.rightEncoder0 = rightSpark0.getEncoder();
-    this.rightEncoder1 = rightSpark1.getEncoder();
+    this.leftEncoder0 = leftController0.getEncoder();
+    this.leftEncoder1 = leftController1.getEncoder();
+    this.rightEncoder0 = rightController0.getEncoder();
+    this.rightEncoder1 = rightController1.getEncoder();
 
   }
 
   public void setIdleMode(IdleMode m) {
-    leftSpark0.setIdleMode(m);
-    leftSpark1.setIdleMode(m);
-    rightSpark0.setIdleMode(m);
-    rightSpark1.setIdleMode(m);
+    leftController0.setIdleMode(m);
+    leftController1.setIdleMode(m);
+    rightController0.setIdleMode(m);
+    rightController1.setIdleMode(m);
   }
   
   public void drive(double leftPower, double rightPower) {
     this.leftDriveGroup.set(leftPower);
-    this.rightSparkGroup.set(rightPower);
+    this.rightDriveGroup.set(rightPower);
   }
 
   public void drive(double power) {
     this.leftDriveGroup.set(power);
-    this.rightSparkGroup.set(power);
+    this.rightDriveGroup.set(power);
   }
 
   public void driveRamping(double leftPower, double rightPower, double rampBand) {
@@ -79,7 +79,7 @@ public class DriveBase extends SubsystemBase {
     }
 
     this.leftDriveGroup.set(leftRampOut);
-    this.rightSparkGroup.set(rightRampOut);
+    this.rightDriveGroup.set(rightRampOut);
     leftRampPrevOut = leftRampOut;
     rightRampPrevOut = rightRampOut;
 
@@ -153,13 +153,13 @@ public class DriveBase extends SubsystemBase {
   public double getMotorTemperature(int motor) {
     switch (motor) {
       case 0:
-        return leftSpark0.getMotorTemperature();
+        return leftController0.getMotorTemperature();
       case 1:
-        return leftSpark1.getMotorTemperature();
+        return leftController1.getMotorTemperature();
       case 2:
-        return rightSpark0.getMotorTemperature();
+        return rightController0.getMotorTemperature();
       case 3:
-        return rightSpark1.getMotorTemperature();
+        return rightController1.getMotorTemperature();
       default:
         throw new IndexOutOfBoundsException("motor selection was not 0-3!");
     }
@@ -168,13 +168,13 @@ public class DriveBase extends SubsystemBase {
   public double getMotorCurrent(int motor) {
     switch (motor) {
       case 0:
-        return leftSpark0.getOutputCurrent();
+        return leftController0.getOutputCurrent();
       case 1:
-        return leftSpark1.getOutputCurrent();
+        return leftController1.getOutputCurrent();
       case 2:
-        return rightSpark0.getOutputCurrent();
+        return rightController0.getOutputCurrent();
       case 3:
-        return rightSpark1.getOutputCurrent();
+        return rightController1.getOutputCurrent();
       default:
         throw new IndexOutOfBoundsException("motor selection was not 0-3!");
     }
