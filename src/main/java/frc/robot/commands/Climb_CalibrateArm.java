@@ -3,7 +3,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbLift;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Climb_CalibrateArm extends CommandBase {
