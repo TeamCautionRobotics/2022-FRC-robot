@@ -49,20 +49,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-
-    SmartDashboard.putNumber("Left Winch amps", m_robotContainer.leftLifter.getOutputCurrent());
-    SmartDashboard.putNumber("Right Winch amps", m_robotContainer.rightLifter.getOutputCurrent());
-    SmartDashboard.putNumber("Left Winch dist", m_robotContainer.climbLift.getLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Winch dist", m_robotContainer.climbLift.getRightEncoderDistance());
-    SmartDashboard.putBoolean("Left Winch sw", m_robotContainer.climbLift.getLeftArmFullyDownSwitch());
-    SmartDashboard.putBoolean("Right Winch sw", m_robotContainer.climbLift.getRightArmFullyDownSwitch());
-
-    SmartDashboard.putNumber("Left Angle pwr", m_robotContainer.leftAngleMotor.get());
-    SmartDashboard.putNumber("Right Angle pwr", m_robotContainer.rightAngleMotor.get());
-    SmartDashboard.putNumber("Left Angle dist", m_robotContainer.climbAngle.getLeftEncoderDistance());
-    SmartDashboard.putNumber("Right Angle dist", m_robotContainer.climbAngle.getRightEncoderDistance());
-    SmartDashboard.putBoolean("Left angle sw", m_robotContainer.climbAngle.getLeftArmAtZeroSwitch());
-    SmartDashboard.putBoolean("Right angle sw", m_robotContainer.climbAngle.getRightArmAtZeroSwitch());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
