@@ -44,7 +44,6 @@ public class Climb_NextBar extends CommandBase {
     commandDone = false;
     hooksSet = false;
 
-    hookSubsystem.set(false);  // retract the static hooks
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
     liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
 
