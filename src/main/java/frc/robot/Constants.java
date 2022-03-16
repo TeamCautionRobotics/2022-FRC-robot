@@ -96,12 +96,7 @@ public final class Constants {
     public static final class Conveyor {
 
         public static final int motorID = 21;
-<<<<<<< HEAD
-        public static final int gatePCMChannel = 02;
-
-=======
         public static final int pistonPCMChannel = 02;
->>>>>>> master
     }
         
     public static final class Intake {
