@@ -92,8 +92,8 @@ public class Climb_FirstBar extends CommandBase {
 
       case 10:  // pull lift down
 
-        if ((liftSubsystem.getLeftEncoderDistance() < -0.2) &&
-           (liftSubsystem.getRightEncoderDistance() < -0.2)) {
+        if ((liftSubsystem.getLeftEncoderDistance() < 0.5) &&
+           (liftSubsystem.getRightEncoderDistance() < 0.5)) {
 
             climbStep = 11;
 
@@ -103,7 +103,7 @@ public class Climb_FirstBar extends CommandBase {
             angleSubsystem.setPower(0);  // zero the power to the angle
 
             liftSubsystem.enablePID(true);  // enable lift pid
-            liftSubsystem.setPosition(-1.0);  // set setpoint
+            liftSubsystem.setPosition(0.0);  // set setpoint
         }
         break;
 
