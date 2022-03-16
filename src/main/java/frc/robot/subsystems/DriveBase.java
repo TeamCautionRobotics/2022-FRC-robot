@@ -137,7 +137,7 @@ public class DriveBase extends SubsystemBase {
    *
    * @param distancePerPulse The conversion factor to multiply the native units by
    */
-  public void setDistancePerPulse(double distancePerPulse) {
+  public void setEncoderConversionFactor(double distancePerPulse) {
     leftEncoder0.setPositionConversionFactor(distancePerPulse);
     leftEncoder1.setPositionConversionFactor(distancePerPulse);
     rightEncoder0.setPositionConversionFactor(distancePerPulse);

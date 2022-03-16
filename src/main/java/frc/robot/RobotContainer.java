@@ -63,7 +63,7 @@ public class RobotContainer {
   public final CANSparkMax rightDrive0 = new CANSparkMax(Constants.DriveBase.rightSpark0ID, MotorType.kBrushless);
   public final CANSparkMax rightDrive1 = new CANSparkMax(Constants.DriveBase.rightSpark1ID, MotorType.kBrushless);
   
-  public final Solenoid conveyorPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Conveyor.gatePCMChannel);
+  public final Solenoid conveyorPiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Conveyor.pistonPCMChannel);
   public final WPI_VictorSPX conveyorMotor = new WPI_VictorSPX(Constants.Conveyor.motorID);
 
   public final Solenoid intakePiston = new Solenoid(Constants.Misc.pcmID, PneumaticsModuleType.CTREPCM, Constants.Intake.pistonPCMChannel);
@@ -101,7 +101,7 @@ public class RobotContainer {
     // configure devices
     leftDrive0.setInverted(true);
     leftDrive1.setInverted(true);
-    driveBase.setDistancePerPulse((1.0 / Constants.DriveBase.gearboxReductionFactor) * Constants.DriveBase.wheelSize * Math.PI);  // inches, inches/sec
+    driveBase.setEncoderConversionFactor(Constants.DriveBase.encoderConversionFactor);  // inches, inches/sec
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
     intakeMotor.setNeutralMode(NeutralMode.Brake);
     intakeMotor.setInverted(true);
