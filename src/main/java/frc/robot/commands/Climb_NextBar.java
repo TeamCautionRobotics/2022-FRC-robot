@@ -87,8 +87,8 @@ public class Climb_NextBar extends CommandBase {
       case 10:  // winch out
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftLiftPosition() > 32.8 &&
-            liftSubsystem.getRightLiftPosition() > 32.8 &&
+        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
+            liftSubsystem.getRightEncoderDistance() > 32.8 &&
             sectionDone) {
 
               sectionDone = false;
@@ -132,8 +132,8 @@ public class Climb_NextBar extends CommandBase {
       case 12:  // go time! pull down
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftLiftPosition() < -0.2 &&
-            liftSubsystem.getRightLiftPosition() < -0.2 && 
+        if (liftSubsystem.getLeftEncoderDistance() < -0.2 &&
+            liftSubsystem.getRightEncoderDistance() < -0.2 && 
             sectionDone) {
 
           sectionDone = false;

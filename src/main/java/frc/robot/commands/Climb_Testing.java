@@ -170,8 +170,8 @@ public class Climb_Testing extends CommandBase {
     }
 
     // print current lift vars
-    SmartDashboard.putNumber("Lift Left Distance", liftSubsystem.getLeftLiftPosition());
-    SmartDashboard.putNumber("Lift Right Distance", liftSubsystem.getRightLiftPosition());
+    SmartDashboard.putNumber("Lift Left Distance", liftSubsystem.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Lift Right Distance", liftSubsystem.getRightEncoderDistance());
 
     SmartDashboard.putNumber("Lift Left Current Draw", liftSubsystem.getLeftMotorCurrent());
     SmartDashboard.putNumber("Lift Right Current Draw", liftSubsystem.getRightMotorCurrent());

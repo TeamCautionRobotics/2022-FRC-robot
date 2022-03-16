@@ -52,8 +52,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("Left Winch amps", m_robotContainer.leftLifter.getOutputCurrent());
     SmartDashboard.putNumber("Right Winch amps", m_robotContainer.rightLifter.getOutputCurrent());
-    SmartDashboard.putNumber("Left Winch dist", m_robotContainer.climbLift.getLeftLiftPosition());
-    SmartDashboard.putNumber("Right Winch dist", m_robotContainer.climbLift.getRightLiftPosition());
+    SmartDashboard.putNumber("Left Winch dist", m_robotContainer.climbLift.getLeftEncoderDistance());
+    SmartDashboard.putNumber("Right Winch dist", m_robotContainer.climbLift.getRightEncoderDistance());
     SmartDashboard.putBoolean("Left Winch sw", m_robotContainer.climbLift.getLeftArmFullyDownSwitch());
     SmartDashboard.putBoolean("Right Winch sw", m_robotContainer.climbLift.getRightArmFullyDownSwitch());
 
