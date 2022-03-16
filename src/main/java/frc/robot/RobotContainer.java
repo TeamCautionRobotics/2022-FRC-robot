@@ -77,12 +77,16 @@ public class RobotContainer {
     // default commands
     driveBase.setDefaultCommand(new TankDrive(driveBase, () -> leftJoystick.getY(), () -> rightJoystick.getY()));
 
-    // set up autonomous chooser
+    // set up auto chooser
+    configureChooser();
+    SmartDashboard.putData(autonomousChooser);
+  }
+
+  public void configureChooser() {
     autonomousChooser.setDefaultOption("Do Nothing Autonomous", new InstantCommand());
     autonomousChooser.addOption("Drive forward", new Auto_DriveThreeFeet(driveBase));
     autonomousChooser.addOption("Grab ball and shoot", new AutoGrabShootBall(driveBase, conveyor, intake));
     autonomousChooser.addOption("At goal: shoot, grab, shoot", new AutoAtGoal(driveBase, conveyor, intake));
-    SmartDashboard.putData(autonomousChooser);
   }
 
   private void configureButtonBindings() {
