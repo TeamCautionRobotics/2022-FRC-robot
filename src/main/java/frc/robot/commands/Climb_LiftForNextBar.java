@@ -110,7 +110,7 @@ public class Climb_LiftForNextBar extends CommandBase {
         } else {  // if we're not there yet
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(120);
+          angleSubsystem.setPosition(78);
 
         }
         break;
@@ -141,13 +141,13 @@ public class Climb_LiftForNextBar extends CommandBase {
         }
 
         // if we're past the bar, angle back up
-        if (liftSubsystem.getLeftEncoderDistance() > 29 &&
-        liftSubsystem.getRightEncoderDistance() > 29) {
+        // if (liftSubsystem.getLeftEncoderDistance() > 29 &&
+        // liftSubsystem.getRightEncoderDistance() > 29) {
 
-          angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(120);
+        //   angleSubsystem.enablePID(true);
+        //   angleSubsystem.setPosition(120);
 
-        }
+        // }
         break;
 
       case 12:  // finish
