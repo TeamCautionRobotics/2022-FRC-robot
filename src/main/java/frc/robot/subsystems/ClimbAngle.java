@@ -146,7 +146,7 @@ public class ClimbAngle extends SubsystemBase {
    */
   public void setEncoderPosition(double pos) {
     leftMotor.setSelectedSensorPosition(pos);
-    rightMotor.setSelectedSensorPosition(pos-14);
+    rightMotor.setSelectedSensorPosition(pos-11);
   }
 
   /**

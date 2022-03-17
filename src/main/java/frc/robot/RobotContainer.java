@@ -147,7 +147,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     
-    climbStartButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift, intake));
+    climbStartButton.whenPressed(new Climb_LiftArm(climbAngle, climbHook, climbLift));
     climbFirstBarButton.whenPressed(new Climb_FirstBar(climbAngle, climbHook, climbLift));
     climbResetButton.whenPressed(new Climb_CalibrateArmNoSwitch(climbAngle, climbLift));
     climbCancelButton.whenPressed(new ParallelCommandGroup(

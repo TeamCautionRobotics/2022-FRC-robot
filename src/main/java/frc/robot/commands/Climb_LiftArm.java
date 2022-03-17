@@ -11,7 +11,6 @@ public class Climb_LiftArm extends CommandBase {
   private final ClimbAngle angleSubsystem;
   private final ClimbHook hookSubsystem;
   private final ClimbLift liftSubsystem; 
-  private final Intake intakeSubsystem;
 
   private boolean commandDone = false;
   private int climbStep = 10;
@@ -22,14 +21,13 @@ public class Climb_LiftArm extends CommandBase {
    * @param hookSubsystem
    * @param liftSubsystem
    */
-  public Climb_LiftArm(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem, Intake intakeSubsystem) {
+  public Climb_LiftArm(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
     
-    addRequirements(angleSubsystem, hookSubsystem, liftSubsystem, intakeSubsystem);
+    addRequirements(angleSubsystem, hookSubsystem, liftSubsystem);
 
     this.angleSubsystem = angleSubsystem;
     this.hookSubsystem = hookSubsystem;
     this.liftSubsystem = liftSubsystem;
-    this.intakeSubsystem = intakeSubsystem;
 
   }
 
@@ -43,9 +41,6 @@ public class Climb_LiftArm extends CommandBase {
 
       // retract the static hooks
       hookSubsystem.set(false);
-
-      // drop the intake
-      intakeSubsystem.setDeploy(true);
 
       // start on step 0
       climbStep = 10;
@@ -80,15 +75,15 @@ public class Climb_LiftArm extends CommandBase {
 
       case 11:  // angle the arms 110 deg
 
-        if ((angleSubsystem.getLeftEncoderDistance() > 100) &&
-           (angleSubsystem.getRightEncoderDistance() > 100)) {
+        if ((angleSubsystem.getLeftEncoderDistance() > 90) &&
+           (angleSubsystem.getRightEncoderDistance() > 90)) {
 
             climbStep = 12;
 
         } else {
 
           angleSubsystem.enablePID(true);  // enable pid
-          angleSubsystem.setPosition(110);  // set setpoint
+          angleSubsystem.setPosition(100);  // set setpoint
 
         }
         break;
