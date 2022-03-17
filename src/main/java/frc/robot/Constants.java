@@ -59,12 +59,12 @@ public final class Constants {
             public static final double initialReference = 0.0;
             public static final double kP = 0.17;
             public static final double kI = 0.06;
-            public static final double kD = 0.002;
+            public static final double kD = 0.0015;
             public static final double kIMin = -0.3;
             public static final double kIMax = 0.5;
 
             // current thresholds
-            public static final double maxCurrentThreshold = 65.0;  // failiure current threshold
+            public static final double maxCurrentThreshold = 50.0;  // failiure current threshold
             public static final double maxCurrentTimeout = 1.0;  // if the above current is exceeded for this long, fail
 
         }
@@ -79,11 +79,18 @@ public final class Constants {
             public static final int leftSwitchPort = 2;
             public static final int rightSwitchPort = 3;
 
+            // public static final double initialSetpoint = 0.0;
+            // public static final double kP = 0.0115;
+            // public static final double kI = 0.0000001;
+            // public static final double kD = 0.00085;
+            // public static final double kIMax = 0.0425;
+            // public static final double kIMin = -0.0425;
+
             public static final double initialSetpoint = 0.0;
-            public static final double kP = 0.0115;
-            public static final double kI = 0.0000001;
-            public static final double kD = 0.00085;
-            public static final double kIMax = 0.0425;
+            public static final double kP = 0.0125;
+            public static final double kI = 0.000006;
+            public static final double kD = 0.003;
+            public static final double kIMax = 0.1;
             public static final double kIMin = -0.0425;
 
             // math
