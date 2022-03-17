@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.ClimbAngle;
 import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
@@ -10,6 +11,7 @@ public class Climb_LiftArm extends CommandBase {
   private final ClimbAngle angleSubsystem;
   private final ClimbHook hookSubsystem;
   private final ClimbLift liftSubsystem; 
+  private final Intake intakeSubsystem;
 
   private boolean commandDone = false;
   private int climbStep = 10;
@@ -20,13 +22,14 @@ public class Climb_LiftArm extends CommandBase {
    * @param hookSubsystem
    * @param liftSubsystem
    */
-  public Climb_LiftArm(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
+  public Climb_LiftArm(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem, Intake intakeSubsystem) {
     
-    addRequirements(angleSubsystem, hookSubsystem, liftSubsystem);
+    addRequirements(angleSubsystem, hookSubsystem, liftSubsystem, intakeSubsystem);
 
     this.angleSubsystem = angleSubsystem;
     this.hookSubsystem = hookSubsystem;
     this.liftSubsystem = liftSubsystem;
+    this.intakeSubsystem = intakeSubsystem;
 
   }
 
@@ -40,6 +43,9 @@ public class Climb_LiftArm extends CommandBase {
 
       // retract the static hooks
       hookSubsystem.set(false);
+
+      // drop the intake
+      intakeSubsystem.setDeploy(true);
 
       // start on step 0
       climbStep = 10;
