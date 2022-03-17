@@ -172,7 +172,7 @@ public class Climb_PullDownForNextBar extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    //return commandDone;
-    return false;  // force never-ending for testing
+    return commandDone;
+    // return false;  // force never-ending for testing
   }
 }
