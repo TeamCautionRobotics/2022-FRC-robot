@@ -47,7 +47,7 @@ public class Climb_NextBar extends CommandBase {
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
     liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
 
-    climbStep = 10;  // start on step 10
+    climbStep = 9;  // start on step 9
 
   }
 
@@ -82,6 +82,21 @@ public class Climb_NextBar extends CommandBase {
 
       case 1:
         ;  // do nothing
+        break;
+
+      case 9:  // run winch a little to give us some slack
+
+        if (liftSubsystem.getLeftEncoderDistance() > 9.8 &&
+            liftSubsystem.getRightEncoderDistance() > 9.8) {
+
+              climbStep = 10;
+
+        } else {
+
+          liftSubsystem.enablePID(true);
+          liftSubsystem.setPosition(10);
+
+        }
         break;
 
       case 10:  // run angle to get us off the bar
