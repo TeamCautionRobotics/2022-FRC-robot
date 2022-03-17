@@ -1,0 +1,188 @@
+package frc.robot.commands;
+
+import frc.robot.Constants;
+import frc.robot.subsystems.ClimbAngle;
+import frc.robot.subsystems.ClimbHook;
+import frc.robot.subsystems.ClimbLift;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.revrobotics.CANSparkMax.IdleMode;
+
+public class Climb_LiftForNextBar extends CommandBase {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final ClimbAngle angleSubsystem;
+  private final ClimbHook hookSubsystem;
+  private final ClimbLift liftSubsystem; 
+
+  private boolean commandDone = false;
+  private boolean hooksSet = false;
+  private int climbStep = 0;
+  private Timer currentLimitTimeout = new Timer();
+  private Timer timer0 = new Timer();
+
+
+  /**
+   * @param angleSubsystem
+   * @param hookSubsystem
+   * @param liftSubsystem
+   */
+  public Climb_LiftForNextBar(ClimbAngle angleSubsystem, ClimbHook hookSubsystem, ClimbLift liftSubsystem) {
+    
+    addRequirements(angleSubsystem, hookSubsystem, liftSubsystem);
+
+    this.angleSubsystem = angleSubsystem;
+    this.hookSubsystem = hookSubsystem;
+    this.liftSubsystem = liftSubsystem;
+
+  }
+
+  @Override
+  public void initialize() {
+
+    // wpilib bug workaround
+    commandDone = false;
+    hooksSet = false;
+
+    angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
+    liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
+
+    climbStep = 9;  // start on step 9
+
+  }
+
+  @Override
+  public void execute() {
+
+    switch(climbStep) {
+
+      case 0:  // SAFE MODE
+
+        System.out.println("ERROR: Winch exceeded current limit! Activating safe mode...");
+
+        hookSubsystem.set(true);  // extend the hooks
+
+        // brake all motors
+        angleSubsystem.setNeutralMode(NeutralMode.Brake);
+        liftSubsystem.setIdleMode(IdleMode.kBrake);
+
+        // cut all power to angle
+        angleSubsystem.enablePID(false);
+        angleSubsystem.setPower(0);
+        angleSubsystem.stop();
+
+        // cut all power to lift
+        liftSubsystem.enablePID(false);
+        liftSubsystem.setPower(0);
+        liftSubsystem.stop();
+
+        commandDone = true;  // we're done
+        climbStep = 1;  // do nothing for remainder of command
+        break;
+
+      case 1:
+        ;  // do nothing
+        break;
+
+      case 9:  // run winch a little to give us some slack
+
+        if (liftSubsystem.getLeftEncoderDistance() > 9 &&
+            liftSubsystem.getRightEncoderDistance() > 9) {
+
+              climbStep = 10;
+
+        } else {
+
+          liftSubsystem.enablePID(true);
+          liftSubsystem.setPosition(10);
+
+        }
+        break;
+
+      case 10:  // run angle to get us off the bar
+
+        // if we're at the setpoint
+        if (angleSubsystem.getLeftEncoderDistance() > 100 &&
+            angleSubsystem.getRightEncoderDistance() > 100) {
+
+              climbStep = 11;
+
+        } else {  // if we're not there yet
+
+          angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(120);
+
+        }
+        break;
+
+      case 11:  // winch out while avoiding the bar
+
+        // if we're at the setpoint
+        if (liftSubsystem.getLeftEncoderDistance() > 29.8 &&
+            liftSubsystem.getRightEncoderDistance() > 29.8) {
+
+              climbStep = 12;
+
+        } else {  // if we're not there yet
+
+          // go 33 inches out
+          liftSubsystem.enablePID(true);
+          liftSubsystem.setPosition(30);
+
+        }
+
+        // if we're getting close, angle down so we don't smack the bar
+        if ((liftSubsystem.getLeftEncoderDistance() > 20 && liftSubsystem.getLeftEncoderDistance() < 25) &&
+        (liftSubsystem.getRightEncoderDistance() > 20 && liftSubsystem.getRightEncoderDistance() < 25)) {
+
+          angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(78);
+
+        }
+
+        // if we're past the bar, angle back up
+        if (liftSubsystem.getLeftEncoderDistance() > 28 &&
+        liftSubsystem.getRightEncoderDistance() > 28) {
+
+          angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(120);
+
+        }
+        break;
+
+      case 12:  // finish
+        
+        commandDone = true;
+        climbStep = 1;  // make loop do nothing
+        break;
+        
+    }
+
+    // safe mode trigger
+    // if we're exceeding current limit:
+    if(liftSubsystem.getLeftMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold || 
+      liftSubsystem.getRightMotorCurrent() > Constants.Climb.lift.maxCurrentThreshold) {
+
+        if (currentLimitTimeout.get() > Constants.Climb.lift.maxCurrentTimeout) {  // if the timeout has expired while the current is exceeded
+          currentLimitTimeout.stop(); // stop the timeout timer
+          climbStep = 0; // go to safe mode!
+        }
+
+    } else {  // if the current has not exceeded threshold
+      currentLimitTimeout.reset();  // full reset the timer
+      currentLimitTimeout.start();
+    }
+
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+
+  }
+
+  @Override
+  public boolean isFinished() {
+    //return commandDone;
+    return false;  // force never-ending for testing
+  }
+}
