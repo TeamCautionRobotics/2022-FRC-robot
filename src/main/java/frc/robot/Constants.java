@@ -89,6 +89,9 @@ public final class Constants {
             // math
             public static final double encoderConversionFactor = 360.0 / (4096.0 * 100.0 * 1.75);  // return units in degrees
 
+            // misc
+            public static final double motorRampBand = 0.05;
+
         }
 
     }

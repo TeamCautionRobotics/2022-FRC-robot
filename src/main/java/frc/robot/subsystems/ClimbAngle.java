@@ -25,6 +25,11 @@ public class ClimbAngle extends SubsystemBase {
 
   private boolean calibrated = false;
 
+  private double leftRampPrevOut = 0;
+  private double leftRampOut = 0;
+  private double rightRampPrevOut = 0;
+  private double rightRampOut = 0;
+
   public ClimbAngle(
     WPI_TalonSRX leftAngleMotor, WPI_TalonSRX rightAngleMotor, 
     DigitalInput leftArmAtZeroSwitch, DigitalInput rightArmAtZeroSwitch) {
@@ -103,6 +108,27 @@ public class ClimbAngle extends SubsystemBase {
   public void setPower(double power) {
     leftMotor.set(power);
     rightMotor.set(power);
+  }
+
+  public void setPowerRamping(double leftPower, double rightPower, double rampBand) {
+
+    if (Math.abs(leftPower - leftRampPrevOut) > rampBand) {
+      leftRampOut = leftPower - leftRampPrevOut > 0 ? leftRampPrevOut + rampBand : leftRampPrevOut - rampBand;
+    } else {
+      leftRampOut = leftPower;
+    }
+
+    if (Math.abs(rightPower - rightRampPrevOut) > rampBand) {
+      rightRampOut = rightPower - rightRampPrevOut > 0 ? rightRampPrevOut + rampBand : rightRampPrevOut - rampBand;
+    } else {
+      rightRampOut = rightPower;
+    }
+
+    leftMotor.set(leftRampOut);
+    rightMotor.set(rightRampOut);
+    leftRampPrevOut = leftRampOut;
+    rightRampPrevOut = rightRampOut;
+
   }
 
   /**
@@ -204,8 +230,12 @@ public class ClimbAngle extends SubsystemBase {
     if (pidEnabled) {
 
       pidDisabled = false;
-      leftMotor.set(leftAnglePID.calculate(getLeftEncoderDistance(), setpoint));
-      rightMotor.set(rightAnglePID.calculate(getRightEncoderDistance(), setpoint));
+      // leftMotor.set(leftAnglePID.calculate(getLeftEncoderDistance(), setpoint));
+      // rightMotor.set(rightAnglePID.calculate(getRightEncoderDistance(), setpoint));
+
+      setPowerRamping(leftAnglePID.calculate(getLeftEncoderDistance(), setpoint),
+                      rightAnglePID.calculate(getRightEncoderDistance(), setpoint),
+                      Constants.Climb.angle.motorRampBand);
 
     } else {
       
