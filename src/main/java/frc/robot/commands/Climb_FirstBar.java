@@ -117,8 +117,7 @@ public class Climb_FirstBar extends CommandBase {
 
       case 12:  // kill power to winch
         
-        // TODO: confirm no-delay power release is good
-        if (timer0.get() > 0.0) {  // wait half a second
+        if (timer0.get() > 0.5) {  // wait half a second
           timer0.stop();  // stop the timer
           liftSubsystem.enablePID(false);  // disable the winch pid
           liftSubsystem.setPower(0);  // zero the power to winch motors
