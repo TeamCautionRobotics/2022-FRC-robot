@@ -118,8 +118,8 @@ public class Climb_NextBar extends CommandBase {
       case 11:  // winch out to final distance + angle down
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 28.8 &&
-            liftSubsystem.getRightEncoderDistance() > 28.8) {
+        if (liftSubsystem.getLeftEncoderDistance() > 29.8 &&
+            liftSubsystem.getRightEncoderDistance() > 29.8) {
 
               climbStep = 12;
 
@@ -127,7 +127,7 @@ public class Climb_NextBar extends CommandBase {
 
           // go 33 inches out
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(29);
+          liftSubsystem.setPosition(30);
 
         }
 
@@ -147,7 +147,7 @@ public class Climb_NextBar extends CommandBase {
         if (angleSubsystem.getLeftEncoderDistance() > 100 &&
             angleSubsystem.getRightEncoderDistance() > 105) {
 
-          climbStep = 16;
+          climbStep = 13;
 
         } else {  // if we're not there yet
 
