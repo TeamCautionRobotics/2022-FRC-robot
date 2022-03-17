@@ -136,7 +136,7 @@ public class Climb_NextBar extends CommandBase {
         liftSubsystem.getRightEncoderDistance() > 12.5) {
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(40);
+          angleSubsystem.setPosition(90);
 
         }
         break;
