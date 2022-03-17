@@ -118,8 +118,8 @@ public class Climb_NextBar extends CommandBase {
       case 11:  // winch out to final distance + angle down
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
-            liftSubsystem.getRightEncoderDistance() > 32.8) {
+        if (liftSubsystem.getLeftEncoderDistance() > 29.8 &&
+            liftSubsystem.getRightEncoderDistance() > 29.8) {
 
               climbStep = 12;
 
@@ -127,7 +127,7 @@ public class Climb_NextBar extends CommandBase {
 
           // go 33 inches out
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(33);
+          liftSubsystem.setPosition(30);
 
         }
 
@@ -144,15 +144,15 @@ public class Climb_NextBar extends CommandBase {
       case 12:  // angle up to grab the next bar
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 120 &&
-            angleSubsystem.getRightEncoderDistance() > 120) {
+        if (angleSubsystem.getLeftEncoderDistance() > 105 &&
+            angleSubsystem.getRightEncoderDistance() > 105) {
 
           climbStep = 13;
 
         } else {  // if we're not there yet
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(130);
+          angleSubsystem.setPosition(120);
 
         }
         break;
@@ -160,8 +160,8 @@ public class Climb_NextBar extends CommandBase {
       case 13:  // go time! retract hooks + pull down + neutral arms
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 0.2 &&
-            liftSubsystem.getRightEncoderDistance() > 0.2) {
+        if (liftSubsystem.getLeftEncoderDistance() < 0.5 &&
+            liftSubsystem.getRightEncoderDistance() < 0.5) {
 
           hooksSet = false;
           climbStep = 14;
@@ -170,7 +170,7 @@ public class Climb_NextBar extends CommandBase {
 
           // pull down
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(-0.25);  // go for a slight stretch on the cables
+          liftSubsystem.setPosition(0.0);  // go for a slight stretch on the cables
 
           // retract the hooks if they haven't
           // (repeatedly setting solenoids causes issues)
