@@ -144,10 +144,10 @@ public class Climb_NextBar extends CommandBase {
       case 12:  // angle up to grab the next bar
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 105 &&
+        if (angleSubsystem.getLeftEncoderDistance() > 100 &&
             angleSubsystem.getRightEncoderDistance() > 105) {
 
-          climbStep = 16;
+          climbStep = 13;
 
         } else {  // if we're not there yet
 
