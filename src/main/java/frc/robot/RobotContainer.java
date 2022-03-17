@@ -114,7 +114,7 @@ public class RobotContainer {
     rightLifter.setInverted(true);
     leftLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
     rightLifter.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    leftAngleMotor.setInverted(true);
+    rightAngleMotor.setInverted(true);
     leftAngleMotor.configFactoryDefault();
     rightAngleMotor.configFactoryDefault();
     leftAngleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
