@@ -132,8 +132,8 @@ public class Climb_LiftForNextBar extends CommandBase {
         }
 
         // if we're getting close, angle down so we don't smack the bar
-        if ((liftSubsystem.getLeftEncoderDistance() > 20 && liftSubsystem.getLeftEncoderDistance() < 25) &&
-        (liftSubsystem.getRightEncoderDistance() > 20 && liftSubsystem.getRightEncoderDistance() < 25)) {
+        if ((liftSubsystem.getLeftEncoderDistance() > 15 && liftSubsystem.getLeftEncoderDistance() < 20) &&
+        (liftSubsystem.getRightEncoderDistance() > 15 && liftSubsystem.getRightEncoderDistance() < 20)) {
 
           angleSubsystem.enablePID(true);
           angleSubsystem.setPosition(78);
