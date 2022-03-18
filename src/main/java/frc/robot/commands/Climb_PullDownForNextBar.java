@@ -87,8 +87,8 @@ public class Climb_PullDownForNextBar extends CommandBase {
       case 9:  // get us off the bar
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() < 26.2 &&
-            liftSubsystem.getRightEncoderDistance() < 26.2) {
+        if (liftSubsystem.getLeftEncoderDistance() < 23.2 &&
+            liftSubsystem.getRightEncoderDistance() < 23.2) {
 
           hooksSet = false;
           climbStep = 10;
@@ -97,7 +97,7 @@ public class Climb_PullDownForNextBar extends CommandBase {
 
           // pull down
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(26);
+          liftSubsystem.setPosition(22);
 
           // kill pwr to arms
           angleSubsystem.enablePID(false);
@@ -120,8 +120,8 @@ public class Climb_PullDownForNextBar extends CommandBase {
       case 10:  // come down until we're clear of conveyor
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
-            liftSubsystem.getRightEncoderDistance() > 32.8) {
+        if (liftSubsystem.getLeftEncoderDistance() > 22.5 &&
+            liftSubsystem.getRightEncoderDistance() > 22.5) {
 
           climbStep = 11;
 

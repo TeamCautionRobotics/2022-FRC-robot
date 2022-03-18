@@ -143,7 +143,7 @@ public class Climb_LiftForNextBar extends CommandBase {
 
               liftSubsystem.setPower(0);
 
-          if (timer0.get() > 2.0) {
+          if (timer0.get() > 0.5) {
             climbStep = 13;
             timer0.stop();
           }
@@ -162,7 +162,7 @@ public class Climb_LiftForNextBar extends CommandBase {
           liftSubsystem.getRightEncoderDistance() > 10) {
 
             angleSubsystem.enablePID(true);
-            angleSubsystem.setPosition(50);
+            angleSubsystem.setPosition(30);
 
           }
         }
