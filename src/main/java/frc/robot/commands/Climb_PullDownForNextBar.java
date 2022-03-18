@@ -47,7 +47,7 @@ public class Climb_PullDownForNextBar extends CommandBase {
     angleSubsystem.setNeutralMode(NeutralMode.Coast);  // coast the arm motors
     liftSubsystem.setIdleMode(IdleMode.kBrake);  // brake the lift motors
 
-    climbStep = 10;  // start on step 10
+    climbStep = 9;  // start on step 10
 
   }
 
@@ -84,20 +84,28 @@ public class Climb_PullDownForNextBar extends CommandBase {
         ;  // do nothing
         break;
 
-      case 10:  // go time! retract hooks + pull down + neutral arms
+      case 9:  // get us off the bar and hold for a second
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() < 0.2 &&
-            liftSubsystem.getRightEncoderDistance() < 0.2) {
+        if (liftSubsystem.getLeftEncoderDistance() < 26.8 &&
+        liftSubsystem.getRightEncoderDistance() < 26.8) {
 
           hooksSet = false;
-          climbStep = 11;
-
+          if (timer0.get() > 1.0) {
+            timer0.stop();
+            timer0.reset();
+            climbStep = 10;
+          }
+        
         } else {  // if we're not there yet
 
           // pull down
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(0.0);  // go for a slight stretch on the cables
+          liftSubsystem.setPosition(25);
+
+          // kill pwr to arms
+          angleSubsystem.enablePID(false);
+          angleSubsystem.setPower(0);
 
           // retract the hooks if they haven't
           // (repeatedly setting solenoids causes issues)
@@ -106,14 +114,27 @@ public class Climb_PullDownForNextBar extends CommandBase {
             hooksSet = true;
           }
 
+          // reset and start the timer
+          timer0.reset();
+          timer0.start();
+
         }
+        break;
 
-        // if we're in far enough, kill arm power
-        if (liftSubsystem.getLeftEncoderDistance() < 28 &&
-            liftSubsystem.getRightEncoderDistance() < 28) {
 
-          angleSubsystem.enablePID(false);
-          angleSubsystem.setPower(0);
+      case 10:  // FULL PULL BROTHERRRR
+
+        // if we're at the setpoint
+        if (liftSubsystem.getLeftEncoderDistance() < 0.2 &&
+            liftSubsystem.getRightEncoderDistance() < 0.2) {
+
+          climbStep = 11;
+
+        } else {  // if we're not there yet
+
+          // pull down
+          liftSubsystem.enablePID(true);
+          liftSubsystem.setPosition(0.0);  // go for a slight stretch on the cables
 
         }
         break;

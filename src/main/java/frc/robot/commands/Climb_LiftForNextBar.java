@@ -124,7 +124,7 @@ public class Climb_LiftForNextBar extends CommandBase {
         liftSubsystem.getRightEncoderDistance() > 9) {
 
           liftSubsystem.setPower(0);
-          climbStep = 11;
+          climbStep = 12;
 
         } else {
 
@@ -157,12 +157,24 @@ public class Climb_LiftForNextBar extends CommandBase {
           timer0.reset();
           timer0.start();
 
+          // TODO: THIS IS NOT TRIGGERING
+          // if we're off the bars, angle down
+          if (liftSubsystem.getLeftEncoderDistance() > 10 &&
+          liftSubsystem.getRightEncoderDistance() > 10) {
+
+            System.out.println("DO 50");
+            angleSubsystem.enablePID(true);
+            angleSubsystem.setPosition(50);
+
+          }
         }
 
+        // TODO: THIS IS NOT TRIGGERING
         // if we're off the bars, angle down
         if (liftSubsystem.getLeftEncoderDistance() > 12.5 &&
         liftSubsystem.getRightEncoderDistance() > 12.5) {
 
+          System.out.println("DO 50");
           angleSubsystem.enablePID(true);
           angleSubsystem.setPosition(50);
 
@@ -180,7 +192,7 @@ public class Climb_LiftForNextBar extends CommandBase {
         } else {
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(120);
+          angleSubsystem.setPosition(110);
 
         }
         break;
