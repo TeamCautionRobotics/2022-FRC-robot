@@ -162,20 +162,9 @@ public class Climb_LiftForNextBar extends CommandBase {
           liftSubsystem.getRightEncoderDistance() > 10) {
 
             angleSubsystem.enablePID(true);
-            angleSubsystem.setPosition(30);
+            angleSubsystem.setPosition(40);
 
           }
-        }
-
-        // TODO: THIS IS NOT TRIGGERING
-        // if we're off the bars, angle down
-        if (liftSubsystem.getLeftEncoderDistance() > 12.5 &&
-        liftSubsystem.getRightEncoderDistance() > 12.5) {
-
-          System.out.println("DO 50");
-          angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(50);
-
         }
         break;
 
