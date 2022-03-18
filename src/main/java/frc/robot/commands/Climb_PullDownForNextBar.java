@@ -84,24 +84,20 @@ public class Climb_PullDownForNextBar extends CommandBase {
         ;  // do nothing
         break;
 
-      case 9:  // get us off the bar and hold for a second
+      case 9:  // get us off the bar
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() < 26.8 &&
-        liftSubsystem.getRightEncoderDistance() < 26.8) {
+        if (liftSubsystem.getLeftEncoderDistance() < 26.2 &&
+            liftSubsystem.getRightEncoderDistance() < 26.2) {
 
           hooksSet = false;
-          if (timer0.get() > 1.0) {
-            timer0.stop();
-            timer0.reset();
-            climbStep = 10;
-          }
+          climbStep = 10;
         
         } else {  // if we're not there yet
 
           // pull down
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(25);
+          liftSubsystem.setPosition(26);
 
           // kill pwr to arms
           angleSubsystem.enablePID(false);
@@ -121,14 +117,29 @@ public class Climb_PullDownForNextBar extends CommandBase {
         }
         break;
 
+      case 10:  // come down until we're clear of conveyor
 
-      case 10:  // FULL PULL BROTHERRRR
+        // if we're at the setpoint
+        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
+            liftSubsystem.getRightEncoderDistance() > 32.8) {
+
+          climbStep = 11;
+
+        } else {
+
+          liftSubsystem.enablePID(false);
+          liftSubsystem.setPower(0);
+
+        }
+        break;
+
+      case 11:  // FULL PULL BROTHERRRR
 
         // if we're at the setpoint
         if (liftSubsystem.getLeftEncoderDistance() < 0.2 &&
             liftSubsystem.getRightEncoderDistance() < 0.2) {
 
-          climbStep = 11;
+          climbStep = 12;
 
         } else {  // if we're not there yet
 
@@ -139,16 +150,16 @@ public class Climb_PullDownForNextBar extends CommandBase {
         }
         break;
 
-      case 11:  // extend the hooks and begin the timer
+      case 12:  // extend the hooks and begin the timer
         
         hookSubsystem.set(true);
         timer0.stop();
         timer0.reset();
         timer0.start();
-        climbStep = 12;
+        climbStep = 13;
         break;
 
-      case 12:  // release hold
+      case 13:  // release hold
 
         if (timer0.get() > 0.5) {  // half-second timer before power release
 
@@ -156,12 +167,12 @@ public class Climb_PullDownForNextBar extends CommandBase {
           liftSubsystem.enablePID(false);
           liftSubsystem.setPower(0);
           timer0.stop();
-          climbStep = 13;
+          climbStep = 14;
 
         }
         break;
 
-      case 13:  // finish
+      case 14:  // finish
         
         commandDone = true;
         climbStep = 1;  // make loop do nothing
