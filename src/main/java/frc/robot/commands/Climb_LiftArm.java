@@ -62,14 +62,14 @@ public class Climb_LiftArm extends CommandBase {
       case 10:  // extend the lift 20 in
 
       commandDone = false;
-        if ((liftSubsystem.getLeftEncoderDistance() > 16.8) &&
-           (liftSubsystem.getRightEncoderDistance() > 16.8)) {
+        if ((liftSubsystem.getLeftEncoderDistance() > 15.8) &&
+           (liftSubsystem.getRightEncoderDistance() > 15.8)) {
 
             climbStep = 11;
 
         } else {
              liftSubsystem.enablePID(true);  // enable pid
-             liftSubsystem.setPosition(17.0);  // set setpoint
+             liftSubsystem.setPosition(16.0);  // set setpoint
         }
         break;
 
