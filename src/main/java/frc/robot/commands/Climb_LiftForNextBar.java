@@ -89,15 +89,16 @@ public class Climb_LiftForNextBar extends CommandBase {
 
       case 9:  // run winch a little to give us some slack
 
-        if (liftSubsystem.getLeftEncoderDistance() > 9 &&
-            liftSubsystem.getRightEncoderDistance() > 9) {
+        if (liftSubsystem.getLeftEncoderDistance() > 5 &&
+            liftSubsystem.getRightEncoderDistance() > 5) {
 
+              liftSubsystem.setPower(0);
               climbStep = 10;
 
         } else {
 
-          liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(10);
+          liftSubsystem.enablePID(false);
+          liftSubsystem.setPower(0.1);
 
         }
         break;
@@ -105,8 +106,8 @@ public class Climb_LiftForNextBar extends CommandBase {
       case 10:  // run angle to get us off the bar
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 67 &&
-            angleSubsystem.getRightEncoderDistance() > 67) {
+        if (angleSubsystem.getLeftEncoderDistance() > 60 &&
+            angleSubsystem.getRightEncoderDistance() > 60) {
 
               climbStep = 11;
 
@@ -118,22 +119,40 @@ public class Climb_LiftForNextBar extends CommandBase {
         }
         break;
 
-      case 11:  // winch out while avoiding the bar
+      case 11:
+        if (liftSubsystem.getLeftEncoderDistance() > 9 &&
+        liftSubsystem.getRightEncoderDistance() > 9) {
+
+          liftSubsystem.setPower(0);
+          climbStep = 11;
+
+        } else {
+
+          liftSubsystem.enablePID(false);
+          liftSubsystem.setPower(0.1);
+
+        }
+        break;
+        
+
+      case 12:  // winch out while avoiding the bar
 
         // if we're at the setpoint
         if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
             liftSubsystem.getRightEncoderDistance() > 32.8) {
 
-              if (timer0.get() > 2.0) {
-                climbStep = 12;
-                timer0.stop();
-              }
+              liftSubsystem.setPower(0);
+
+          if (timer0.get() > 2.0) {
+            climbStep = 13;
+            timer0.stop();
+          }
 
         } else {  // if we're not there yet
 
           // go 33 inches out
-          liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(33);
+          liftSubsystem.enablePID(false);
+          liftSubsystem.setPower(0.2);
 
           timer0.reset();
           timer0.start();
@@ -150,23 +169,23 @@ public class Climb_LiftForNextBar extends CommandBase {
         }
         break;
 
-      case 12:
+      case 13:
 
         // if we're past the bar, angle back up
         if (angleSubsystem.getLeftEncoderDistance() > 95 &&
             angleSubsystem.getRightEncoderDistance() > 95) {
 
-            climbStep = 13;
+            climbStep = 14;
 
         } else {
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(105);
+          angleSubsystem.setPosition(120);
 
         }
         break;
 
-      case 13:  // finish
+      case 14:  // finish
         
         commandDone = true;
         climbStep = 1;  // make loop do nothing
