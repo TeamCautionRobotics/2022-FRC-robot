@@ -6,6 +6,9 @@ import frc.robot.subsystems.ClimbHook;
 import frc.robot.subsystems.ClimbLift;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import java.nio.file.ClosedFileSystemException;
+
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.revrobotics.CANSparkMax.IdleMode;
 
@@ -102,8 +105,8 @@ public class Climb_LiftForNextBar extends CommandBase {
       case 10:  // run angle to get us off the bar
 
         // if we're at the setpoint
-        if (angleSubsystem.getLeftEncoderDistance() > 100 &&
-            angleSubsystem.getRightEncoderDistance() > 100) {
+        if (angleSubsystem.getLeftEncoderDistance() > 67 &&
+            angleSubsystem.getRightEncoderDistance() > 67) {
 
               climbStep = 11;
 
@@ -118,39 +121,52 @@ public class Climb_LiftForNextBar extends CommandBase {
       case 11:  // winch out while avoiding the bar
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 29.8 &&
-            liftSubsystem.getRightEncoderDistance() > 29.8) {
+        if (liftSubsystem.getLeftEncoderDistance() > 32.8 &&
+            liftSubsystem.getRightEncoderDistance() > 32.8) {
 
-              climbStep = 12;
+              if (timer0.get() > 2.0) {
+                climbStep = 12;
+                timer0.stop();
+              }
 
         } else {  // if we're not there yet
 
           // go 33 inches out
           liftSubsystem.enablePID(true);
-          liftSubsystem.setPosition(30);
+          liftSubsystem.setPosition(33);
+
+          timer0.reset();
+          timer0.start();
 
         }
 
-        // if we're getting close, angle down so we don't smack the bar
-        if ((liftSubsystem.getLeftEncoderDistance() > 15 && liftSubsystem.getLeftEncoderDistance() < 20) &&
-        (liftSubsystem.getRightEncoderDistance() > 15 && liftSubsystem.getRightEncoderDistance() < 20)) {
+        // if we're off the bars, angle down
+        if (liftSubsystem.getLeftEncoderDistance() > 12.5 &&
+        liftSubsystem.getRightEncoderDistance() > 12.5) {
 
           angleSubsystem.enablePID(true);
-          angleSubsystem.setPosition(78);
+          angleSubsystem.setPosition(50);
 
         }
-
-        // if we're past the bar, angle back up
-        // if (liftSubsystem.getLeftEncoderDistance() > 29 &&
-        // liftSubsystem.getRightEncoderDistance() > 29) {
-
-        //   angleSubsystem.enablePID(true);
-        //   angleSubsystem.setPosition(120);
-
-        // }
         break;
 
-      case 12:  // finish
+      case 12:
+
+        // if we're past the bar, angle back up
+        if (angleSubsystem.getLeftEncoderDistance() > 95 &&
+            angleSubsystem.getRightEncoderDistance() > 95) {
+
+            climbStep = 13;
+
+        } else {
+
+          angleSubsystem.enablePID(true);
+          angleSubsystem.setPosition(105);
+
+        }
+        break;
+
+      case 13:  // finish
         
         commandDone = true;
         climbStep = 1;  // make loop do nothing

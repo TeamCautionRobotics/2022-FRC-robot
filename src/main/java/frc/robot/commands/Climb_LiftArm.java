@@ -75,15 +75,15 @@ public class Climb_LiftArm extends CommandBase {
 
       case 11:  // angle the arms 110 deg
 
-        if ((angleSubsystem.getLeftEncoderDistance() > 90) &&
-           (angleSubsystem.getRightEncoderDistance() > 90)) {
+        if ((angleSubsystem.getLeftEncoderDistance() > 80) &&
+           (angleSubsystem.getRightEncoderDistance() > 80)) {
 
             climbStep = 12;
 
         } else {
 
           angleSubsystem.enablePID(true);  // enable pid
-          angleSubsystem.setPosition(100);  // set setpoint
+          angleSubsystem.setPosition(90);  // set setpoint
 
         }
         break;

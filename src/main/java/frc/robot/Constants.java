@@ -90,7 +90,7 @@ public final class Constants {
             public static final double kP = 0.0125;
             public static final double kI = 0.000006;
             public static final double kD = 0.003;
-            public static final double kIMax = 0.1;
+            public static final double kIMax = 0.3;
             public static final double kIMin = -0.0425;
 
             // math
