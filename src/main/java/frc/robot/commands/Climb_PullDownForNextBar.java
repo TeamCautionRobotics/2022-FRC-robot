@@ -120,8 +120,8 @@ public class Climb_PullDownForNextBar extends CommandBase {
       case 10:  // come down until we're clear of conveyor
 
         // if we're at the setpoint
-        if (liftSubsystem.getLeftEncoderDistance() > 22.5 &&
-            liftSubsystem.getRightEncoderDistance() > 22.5) {
+        if (liftSubsystem.getLeftEncoderDistance() > 23.5 &&
+            liftSubsystem.getRightEncoderDistance() > 23.5) {
 
           climbStep = 11;
 

@@ -170,7 +170,7 @@ public class Climb_LiftForNextBar_Questionable extends CommandBase {
               (liftSubsystem.getRightEncoderDistance() > 10 && liftSubsystem.getRightEncoderDistance() < 15)) {
 
             angleSubsystem.enablePID(true);
-            angleSubsystem.setPosition(40);
+            angleSubsystem.setPosition(50);
 
           }
 
