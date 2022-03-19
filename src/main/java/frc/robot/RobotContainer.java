@@ -25,6 +25,8 @@ import frc.robot.commands.Climb_CalibrateArmNoSwitch;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
 import frc.robot.commands.Climb_LiftForNextBar;
+import frc.robot.commands.Climb_Testing;
+import frc.robot.commands.Climb_LiftForNextBar_HitBarAndBumpDown;
 import frc.robot.commands.Climb_PullDownForNextBar;
 import frc.robot.commands.AutoAtGoal;
 import frc.robot.commands.AutoGrabShootBall;
@@ -155,7 +157,7 @@ public class RobotContainer {
       new Lift_Idle(climbLift),
       new Hook_Idle(climbHook)
     ));
-    climbAdvanceUpButton.whenPressed(new Climb_LiftForNextBar(climbAngle, climbHook, climbLift));
+    climbAdvanceUpButton.whenPressed(new Climb_LiftForNextBar_HitBarAndBumpDown(climbAngle, climbHook, climbLift));
     climbAdvanceInButton.whenPressed(new Climb_PullDownForNextBar(climbAngle, climbHook, climbLift));
 
     grabBallButton.whileHeld(new GrabBall(intake, conveyor));
