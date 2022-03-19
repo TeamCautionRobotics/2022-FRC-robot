@@ -24,7 +24,6 @@ import frc.robot.commands.Angle_Idle;
 import frc.robot.commands.Climb_CalibrateArmNoSwitch;
 import frc.robot.commands.Climb_FirstBar;
 import frc.robot.commands.Climb_LiftArm;
-import frc.robot.commands.Climb_LiftForNextBar;
 import frc.robot.commands.Climb_Testing;
 import frc.robot.commands.Climb_LiftForNextBar_HitBarAndBumpDown;
 import frc.robot.commands.Climb_PullDownForNextBar;
